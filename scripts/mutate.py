@@ -8,6 +8,7 @@ SURVIVED.
 
     python -u scripts/mutate.py > sweep.log     # all of them
     python scripts/mutate.py condition          # only labels matching a word
+    python -u scripts/mutate.py 0-40            # only that slice of the list
 
 The committed contract is never modified: each mutant is written to a
 temporary file and the suite is pointed at it through TRUSTROUTE_CONTRACT.
@@ -504,7 +505,20 @@ def run_suite(contract_path: pathlib.Path) -> bool:
 
 
 def main() -> int:
-    needle = sys.argv[1].lower() if len(sys.argv) > 1 else ""
+    # A word filters by label; `N-M` runs that slice of the list. The
+    # slice exists because a full sweep outlives the two-hour limit of the
+    # environment it is usually run from, and restarting from zero each
+    # time means it never finishes. Run `0-40`, then `40-85`, and the two
+    # halves together are the whole sweep against one frozen source.
+    needle = ""
+    first, last = 0, len(MUTATIONS)
+    argument = sys.argv[1] if len(sys.argv) > 1 else ""
+    if argument:
+        parts = argument.split("-")
+        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
+            first, last = int(parts[0]), int(parts[1])
+        else:
+            needle = argument.lower()
     source = CONTRACT.read_text(encoding="utf-8")
     killed = []
     survived = []
@@ -534,7 +548,7 @@ def main() -> int:
         return 1
     print("baseline PASS\n", flush=True)
 
-    for index in range(len(MUTATIONS)):
+    for index in range(first, min(last, len(MUTATIONS))):
         label, find, replace = MUTATIONS[index]
         if needle and needle not in label.lower():
             continue

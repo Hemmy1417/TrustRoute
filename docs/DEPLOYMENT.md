@@ -74,7 +74,23 @@ only the live network demonstrates.
 The hash column is the deployed bytes as the chain reports them, matched
 against the committed source. It is evidence, not recollection.
 
-<!-- HISTORY -->
+| # | Contract | Source | Deployed bytes | Size | What it taught |
+|---|---|---|---|---|---|
+| 1 | [`0xa443932E…ffD1`](https://explorer-studio.genlayer.com/address/0xa443932E73F86be38B3Ec84508539510e714ffD1) | `0036158` | `c482b6dd92dc8676…` | 128,591 | readings came back as positional pairs |
+| 2 | [`0x2D70DA9B…e039`](https://explorer-studio.genlayer.com/address/0x2D70DA9B266d3072b7F14d5D40f8e21B7F3Ee039) | `8c1537c` | `49893ad671cdf0dd…` | 129,672 | the prompt described the answer without showing it; replay was bound to the challenge |
+| 3 | [`0xe8DbEbE2…a4DC`](https://explorer-studio.genlayer.com/address/0xe8DbEbE2fC8f43dC2aeCa0996D5e63f37B7ca4DC) | `3b457e4` | `aa7b8dc66bae8066…` | 131,877 | an over-long explanation discarded a correct reading; the diagnostic was too small to act on |
+| 4 | [`0x7ff65941…7524`](https://explorer-studio.genlayer.com/address/0x7ff6594146f478a2494b431488637b8481977524) | `acd6bbb` | `373077c4197d5676…` | 133,729 | `NO_MAJORITY` - a model's extraction of a measurement table was consensus-critical |
+| 5 | [`0xa982922B…e1A6`](https://explorer-studio.genlayer.com/address/0xa982922Bc7e77dB577D9E41581fE48ef8C62e1A6) | `b500ada` | `49f4c760f0fc9947…` | 135,328 | a volunteered answer to a question the policy never asked could fail a round, and split one |
+| 6 | [`0xB70040Bc…067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B) | `5a464a2` | `197fba21c20d17eb…` | 136,524 | **canonical** - seven scenarios, every assertion held |
+
+Every one of the six deployed exactly a committed state: the hash the node
+reports for each contract matches `git show <commit>:contracts/trustroute.py`
+byte for byte, so nothing here was deployed from a dirty working tree. The
+hashes above were read back from Studionet with `gen_getContractCode`, not
+copied from the deploy logs.
+
+Deployment 5's bytes are identical at `b500ada` and `18ac516`; the later
+commit changed only the live driver.
 
 ### What each one taught
 
