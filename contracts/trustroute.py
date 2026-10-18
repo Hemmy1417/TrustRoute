@@ -733,10 +733,11 @@ PANEL_HEADER = (
     "UNCLEAR, with a record and a quote.\n"
     "4. CONDITION: if a measurement series is requested, copy the readings "
     "out of the named log: for each, the time as the log states it and the "
-    "value in TENTHS of the unit as a whole number (7.5 becomes 75). State "
-    "READ if you copied readings, NOT_FOUND if the log has none. Do NOT "
-    "decide whether the readings are acceptable, in range, or compliant - "
-    "you are not being told the range.\n"
+    "value in TENTHS of the unit as a whole number (7.5 becomes 75). Give "
+    'each reading as {"time": "...", "value_tenths": 48}. State READ if '
+    "you copied readings, NOT_FOUND if the log has none. Do NOT decide "
+    "whether the readings are acceptable, in range, or compliant - you are "
+    "not being told the range.\n"
     "5. DELIVERY: if a delivery confirmation is requested, copy the time it "
     "states for delivery. Do not judge whether it is on time.\n"
     "6. COMPLIANCE: for each declared criterion, is it met by the record "
@@ -831,6 +832,31 @@ def _json_object(raw):
     return parsed if type(parsed) is dict else None
 
 
+def _as_mapping(value, keys: tuple):
+    """One structure, either spelling, or None.
+
+    A model asked for `{"time": ..., "value_tenths": ...}` may answer with
+    `["2026-03-14T06:00Z", 48]`, and a live Studionet round did exactly
+    that. A positional pair carries the same information in the same order,
+    so it is read rather than thrown away - this is a notation difference,
+    like a markdown fence or whitespace, and normalising it is safe.
+
+    What is NOT normalised is anything semantic: the keys must be exactly
+    the ones asked for, a list must have exactly the expected length, and
+    every value is type-checked afterwards by the caller. An answer that is
+    missing a field, carries an extra one, or puts a float where an integer
+    belongs still fails.
+    """
+    if type(value) is dict:
+        return value if set(value.keys()) == set(keys) else None
+    if type(value) is list and len(value) == len(keys):
+        out = {}
+        for index in range(len(keys)):
+            out[keys[index]] = value[index]
+        return out
+    return None
+
+
 def _enum(value, allowed: tuple):
     """An enum, normalised only in case and whitespace. An unknown value is
     never repaired into a known one."""
@@ -893,9 +919,9 @@ def _read_answer(raw, ctx: dict):
         if type(values) is not list or len(values) > MAX_RECORDS:
             return None
         read_values = []
-        for entry in values:
-            if type(entry) is not dict or set(entry.keys()) != {
-                    "record_id", "value", "quote"}:
+        for raw_entry in values:
+            entry = _as_mapping(raw_entry, ("record_id", "value", "quote"))
+            if entry is None:
                 return None
             if type(entry["record_id"]) is not str or len(
                     entry["record_id"]) > MAX_ID_LEN:
@@ -952,9 +978,9 @@ def _read_answer(raw, ctx: dict):
     if series_state != SERIES_READ and len(readings) != 0:
         return None
     read_readings = []
-    for entry in readings:
-        if type(entry) is not dict or set(entry.keys()) != {"time",
-                                                            "value_tenths"}:
+    for raw_entry in readings:
+        entry = _as_mapping(raw_entry, ("time", "value_tenths"))
+        if entry is None:
             return None
         if type(entry["time"]) is not str or len(entry["time"]) > 64:
             return None
