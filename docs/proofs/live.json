@@ -1,0 +1,886 @@
+{
+  "as_of": "2026-10-20T12:00Z",
+  "chain_id": 61999,
+  "commit": "5a464a2",
+  "contract": "0xB70040Bca306122b795F7Cd9d7623aCe9175067B",
+  "contract_sha256": "197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca",
+  "deploy_tx": "0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134",
+  "deployer": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+  "explorer": "https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B",
+  "finality": {
+    "0x0be5396a387686be05eb212a3c8fd47ad2cc4fa7eb7c6fe2a499307dc4707abe": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-origin-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x0d69421784a34b3f885b0ecaf7152fbc267a4836cf54ed8431838ebccac56a41": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cold-exc-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x0dfb22001b3d2856200a714dd5ff5475e385906b6238f3837b376bdcdca3e671": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cold-gone-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x19de165cbab7e96b9a15181b6d543210226a8e2515188a8c092403537eb89be8": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-origin",
+      "lifecycle": "FINALIZED"
+    },
+    "0x28424474ea916ee466420e5799dacf39a1b134a728ef61df382eccdde4a49a11": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cust-ooo-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x2ca624141c3baec9c4532f02b8aec33d5b6ef5e1ec289fe85364ff1f5b63f21b": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cust-ooo-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x329de72e3d07f9dcbef683ebd21af31053dc70a81f16df6e40f4ac22f0e1d4a5": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cold-exc-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x441590c21a1057db1585918bcf12bd1d5dbac4eddf5b134a3bc98a903a30ef7a": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cold-gone-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x49b21d93509be90e2592d9b5275d8eb77d07ad2560de5998e121bc011e3dfd2e": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cust-dir",
+      "lifecycle": "FINALIZED"
+    },
+    "0x4d5a9e7c3b3a2bc74eaf817819fd8abd3868a9d116b2a0d46eb89288d8b223bd": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cust-ooo",
+      "lifecycle": "FINALIZED"
+    },
+    "0x4ee0a2ea0c959ba8b585b58b2580a1a6d5bc54ff4399f6cdfd9723fc140f2620": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cust-dir-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x564c1bb1da32f314f5db694b72396f5591af914335e1acac04be0f10236c2b4d": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cold-ok",
+      "lifecycle": "FINALIZED"
+    },
+    "0x5802ce8312e6eeb017d80e2c14b177b2f82a8c04fc2ca8197d63d821f0fab957": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cust-conf",
+      "lifecycle": "FINALIZED"
+    },
+    "0x6ba16b1b8e1f322a8266a105bc775aa9dc7744a62cc00c1696bdfce2022ef99c": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cust-ooo",
+      "lifecycle": "FINALIZED"
+    },
+    "0x6d0e9ee539bfa80db98968462e0fb1946901deccf134a6f35eab810c80bb5a4d": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cold-ok-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x707efac93209a30a2f8141638733244e0f5ea28c89b284b647227da2b764271c": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-origin-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x7168f23b173b8003aa271ddaaa8a774fa08071b0d5caa27482c769bc4511dde1": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cust-conf-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x73cc03a2418190efc5e6ab9f5343ace81bca9469d0284699a93588af87030512": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-origin-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x7eccd4041f025c8dd01f86647133122241167eab1a5864d945576bb44e0344e7": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cold-exc",
+      "lifecycle": "FINALIZED"
+    },
+    "0x808b25451b117829b373980e6db5750043d1e9ce17f34551e04fa717c6cf98f5": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cold-gone-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x8884196d45327e7557ea4cd0b0179a62caffccd694ed4dd8577819b02eb4bdeb": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cold-ok-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0x9232172341d47174df01692d2ce34e0dc65e0e0ff55331e10d53abfcfb7cf71e": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cold-ok",
+      "lifecycle": "FINALIZED"
+    },
+    "0x9af49d4850d11ed64f0465436bdf16e22342a1a235962812df7ddfe07de88ef8": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cold-exc",
+      "lifecycle": "FINALIZED"
+    },
+    "0xaa75324b89a36923a57e105ec792ba4a850a0b1cfff6d8db14180d08a4086a97": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-origin",
+      "lifecycle": "FINALIZED"
+    },
+    "0xac8e98fed938fa8bd06934be71057451647a04b81308941e849b0bc4f515c91a": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cust-conf",
+      "lifecycle": "FINALIZED"
+    },
+    "0xb2a04d6e67f0ab83eb233364d8341c63ee022228cf73f180ea515e1018fcdb6f": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cust-dir-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0xb872566517ca6fbe71abe123843a1e482e3dfb498f2b249e7cb4cfece9be35e7": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cust-ooo-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0xc07d47c3b183d802a74a05a0999ea9ecaba23c6d62d1120920f2cb5b0a8487c6": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cold-gone",
+      "lifecycle": "FINALIZED"
+    },
+    "0xda226f7b35eb76f6e657886d005c911a67b25b60bcb39bf7fff7f0c94631184f": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cold-gone",
+      "lifecycle": "FINALIZED"
+    },
+    "0xe3a609b04545f45691823f7fc240ccb612e5d26eaeff57bff23ed09993ae5dcd": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cust-conf-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0xee6c9ef825bc6bb3cf1637e0174396cc91da48317c1d209850b233386880a12b": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cust-dir",
+      "lifecycle": "FINALIZED"
+    },
+    "0xf3bb15315fae0b887e36f332879a716c362b1ea8b21e8bb66a8a0cad033e276c": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cold-exc-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0xf4bc4ae370ee18bacae8c67854a87a70939415efea03115f6c2d14a6183fa0df": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cold-ok-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0xf77e2a47798e59c09250f9248305ddbff1d4ef7f459317607a3824e264b0fb4e": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cust-dir-5a464a",
+      "lifecycle": "FINALIZED"
+    },
+    "0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "deploy",
+      "lifecycle": "FINALIZED"
+    },
+    "0xfc80b6680dfb3c3972617c4098a4965bf40c49d9f496c87c8fe6cc8f4de2b64d": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "retry sub-cold-gone",
+      "lifecycle": "FINALIZED"
+    },
+    "0xfdc004b527dad869d6fcb94b99f417f26d7bb4d4c30ae7c70e28bc7523ac8d44": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cust-conf-5a464a",
+      "lifecycle": "FINALIZED"
+    }
+  },
+  "records": {
+    "bill-of-lading.txt": {
+      "bytes": 690,
+      "sha256": "a21c29edfd30b35b9ba66c457d099fdb1b58f0cacb9415dc6f34d88e564cf3cf",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/bill-of-lading.txt"
+    },
+    "condition-log-compliant.txt": {
+      "bytes": 798,
+      "sha256": "3db875da6dcd013a1e0dd2f6c8abb31545044e44ba9832a57c85f25bfe73464d",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/condition-log-compliant.txt"
+    },
+    "condition-log-excursion.txt": {
+      "bytes": 845,
+      "sha256": "38ce32a19200208c8492403d6169e1f3299a102421b53524049b23d3a40bf405",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/condition-log-excursion.txt"
+    },
+    "custody-scan-destination-out-of-order.txt": {
+      "bytes": 733,
+      "sha256": "a403264a598e8cadbafb1bc93fc7157d2f26c3ec6c8129dced7480d6ecf395a5",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-destination-out-of-order.txt"
+    },
+    "custody-scan-destination.txt": {
+      "bytes": 692,
+      "sha256": "9a95bd11ab77c03ceb9c75a1bb1d1cd6841e19ea87f5514513d095c604c4fa9f",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-destination.txt"
+    },
+    "custody-scan-directed.txt": {
+      "bytes": 895,
+      "sha256": "29cc22f19692e51b60267e36fef76b13f829754c5fc62bebc0b624e772590129",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-directed.txt"
+    },
+    "custody-scan-origin.txt": {
+      "bytes": 764,
+      "sha256": "53ab95dcf00acd9442b7e6bd9fc93eedec320b365d9bfeedd40ed36362665cda",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-origin.txt"
+    },
+    "custody-scan-transit.txt": {
+      "bytes": 716,
+      "sha256": "1d300d08ebc3f1bb59ceb199e53126730ba2fa0eb3b0437a56db8f904cb9295a",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-transit.txt"
+    },
+    "customs-entry.txt": {
+      "bytes": 664,
+      "sha256": "caa1844aeb9af2df542e7bbd4f72e38603dfa53f8fc5ec6df8b6c283f9ee4aae",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/customs-entry.txt"
+    },
+    "delivery-confirmation.txt": {
+      "bytes": 559,
+      "sha256": "91127d7d7f793554fa513cbd90a5cc8f6015b86c74619072df662e4bdac22eb7",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/delivery-confirmation.txt"
+    },
+    "inspection-certificate.txt": {
+      "bytes": 757,
+      "sha256": "8af00a86c32b36ab39228a0c34012ec5f423e0a816464290f83ea21e1e4af717",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/inspection-certificate.txt"
+    },
+    "origin-certificate.txt": {
+      "bytes": 660,
+      "sha256": "758a0960830ca2c2b69a7e27f66dd83b1e7d0b57c11b2b7c4c0afbbb06056f6b",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/origin-certificate.txt"
+    },
+    "warehouse-receipt-conflicting-lot.txt": {
+      "bytes": 551,
+      "sha256": "d28bbfe55b14a461ce9269cb6c732a1680c1bc2302f0554d9031cad5912b46c5",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/warehouse-receipt-conflicting-lot.txt"
+    },
+    "warehouse-receipt.txt": {
+      "bytes": 551,
+      "sha256": "543192989bd9f84318602c41f8c15736909f1b54516adfa9a5a69cf2ff5c4aca",
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/warehouse-receipt.txt"
+    }
+  },
+  "rpc": "https://studio.genlayer.com/api",
+  "scenarios": {
+    "a": {
+      "authenticity_state": "AUTHENTICATED_ORIGIN",
+      "challenge_id": "chal-cold-ok-5a464a",
+      "claim_summary": "the reefer held its range across the carriage window",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 11,
+      "condition_state": "HELD",
+      "condition_worst_excursion_minutes": 0,
+      "criteria": {
+        "records_consistent": true,
+        "required_event_supported": true,
+        "required_records_present": true,
+        "source_authenticity_verified": true
+      },
+      "custody_state": "NOT_DECLARED",
+      "definition_hash": "799c40abc585fc573c7d85d42e370fe958c15b80cb3e8e156c70ddce6b75db59",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 0,
+      "evidence_digest": "560490b90d073c9731e55cbbf7649b33c91397e49b68ad0158d39a6ccfa60c6c",
+      "evidence_status": "EVIDENCE_SUFFICIENT",
+      "identity_state": "CONSISTENT",
+      "origin_state": "NOT_ASSESSED",
+      "panel_state": "ASSESSED",
+      "policy_id": "pol-cold-ok-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 798,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CONDITION_LOG",
+          "reason": "NONE",
+          "record_id": "R1",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 690,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "BILL_OF_LADING",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T19:53Z",
+      "rounds_used": 1,
+      "status": "RESOLVED",
+      "submission_id": "sub-cold-ok-5a464a",
+      "submitted_at": "2026-10-18T19:53Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0412",
+      "verdict": "CLAIM_SUPPORTED"
+    },
+    "b": {
+      "authenticity_state": "AUTHENTICATED_ORIGIN",
+      "challenge_id": "chal-cold-exc-5a464a",
+      "claim_summary": "the reefer log is submitted for the carriage window",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 11,
+      "condition_state": "BREACHED",
+      "condition_worst_excursion_minutes": 720,
+      "criteria": {
+        "records_consistent": true,
+        "required_event_supported": false,
+        "required_records_present": true,
+        "source_authenticity_verified": true
+      },
+      "custody_state": "NOT_DECLARED",
+      "definition_hash": "799c40abc585fc573c7d85d42e370fe958c15b80cb3e8e156c70ddce6b75db59",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 0,
+      "evidence_digest": "99840ba132821d196daa3909385db56008895552fc0cf881ca38a27a9852dcae",
+      "evidence_status": "EVIDENCE_INSUFFICIENT",
+      "identity_state": "CONSISTENT",
+      "origin_state": "NOT_ASSESSED",
+      "panel_state": "ASSESSED",
+      "policy_id": "pol-cold-exc-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 845,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CONDITION_LOG",
+          "reason": "NONE",
+          "record_id": "R1",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 690,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "BILL_OF_LADING",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T19:54Z",
+      "rounds_used": 1,
+      "status": "RESOLVED",
+      "submission_id": "sub-cold-exc-5a464a",
+      "submitted_at": "2026-10-18T19:54Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0418",
+      "verdict": "CLAIM_NOT_ESTABLISHED"
+    },
+    "c": {
+      "authenticity_state": "AUTHENTICATED_ORIGIN",
+      "challenge_id": "chal-cust-ooo-5a464a",
+      "claim_summary": "every declared checkpoint is evidenced for this lot",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 0,
+      "condition_state": "NOT_DECLARED",
+      "condition_worst_excursion_minutes": 0,
+      "criteria": {
+        "records_consistent": false,
+        "required_event_supported": false,
+        "required_records_present": true,
+        "source_authenticity_verified": true
+      },
+      "custody_state": "OUT_OF_ORDER",
+      "definition_hash": "3fee5a5d0046fc54c29daf6ad15363410f27723326fb37ffc2716f2e460b36a0",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 0,
+      "evidence_digest": "d9c0a09b83c605e252086b6f32f4a4da61f6877f50fed83835e6e31b566fef97",
+      "evidence_status": "EVIDENCE_CONTRADICTORY",
+      "identity_state": "CONSISTENT",
+      "origin_state": "NOT_ASSESSED",
+      "panel_state": "ASSESSED",
+      "policy_id": "pol-cust-ooo-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 764,
+          "declared_issuer": "Tema Port Authority (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R1",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 716,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 733,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R3",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T19:56Z",
+      "rounds_used": 1,
+      "status": "RETRYABLE",
+      "submission_id": "sub-cust-ooo-5a464a",
+      "submitted_at": "2026-10-18T19:55Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0421",
+      "verdict": "INCONSISTENT_EVIDENCE"
+    },
+    "d": {
+      "authenticity_state": "AUTHENTICATED_ORIGIN",
+      "challenge_id": "chal-cust-conf-5a464a",
+      "claim_summary": "the custody record for this lot, with the warehouse receipt",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 0,
+      "condition_state": "NOT_DECLARED",
+      "condition_worst_excursion_minutes": 0,
+      "criteria": {
+        "records_consistent": false,
+        "required_event_supported": true,
+        "required_records_present": true,
+        "source_authenticity_verified": true
+      },
+      "custody_state": "COMPLETE",
+      "definition_hash": "3fee5a5d0046fc54c29daf6ad15363410f27723326fb37ffc2716f2e460b36a0",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 0,
+      "evidence_digest": "8ec7fcf0e3da72d585856c8cc3be2245852d70e8661562e9900ecc1371bb9d2f",
+      "evidence_status": "EVIDENCE_CONTRADICTORY",
+      "identity_state": "CONFLICTING",
+      "origin_state": "NOT_ASSESSED",
+      "panel_state": "ASSESSED",
+      "policy_id": "pol-cust-conf-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 764,
+          "declared_issuer": "Tema Port Authority (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R1",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 716,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 692,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R3",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 551,
+          "declared_issuer": "Accra Customs Service (synthetic)",
+          "kind": "WAREHOUSE_RECEIPT",
+          "reason": "NONE",
+          "record_id": "R4",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T19:57Z",
+      "rounds_used": 1,
+      "status": "RETRYABLE",
+      "submission_id": "sub-cust-conf-5a464a",
+      "submitted_at": "2026-10-18T19:57Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0425",
+      "verdict": "INCONSISTENT_EVIDENCE"
+    },
+    "e": {
+      "authenticity_state": "AUTHENTICATED_ORIGIN",
+      "challenge_id": "chal-cust-dir-5a464a",
+      "claim_summary": "every declared checkpoint is evidenced for this lot",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 0,
+      "condition_state": "NOT_DECLARED",
+      "condition_worst_excursion_minutes": 0,
+      "criteria": {
+        "records_consistent": true,
+        "required_event_supported": true,
+        "required_records_present": true,
+        "source_authenticity_verified": true
+      },
+      "custody_state": "COMPLETE",
+      "definition_hash": "3fee5a5d0046fc54c29daf6ad15363410f27723326fb37ffc2716f2e460b36a0",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 6,
+      "evidence_digest": "b28c5153f29f1fd11ed7ee3ef3e19db245b98a09dad65b2cd7cc94266a75bd4d",
+      "evidence_status": "EVIDENCE_SUFFICIENT",
+      "identity_state": "CONSISTENT",
+      "origin_state": "NOT_ASSESSED",
+      "panel_state": "ASSESSED",
+      "policy_id": "pol-cust-dir-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 895,
+          "declared_issuer": "Tema Port Authority (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R1",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 716,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 692,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CUSTODY_SCAN",
+          "reason": "NONE",
+          "record_id": "R3",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T20:01Z",
+      "rounds_used": 1,
+      "status": "RESOLVED",
+      "submission_id": "sub-cust-dir-5a464a",
+      "submitted_at": "2026-10-18T20:01Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0428",
+      "verdict": "CLAIM_NOT_ESTABLISHED"
+    },
+    "f": {
+      "authenticity_state": "SOURCE_UNVERIFIED",
+      "challenge_id": "chal-origin-5a464a",
+      "claim_summary": "the lot came from the region the certificate names",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 0,
+      "condition_state": "NOT_DECLARED",
+      "condition_worst_excursion_minutes": 0,
+      "criteria": {
+        "records_consistent": true,
+        "required_event_supported": true,
+        "required_records_present": true,
+        "source_authenticity_verified": false
+      },
+      "custody_state": "NOT_DECLARED",
+      "definition_hash": "570254e8748a596b6def65937e3ba57416b6e086a612070fa5bde20d5f9c36a5",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 0,
+      "evidence_digest": "a568fbc410c7291d11e0ebf9e5b6e57ab3b1d4932a1e1c30bdd0580a270d31eb",
+      "evidence_status": "SOURCE_AUTHENTICITY_UNVERIFIED",
+      "identity_state": "CONSISTENT",
+      "origin_state": "SUPPORTED",
+      "panel_state": "ASSESSED",
+      "policy_id": "pol-origin-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "SOURCE_UNVERIFIED",
+          "byte_count": 660,
+          "declared_issuer": "Ashanti Growers Union (synthetic)",
+          "kind": "ORIGIN_CERTIFICATE",
+          "reason": "NONE",
+          "record_id": "R1",
+          "status": "RECORD_READABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 664,
+          "declared_issuer": "Accra Customs Service (synthetic)",
+          "kind": "CUSTOMS_ENTRY",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T20:02Z",
+      "rounds_used": 1,
+      "status": "RESOLVED",
+      "submission_id": "sub-origin-5a464a",
+      "submitted_at": "2026-10-18T20:02Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0430",
+      "verdict": "CLAIM_NOT_ESTABLISHED"
+    },
+    "g": {
+      "authenticity_state": "SOURCE_UNVERIFIED",
+      "challenge_id": "chal-cold-gone-5a464a",
+      "claim_summary": "the reefer log is submitted for the carriage window",
+      "compliance_state": "NOT_ASSESSED",
+      "condition_readings_used": 0,
+      "condition_state": "UNREADABLE",
+      "condition_worst_excursion_minutes": 0,
+      "criteria": {
+        "records_consistent": false,
+        "required_event_supported": false,
+        "required_records_present": false,
+        "source_authenticity_verified": false
+      },
+      "custody_state": "NOT_DECLARED",
+      "definition_hash": "799c40abc585fc573c7d85d42e370fe958c15b80cb3e8e156c70ddce6b75db59",
+      "delivery_state": "NOT_DECLARED",
+      "delivery_time": "",
+      "directed_text_hits": 0,
+      "evidence_digest": "4f0efd85bd3c45d7835c0e3b252476277778b7742963605f01f6b844ddc7e3e0",
+      "evidence_status": "EVIDENCE_UNAVAILABLE",
+      "identity_state": "UNKNOWN",
+      "origin_state": "NOT_ASSESSED",
+      "panel_state": "SKIPPED",
+      "policy_id": "pol-cold-gone-5a464a",
+      "policy_version": 1,
+      "records": [
+        {
+          "authenticity": "SOURCE_UNVERIFIED",
+          "byte_count": 0,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "CONDITION_LOG",
+          "reason": "FETCH_FAILED",
+          "record_id": "R1",
+          "status": "RECORD_UNAVAILABLE"
+        },
+        {
+          "authenticity": "AUTHENTICATED_ORIGIN",
+          "byte_count": 690,
+          "declared_issuer": "Meridian Cold Logistics (synthetic)",
+          "kind": "BILL_OF_LADING",
+          "reason": "NONE",
+          "record_id": "R2",
+          "status": "RECORD_READABLE"
+        }
+      ],
+      "resolved_at": "2026-10-18T20:04Z",
+      "rounds_used": 1,
+      "status": "RETRYABLE",
+      "submission_id": "sub-cold-gone-5a464a",
+      "submitted_at": "2026-10-18T20:03Z",
+      "submitter": "0x49AeDD95A65bE1DEa73628a5f90C52A06031b377",
+      "submitter_reference": "PO-2026-0502",
+      "verdict": "EVIDENCE_UNAVAILABLE"
+    }
+  },
+  "stats": {
+    "challenges": 7,
+    "policies": 7,
+    "resolved": 4,
+    "submissions": 7
+  },
+  "transactions": [
+    {
+      "label": "deploy",
+      "tx": "0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134"
+    },
+    {
+      "label": "register pol-cold-ok-5a464a",
+      "tx": "0x6d0e9ee539bfa80db98968462e0fb1946901deccf134a6f35eab810c80bb5a4d"
+    },
+    {
+      "label": "publish pol-cold-ok-5a464a",
+      "tx": "0xf4bc4ae370ee18bacae8c67854a87a70939415efea03115f6c2d14a6183fa0df"
+    },
+    {
+      "label": "open chal-cold-ok-5a464a",
+      "tx": "0x8884196d45327e7557ea4cd0b0179a62caffccd694ed4dd8577819b02eb4bdeb"
+    },
+    {
+      "label": "submit sub-cold-ok",
+      "tx": "0x9232172341d47174df01692d2ce34e0dc65e0e0ff55331e10d53abfcfb7cf71e"
+    },
+    {
+      "label": "resolve sub-cold-ok",
+      "tx": "0x564c1bb1da32f314f5db694b72396f5591af914335e1acac04be0f10236c2b4d"
+    },
+    {
+      "label": "register pol-cold-exc-5a464a",
+      "tx": "0x329de72e3d07f9dcbef683ebd21af31053dc70a81f16df6e40f4ac22f0e1d4a5"
+    },
+    {
+      "label": "publish pol-cold-exc-5a464a",
+      "tx": "0xf3bb15315fae0b887e36f332879a716c362b1ea8b21e8bb66a8a0cad033e276c"
+    },
+    {
+      "label": "open chal-cold-exc-5a464a",
+      "tx": "0x0d69421784a34b3f885b0ecaf7152fbc267a4836cf54ed8431838ebccac56a41"
+    },
+    {
+      "label": "submit sub-cold-exc",
+      "tx": "0x9af49d4850d11ed64f0465436bdf16e22342a1a235962812df7ddfe07de88ef8"
+    },
+    {
+      "label": "resolve sub-cold-exc",
+      "tx": "0x7eccd4041f025c8dd01f86647133122241167eab1a5864d945576bb44e0344e7"
+    },
+    {
+      "label": "register pol-cust-ooo-5a464a",
+      "tx": "0xb872566517ca6fbe71abe123843a1e482e3dfb498f2b249e7cb4cfece9be35e7"
+    },
+    {
+      "label": "publish pol-cust-ooo-5a464a",
+      "tx": "0x2ca624141c3baec9c4532f02b8aec33d5b6ef5e1ec289fe85364ff1f5b63f21b"
+    },
+    {
+      "label": "open chal-cust-ooo-5a464a",
+      "tx": "0x28424474ea916ee466420e5799dacf39a1b134a728ef61df382eccdde4a49a11"
+    },
+    {
+      "label": "submit sub-cust-ooo",
+      "tx": "0x6ba16b1b8e1f322a8266a105bc775aa9dc7744a62cc00c1696bdfce2022ef99c"
+    },
+    {
+      "label": "resolve sub-cust-ooo",
+      "tx": "0x4d5a9e7c3b3a2bc74eaf817819fd8abd3868a9d116b2a0d46eb89288d8b223bd"
+    },
+    {
+      "label": "register pol-cust-conf-5a464a",
+      "tx": "0x7168f23b173b8003aa271ddaaa8a774fa08071b0d5caa27482c769bc4511dde1"
+    },
+    {
+      "label": "publish pol-cust-conf-5a464a",
+      "tx": "0xe3a609b04545f45691823f7fc240ccb612e5d26eaeff57bff23ed09993ae5dcd"
+    },
+    {
+      "label": "open chal-cust-conf-5a464a",
+      "tx": "0xfdc004b527dad869d6fcb94b99f417f26d7bb4d4c30ae7c70e28bc7523ac8d44"
+    },
+    {
+      "label": "submit sub-cust-conf",
+      "tx": "0xac8e98fed938fa8bd06934be71057451647a04b81308941e849b0bc4f515c91a"
+    },
+    {
+      "label": "resolve sub-cust-conf",
+      "tx": "0x5802ce8312e6eeb017d80e2c14b177b2f82a8c04fc2ca8197d63d821f0fab957"
+    },
+    {
+      "label": "register pol-cust-dir-5a464a",
+      "tx": "0x4ee0a2ea0c959ba8b585b58b2580a1a6d5bc54ff4399f6cdfd9723fc140f2620"
+    },
+    {
+      "label": "publish pol-cust-dir-5a464a",
+      "tx": "0xf77e2a47798e59c09250f9248305ddbff1d4ef7f459317607a3824e264b0fb4e"
+    },
+    {
+      "label": "open chal-cust-dir-5a464a",
+      "tx": "0xb2a04d6e67f0ab83eb233364d8341c63ee022228cf73f180ea515e1018fcdb6f"
+    },
+    {
+      "label": "submit sub-cust-dir",
+      "tx": "0xee6c9ef825bc6bb3cf1637e0174396cc91da48317c1d209850b233386880a12b"
+    },
+    {
+      "label": "resolve sub-cust-dir",
+      "tx": "0x49b21d93509be90e2592d9b5275d8eb77d07ad2560de5998e121bc011e3dfd2e"
+    },
+    {
+      "label": "register pol-origin-5a464a",
+      "tx": "0x0be5396a387686be05eb212a3c8fd47ad2cc4fa7eb7c6fe2a499307dc4707abe"
+    },
+    {
+      "label": "publish pol-origin-5a464a",
+      "tx": "0x73cc03a2418190efc5e6ab9f5343ace81bca9469d0284699a93588af87030512"
+    },
+    {
+      "label": "open chal-origin-5a464a",
+      "tx": "0x707efac93209a30a2f8141638733244e0f5ea28c89b284b647227da2b764271c"
+    },
+    {
+      "label": "submit sub-origin",
+      "tx": "0x19de165cbab7e96b9a15181b6d543210226a8e2515188a8c092403537eb89be8"
+    },
+    {
+      "label": "resolve sub-origin",
+      "tx": "0xaa75324b89a36923a57e105ec792ba4a850a0b1cfff6d8db14180d08a4086a97"
+    },
+    {
+      "label": "register pol-cold-gone-5a464a",
+      "tx": "0x0dfb22001b3d2856200a714dd5ff5475e385906b6238f3837b376bdcdca3e671"
+    },
+    {
+      "label": "publish pol-cold-gone-5a464a",
+      "tx": "0x441590c21a1057db1585918bcf12bd1d5dbac4eddf5b134a3bc98a903a30ef7a"
+    },
+    {
+      "label": "open chal-cold-gone-5a464a",
+      "tx": "0x808b25451b117829b373980e6db5750043d1e9ce17f34551e04fa717c6cf98f5"
+    },
+    {
+      "label": "submit sub-cold-gone",
+      "tx": "0xda226f7b35eb76f6e657886d005c911a67b25b60bcb39bf7fff7f0c94631184f"
+    },
+    {
+      "label": "resolve sub-cold-gone",
+      "tx": "0xc07d47c3b183d802a74a05a0999ea9ecaba23c6d62d1120920f2cb5b0a8487c6"
+    },
+    {
+      "label": "retry sub-cold-gone",
+      "tx": "0xfc80b6680dfb3c3972617c4098a4965bf40c49d9f496c87c8fe6cc8f4de2b64d"
+    }
+  ]
+}

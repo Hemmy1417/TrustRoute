@@ -602,10 +602,18 @@ def main() -> int:
     parser.add_argument("--address", default="",
                         help="reuse an existing deployment")
     parser.add_argument("--scenarios", default="a,b,c,d,e,f,g")
+    parser.add_argument("--tag", default="",
+                        help="name this run's ids; defaults to a unique tag")
     args = parser.parse_args()
 
     PROOFS.mkdir(parents=True, exist_ok=True)
-    TAG[0] = "-" + args.commit[:6]
+    # Unique per run, not per commit. A policy id is claimed once for the
+    # life of a contract, so two runs at the same commit against the same
+    # deployment would collide on `register_policy` - which is exactly
+    # what reusing a deployment is for. `--tag` makes it explicit when a
+    # reviewer wants a named run.
+    TAG[0] = "-" + (args.tag or "%s-%s" % (
+        args.commit[:6], format(int(time.time()) % 46656, "x")))
     say("TrustRoute live run")
     say("commit %s" % args.commit)
     say("id tag %s" % TAG[0])

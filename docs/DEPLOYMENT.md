@@ -59,9 +59,10 @@ python scripts/live.py --commit <sha> --address 0xB70040...067B
 ```
 
 Ids carry a per-run tag, because a policy id is claimed once for the life
-of a contract. Without the tag a second run against the same deployment
-would collide on `register_policy`, which would have meant a fresh
-deployment every time anyone wanted to reproduce the evidence.
+of a contract. Without it a second run against the same deployment would
+collide on `register_policy`, which would have meant a fresh deployment
+every time anyone wanted to reproduce the evidence. Pass `--tag <name>`
+to name a run's ids instead of taking the generated one.
 
 ## Deployment history
 
