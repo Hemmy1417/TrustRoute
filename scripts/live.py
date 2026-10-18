@@ -89,6 +89,16 @@ BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 
 AS_OF = "2026-10-20T12:00Z"
 
+# Ids carry a per-run tag. A policy id is claimed once for the life of a
+# contract, so without this a second run against the same deployment would
+# be refused - and re-running against the canonical deployment is exactly
+# what a reviewer should be able to do.
+TAG = [""]
+
+
+def tagged(base: str) -> str:
+    return base + TAG[0]
+
 log_lines = []
 
 
@@ -133,6 +143,7 @@ COLD_CHAIN = definition(
     identity=[LOT_KEY, CONTAINER_KEY],
     condition={"metric": "return air temperature",
                "unit": "degrees Celsius",
+               "series_format": "TIMESTAMP_VALUE_LINES",
                "min_tenths": 20, "max_tenths": 80,
                "window_start": "2026-03-14T06:00Z",
                "window_end": "2026-03-16T18:00Z",
@@ -354,12 +365,15 @@ def resolve_and_read(chain, submission_id, label):
 
 
 def setup(chain, policy_id, body, challenge_id, lot, origin, days=200):
+    policy_id = tagged(policy_id)
+    challenge_id = tagged(challenge_id)
     chain.write("register_policy", [policy_id], "register " + policy_id)
     chain.write("publish_policy_version", [policy_id, json.dumps(body)],
                 "publish " + policy_id)
     chain.write("open_verification_challenge",
                 [challenge_id, policy_id, 1, lot, origin, days],
                 "open " + challenge_id)
+    return policy_id, challenge_id
 
 
 # -- the scenarios -----------------------------------------------------------
@@ -373,10 +387,10 @@ def scenario_a(chain, pub):
                record_entry("R2", "BILL_OF_LADING", CARRIER, BILL_OF_LADING,
                             pub)]
     chain.write("submit_records",
-                ["sub-cold-ok", "chal-cold-ok", "PO-2026-0412",
+                [tagged("sub-cold-ok"), tagged("chal-cold-ok"), "PO-2026-0412",
                  "the reefer held its range across the carriage window",
                  json.dumps(records)], "submit sub-cold-ok")
-    stored = resolve_and_read(chain, "sub-cold-ok", "resolve sub-cold-ok")
+    stored = resolve_and_read(chain, tagged("sub-cold-ok"), "resolve sub-cold-ok")
 
     # Facts about the records, decided by code, which must hold whatever the
     # panel made of the log.
@@ -399,7 +413,7 @@ def scenario_a(chain, pub):
         expect("identifiers reconciled", stored["identity_state"],
                "CONSISTENT")
         expect("gate true", chain.read("is_claim_supported",
-                                       ["sub-cold-ok", AS_OF]), True)
+                                       [tagged("sub-cold-ok"), AS_OF]), True)
     return stored
 
 
@@ -412,16 +426,16 @@ def scenario_b(chain, pub):
                record_entry("R2", "BILL_OF_LADING", CARRIER, BILL_OF_LADING,
                             pub)]
     chain.write("submit_records",
-                ["sub-cold-exc", "chal-cold-exc", "PO-2026-0418",
+                [tagged("sub-cold-exc"), tagged("chal-cold-exc"), "PO-2026-0418",
                  "the reefer log is submitted for the carriage window",
                  json.dumps(records)], "submit sub-cold-exc")
-    stored = resolve_and_read(chain, "sub-cold-exc", "resolve sub-cold-exc")
+    stored = resolve_and_read(chain, tagged("sub-cold-exc"), "resolve sub-cold-exc")
     # The allowance is thirty minutes and the log shows hours out of range.
     # Code decides that, so the claim cannot be supported.
     expect("claim not supported",
            stored["verdict"] != "CLAIM_SUPPORTED", True)
     expect("gate false", chain.read("is_claim_supported",
-                                    ["sub-cold-exc", AS_OF]), False)
+                                    [tagged("sub-cold-exc"), AS_OF]), False)
     if stored["condition_state"] == "BREACHED":
         say("    worst excursion %d minutes"
             % stored["condition_worst_excursion_minutes"])
@@ -438,15 +452,15 @@ def scenario_c(chain, pub):
                record_entry("R3", "CUSTODY_SCAN", CARRIER,
                             SCAN_OUT_OF_ORDER, pub)]
     chain.write("submit_records",
-                ["sub-cust-ooo", "chal-cust-ooo", "PO-2026-0421",
+                [tagged("sub-cust-ooo"), tagged("chal-cust-ooo"), "PO-2026-0421",
                  "every declared checkpoint is evidenced for this lot",
                  json.dumps(records)], "submit sub-cust-ooo")
-    stored = resolve_and_read(chain, "sub-cust-ooo", "resolve sub-cust-ooo")
+    stored = resolve_and_read(chain, tagged("sub-cust-ooo"), "resolve sub-cust-ooo")
     expect("claim not supported",
            stored["verdict"] != "CLAIM_SUPPORTED", True)
     say("    custody state %s" % stored["custody_state"])
     chain_view = json.loads(chain.read("get_custody_chain",
-                                       ["sub-cust-ooo"]))
+                                       [tagged("sub-cust-ooo")]))
     for row in chain_view["checkpoints"]:
         say("      %s order %d  %-14s %s"
             % (row["ref"], row["order"], row["finding"],
@@ -466,16 +480,16 @@ def scenario_d(chain, pub):
                record_entry("R4", "WAREHOUSE_RECEIPT", CUSTOMS,
                             WAREHOUSE_CONFLICTING, pub)]
     chain.write("submit_records",
-                ["sub-cust-conf", "chal-cust-conf", "PO-2026-0425",
+                [tagged("sub-cust-conf"), tagged("chal-cust-conf"), "PO-2026-0425",
                  "the custody record for this lot, with the warehouse "
                  "receipt",
                  json.dumps(records)], "submit sub-cust-conf")
-    stored = resolve_and_read(chain, "sub-cust-conf",
+    stored = resolve_and_read(chain, tagged("sub-cust-conf"),
                               "resolve sub-cust-conf")
     expect("claim not supported",
            stored["verdict"] != "CLAIM_SUPPORTED", True)
     say("    identity state %s" % stored["identity_state"])
-    findings = json.loads(chain.read("get_findings", ["sub-cust-conf"]))
+    findings = json.loads(chain.read("get_findings", [tagged("sub-cust-conf")]))
     for row in findings["identity"]:
         say("      %s %-15s %-12s from %d record(s)"
             % (row["ref"], row["state"], row["value"] or "-",
@@ -493,10 +507,10 @@ def scenario_e(chain, pub):
                record_entry("R3", "CUSTODY_SCAN", CARRIER,
                             SCAN_DESTINATION, pub)]
     chain.write("submit_records",
-                ["sub-cust-dir", "chal-cust-dir", "PO-2026-0428",
+                [tagged("sub-cust-dir"), tagged("chal-cust-dir"), "PO-2026-0428",
                  "every declared checkpoint is evidenced for this lot",
                  json.dumps(records)], "submit sub-cust-dir")
-    stored = resolve_and_read(chain, "sub-cust-dir", "resolve sub-cust-dir")
+    stored = resolve_and_read(chain, tagged("sub-cust-dir"), "resolve sub-cust-dir")
     # Code counted the markers, so this holds however the round read the
     # checkpoints.
     expect("markers counted in code",
@@ -504,7 +518,7 @@ def scenario_e(chain, pub):
     expect("claim not supported",
            stored["verdict"] != "CLAIM_SUPPORTED", True)
     expect("gate false", chain.read("is_claim_supported",
-                                    ["sub-cust-dir", AS_OF]), False)
+                                    [tagged("sub-cust-dir"), AS_OF]), False)
     say("    directed text hits %d, custody state %s"
         % (stored["directed_text_hits"], stored["custody_state"]))
     return stored
@@ -520,10 +534,10 @@ def scenario_f(chain, pub):
                record_entry("R2", "CUSTOMS_ENTRY", CUSTOMS, CUSTOMS_ENTRY,
                             pub)]
     chain.write("submit_records",
-                ["sub-origin", "chal-origin", "PO-2026-0430",
+                [tagged("sub-origin"), tagged("chal-origin"), "PO-2026-0430",
                  "the lot came from the region the certificate names",
                  json.dumps(records)], "submit sub-origin")
-    stored = resolve_and_read(chain, "sub-origin", "resolve sub-origin")
+    stored = resolve_and_read(chain, tagged("sub-origin"), "resolve sub-origin")
     # Entirely deterministic: the requirement says the union publishes from
     # its own host, and these bytes came from the raw host.
     expect("source not authenticated", stored["authenticity_state"],
@@ -533,7 +547,7 @@ def scenario_f(chain, pub):
     expect("claim not supported",
            stored["verdict"] != "CLAIM_SUPPORTED", True)
     expect("gate false", chain.read("is_claim_supported",
-                                    ["sub-origin", AS_OF]), False)
+                                    [tagged("sub-origin"), AS_OF]), False)
     return stored
 
 
@@ -548,19 +562,19 @@ def scenario_g(chain, pub):
                record_entry("R2", "BILL_OF_LADING", CARRIER, BILL_OF_LADING,
                             pub)]
     chain.write("submit_records",
-                ["sub-cold-gone", "chal-cold-gone", "PO-2026-0502",
+                [tagged("sub-cold-gone"), tagged("chal-cold-gone"), "PO-2026-0502",
                  "the reefer log is submitted for the carriage window",
                  json.dumps(records)], "submit sub-cold-gone")
-    stored = resolve_and_read(chain, "sub-cold-gone",
+    stored = resolve_and_read(chain, tagged("sub-cold-gone"),
                               "resolve sub-cold-gone")
     # Deterministic: an unfetchable required record is never a finding.
     expect("verdict", stored["verdict"], "EVIDENCE_UNAVAILABLE")
     expect("retryable", stored["status"], "RETRYABLE")
     expect("panel skipped", stored["panel_state"], "SKIPPED")
     expect("not consumable", chain.read("is_consumable",
-                                        ["sub-cold-gone", AS_OF]), False)
-    chain.write("retry_submission", ["sub-cold-gone"], "retry sub-cold-gone")
-    after = json.loads(chain.read("get_submission", ["sub-cold-gone"]))
+                                        [tagged("sub-cold-gone"), AS_OF]), False)
+    chain.write("retry_submission", [tagged("sub-cold-gone")], "retry sub-cold-gone")
+    after = json.loads(chain.read("get_submission", [tagged("sub-cold-gone")]))
     expect("pending again after retry", after["status"], "PENDING")
     return stored
 
@@ -580,8 +594,10 @@ def main() -> int:
     args = parser.parse_args()
 
     PROOFS.mkdir(parents=True, exist_ok=True)
+    TAG[0] = "-" + args.commit[:6]
     say("TrustRoute live run")
     say("commit %s" % args.commit)
+    say("id tag %s" % TAG[0])
     say("rpc %s" % RPC)
 
     say("\nchecking the published bytes")
