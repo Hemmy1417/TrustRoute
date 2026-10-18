@@ -444,6 +444,16 @@ MUTATIONS = [
 # Some mutations cannot change behaviour, so a sweep cannot kill them and a
 # test that claimed to would be lying. They are kept in the list because
 # removing them would hide the reasoning, and reported separately.
+# The verdict comparison was listed here as equivalent, and behaviourally
+# it still is: the verdict is a pure function of fields that are themselves
+# compared, so two nodes agreeing on all of them cannot differ on it. It is
+# no longer listed, because it is now killed - not by a behavioural
+# difference but by the test that pins the documented comparison set
+# (`test_the_contract_compares_exactly_the_documented_fields`). That is a
+# real property worth failing on, since CONSENSUS.md documents the verdict
+# as compared and a consumer reads the disagreement message. The
+# distinction is recorded rather than smoothed over: a kill earned by a
+# documented-surface test is not evidence that the rule changes an outcome.
 EQUIVALENT = {
     "documents: any location is admitted":
         "the early return for an unreadable host is subsumed by the label "
@@ -459,13 +469,6 @@ EQUIVALENT = {
         "normalise identically either way, so it is not a consensus rule "
         "either. It stays because a payload should not carry findings "
         "about questions nobody asked.",
-    "validator: the verdict is not compared":
-        "the verdict is a pure function of fields that are themselves "
-        "compared - the four criteria, the panel state, the identity "
-        "state, the directed-text count and the contradiction finding. "
-        "Two nodes agreeing on all of those cannot "
-        "differ on the verdict, so comparing it is redundancy that makes a "
-        "disagreement message clearer, not a rule doing work.",
 }
 
 
@@ -478,7 +481,7 @@ def run_suite(contract_path: pathlib.Path) -> bool:
     # most come first, so a mutant that is going to die usually dies in the
     # first few seconds. With `-x` that turns a sweep of eighty-five
     # mutations from hours into minutes without weakening it - a survivor
-    # still had to pass every one of the 359 tests.
+    # still had to pass every one of the 366 tests.
     order = ["tests/direct/test_survivors.py",
              "tests/direct/test_gate_units.py",
              "tests/direct/test_validators.py",

@@ -337,22 +337,49 @@ def _perturb(value):
     raise AssertionError("no perturbation for %r" % type(value))
 
 
+# Written out rather than read from the contract. A table-driven test
+# driven by the table under test cannot see a deletion from that table:
+# the first version of this test iterated `module.DECISION_FIELDS`, so a
+# mutation that dropped a field simply was not iterated and the mutant
+# survived. The literal list is the test's own claim about what must be
+# compared, and the contract is checked against it both ways.
+MUST_BE_COMPARED = [
+    "schema", "submission_id", "challenge_id", "round", "policy_id",
+    "policy_version", "definition_hash", "evidence_digest",
+    "shipment_or_lot_id", "claim_type", "directed_text_hits",
+    "panel_state", "custody_state", "identity_state", "condition_state",
+    "condition_worst_excursion_minutes", "delivery_state", "delivery_time",
+    "origin_state", "compliance_state", "authenticity_state",
+    "condition_readings_used", "evidence_status", "verdict",
+]
+
+CRITERIA_MUST_BE_COMPARED = [
+    "required_records_present", "records_consistent",
+    "source_authenticity_verified", "required_event_supported",
+]
+
+
+def test_the_contract_compares_exactly_the_documented_fields(staged):
+    """Catches a field quietly dropped from the comparison, and a field
+    added to the payload without being compared or documented."""
+    _harness, module, _context, _payload, _texts = staged
+    assert sorted(module.DECISION_FIELDS) == sorted(MUST_BE_COMPARED)
+    assert sorted(module.CRITERIA_FIELDS) == sorted(
+        CRITERIA_MUST_BE_COMPARED)
+
+
 def test_every_decision_field_is_compared(staged):
-    """Table-driven over the contract's own list, so a field added to
-    `DECISION_FIELDS` without a comparison cannot pass unnoticed."""
     _harness, module, _context, payload, _texts = staged
-    for field in module.DECISION_FIELDS:
+    for field in MUST_BE_COMPARED:
         theirs = copy.deepcopy(payload)
         theirs[field] = _perturb(theirs[field])
         difference = module._first_difference(payload, theirs)
         assert difference != "", "%s is not compared" % field
-        assert field in difference, \
-            "a difference in %s was reported as %r" % (field, difference)
 
 
 def test_every_criterion_is_compared(staged):
     _harness, module, _context, payload, _texts = staged
-    for field in module.CRITERIA_FIELDS:
+    for field in CRITERIA_MUST_BE_COMPARED:
         theirs = copy.deepcopy(payload)
         theirs["criteria"][field] = not theirs["criteria"][field]
         difference = module._first_difference(payload, theirs)

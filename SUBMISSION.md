@@ -51,11 +51,11 @@ whose verdict does not follow from its own findings.
 
 | Gate | Result |
 |---|---|
-| Direct Mode tests | 359 passed |
+| Direct Mode tests | 366 passed |
 | Preflight invariants | 216 / 216 |
 | GenVM lint | passed, 3 checks |
 | GenVM check | 32 methods, 23 view / 9 write |
-| Mutation sweep | <!-- SWEEP --> |
+| Mutation sweep | 83 / 85 killed, 2 equivalent by construction, 0 survived |
 | Live scenarios | 7 / 7, every assertion held |
 | Live re-verification off chain | 112 checks, 0 discrepancies, 51 reads |
 | Clean-clone reproduction | <!-- CLEANCLONE --> |

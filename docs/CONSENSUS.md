@@ -143,10 +143,17 @@ comparison fails the suite. `tests/direct/test_gate_units.py` holds it.
 
 **The verdict comparison is redundant, and that is deliberate.** The verdict
 is a pure function of fields that are themselves compared, so two nodes
-agreeing on all of them cannot differ on it. The mutation sweep reports the
-mutation that removes it as `EQUIVALENT` rather than as a hole, with that
-argument recorded in `scripts/mutate.py`. It stays because it makes a
-disagreement message say what actually disagreed.
+agreeing on all of them cannot differ on it. It stays because it makes a
+disagreement message say what actually disagreed, and because a consumer
+reads that message.
+
+The sweep used to report the mutation that removes it as `EQUIVALENT`,
+on exactly that argument. It is now killed instead - but by the test that
+pins the documented comparison set, not by any behavioural difference. The
+argument above is still true, and the distinction is worth keeping: a kill
+earned by a documented-surface test is not evidence that a rule changes an
+outcome. `scripts/mutate.py` records it that way rather than taking the
+credit.
 
 ### Why the normalisation is load-bearing
 

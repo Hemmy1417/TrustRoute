@@ -262,11 +262,11 @@ sha256 `197fba21…57ce9ca`.
 
 | Gate | Result | How to reproduce |
 |---|---|---|
-| Direct Mode suite | 359 passed | `gltest` |
+| Direct Mode suite | 366 passed | `gltest` |
 | Preflight invariants | 216 / 216 | `python scripts/preflight.py` |
 | GenVM lint | passed, 3 checks | `genvm-lint lint contracts/trustroute.py` |
 | GenVM check | 32 methods, 23 view / 9 write | `genvm-lint check contracts/trustroute.py` |
-| Mutation sweep | <!-- SWEEP --> | `python -u scripts/mutate.py > sweep.log` |
+| Mutation sweep | 83 / 85 killed, 2 equivalent by construction, 0 survived | `python -u scripts/mutate.py > sweep.log` |
 | Live scenarios | 7 / 7, every assertion held | `python scripts/live.py --commit <sha>` |
 | Live re-verification | 112 checks, 0 discrepancies, 51 reads | `python scripts/verify.py` |
 | Clean-clone reproduction | <!-- CLEANCLONE --> | clone, install, run the gates |
@@ -276,6 +276,20 @@ contract passes its tests, not that the tests would notice if a guard were
 removed. The sweep removes one guard at a time in a scratch copy and runs
 the whole suite against it. A mutant that survives is a hole in the tests,
 and is reported as one rather than explained away.
+
+**How that figure was reached, exactly.** The first full pass over the
+frozen source killed 75, declared 3 equivalent by construction, and left 7
+survivors. One was a real missing test. The other six were masked by a
+correlated field that was still compared — which is precisely what an
+integration test cannot distinguish — so `_first_difference` was given
+direct, field-by-field tests. Re-running those 7 killed all of them, and
+one of the 3 equivalents fell to the new test that pins the documented
+comparison set. Combining the two runs is sound because tests were only
+**added** between them, and an added test cannot un-kill a mutant; no
+existing test was weakened and the contract was not touched. The 2
+remaining equivalents are listed with their arguments in
+`scripts/mutate.py`, and the sweep exits non-zero on any undocumented
+survivor.
 
 ## Reviewer fast path
 
@@ -297,7 +311,7 @@ Five minutes, in this order:
 
 ```
 contracts/trustroute.py      the one deployable contract
-tests/direct/                359 Direct Mode tests
+tests/direct/                366 Direct Mode tests
 scripts/preflight.py         216 invariants over the source itself
 scripts/mutate.py            the mutation sweep
 scripts/live.py              the seven live scenarios

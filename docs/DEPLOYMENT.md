@@ -35,7 +35,7 @@ git clone https://github.com/Hemmy1417/TrustRoute.git
 cd TrustRoute
 pip install -r requirements.txt
 
-gltest                                  # 359 Direct Mode tests
+gltest                                  # 366 Direct Mode tests
 python scripts/preflight.py             # 216 invariants over the source
 genvm-lint lint contracts/trustroute.py
 genvm-lint check contracts/trustroute.py
