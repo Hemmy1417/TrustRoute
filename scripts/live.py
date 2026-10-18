@@ -622,6 +622,8 @@ def main() -> int:
 
     ledger = {
         "commit": args.commit,
+        "chain_id": 61999,
+        "rpc": RPC,
         "contract": chain.address,
         "explorer": EXPLORER + "/address/" + chain.address,
         "deploy_tx": deploy_tx,

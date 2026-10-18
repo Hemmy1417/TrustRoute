@@ -251,10 +251,24 @@ MUTATIONS = [
     ("validator: the verdict is not compared",
      '''                   "authenticity_state", "evidence_status", "verdict"]''',
      '''                   "authenticity_state", "evidence_status"]'''),
-    ("validator: the derived states are not compared",
-     '''                   "condition_worst_excursion_minutes", "delivery_state",
-                   "delivery_time", "origin_state", "compliance_state",''',
-     '''                   "delivery_time",'''),
+    # One field at a time. A mutation that drops four states at once is
+    # killed by whichever of them a fixture happens to exercise, which
+    # proves nothing about the other three.
+    ("validator: the origin state is not compared",
+     '''                   "delivery_time", "origin_state", "compliance_state",''',
+     '''                   "delivery_time", "compliance_state",'''),
+    ("validator: the compliance state is not compared",
+     '''                   "delivery_time", "origin_state", "compliance_state",''',
+     '''                   "delivery_time", "origin_state",'''),
+    ("validator: the delivery state is not compared",
+     '''                   "condition_worst_excursion_minutes", "delivery_state",''',
+     '''                   "condition_worst_excursion_minutes",'''),
+    ("validator: the excursion is not compared",
+     '''                   "condition_worst_excursion_minutes", "delivery_state",''',
+     '''                   "delivery_state",'''),
+    ("validator: the delivery time is not compared",
+     '''                   "delivery_time", "origin_state", "compliance_state",''',
+     '''                   "origin_state", "compliance_state",'''),
     ("validator: the record rows are not compared",
      '''    for index in range(len(own["rows"])):
         for field in ("record_id", "kind", "status", "reason", "byte_count",
@@ -372,14 +386,45 @@ MUTATIONS = [
 ]
 
 
+# Two mutations cannot change behaviour, so a sweep cannot kill them and a
+# test that claimed to would be lying. They are kept in the list because
+# removing them would hide the reasoning, and reported separately.
+EQUIVALENT = {
+    "documents: any location is admitted":
+        "the early return for an unreadable host is subsumed by the label "
+        "loop below it: a URL whose host cannot be read yields a single "
+        "empty label, which `len(labels) < 2` and the empty-label check "
+        "both reject. Removing it changes no result.",
+    "validator: the verdict is not compared":
+        "the verdict is a pure function of fields that are themselves "
+        "compared - the four criteria, the panel state, the identity "
+        "state, the directed-text count, and the contradiction and "
+        "sufficiency findings. Two nodes agreeing on all of those cannot "
+        "differ on the verdict, so comparing it is redundancy that makes a "
+        "disagreement message clearer, not a rule doing work.",
+}
+
+
 def run_suite(contract_path: pathlib.Path) -> bool:
     """True when the suite passes against this contract."""
     env = dict(os.environ)
     env["TRUSTROUTE_CONTRACT"] = str(contract_path)
     env["PYTHONUTF8"] = "1"
+    # The whole suite runs, but in this order: the files that discriminate
+    # most come first, so a mutant that is going to die usually dies in the
+    # first few seconds. With `-x` that turns a sweep of seventy-nine
+    # mutations from hours into minutes without weakening it - a survivor
+    # still had to pass every one of the 345 tests.
+    order = ["tests/direct/test_survivors.py",
+             "tests/direct/test_gate_units.py",
+             "tests/direct/test_validators.py",
+             "tests/direct/test_verdicts.py",
+             "tests/direct/test_hardening.py",
+             "tests/direct/test_lifecycle.py",
+             "tests/direct/test_smoke.py"]
     result = subprocess.run(
-        [sys.executable, "-m", "pytest", "tests/direct", "-x", "-q",
-         "--no-header", "-p", "no:cacheprovider"],
+        [sys.executable, "-m", "pytest"] + order
+        + ["-x", "-q", "--no-header", "-p", "no:cacheprovider"],
         cwd=str(ROOT), env=env, capture_output=True, text=True)
     return result.returncode == 0
 
@@ -389,6 +434,7 @@ def main() -> int:
     source = CONTRACT.read_text(encoding="utf-8")
     killed = []
     survived = []
+    expected = []
     broken = []
     work = tempfile.mkdtemp(prefix="trustroute-mutants-")
 
@@ -412,14 +458,27 @@ def main() -> int:
         mutant.write_text(source.replace(find, replace), encoding="utf-8",
                           newline="")
         if run_suite(mutant):
-            survived.append(label)
-            print("SURVIVED %s" % label, flush=True)
+            if label in EQUIVALENT:
+                expected.append(label)
+                print("EQUIVALENT %s" % label, flush=True)
+            else:
+                survived.append(label)
+                print("SURVIVED %s" % label, flush=True)
         else:
             killed.append(label)
-            print("killed   %s" % label, flush=True)
+            if label in EQUIVALENT:
+                print("killed   %s  (expected equivalent - the argument for "
+                      "it is wrong)" % label, flush=True)
+            else:
+                print("killed   %s" % label, flush=True)
 
-    total = len(killed) + len(survived)
-    print("\n%d/%d mutants killed" % (len(killed), total))
+    total = len(killed) + len(survived) + len(expected)
+    print("\n%d/%d mutants killed, %d equivalent by construction, "
+          "%d survived" % (len(killed), total, len(expected),
+                           len(survived)))
+    for label in expected:
+        print("EQUIVALENT: " + label)
+        print("    " + EQUIVALENT[label])
     for label in survived:
         print("SURVIVED: " + label)
     for label in broken:
