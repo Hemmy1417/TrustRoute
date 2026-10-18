@@ -57,7 +57,7 @@ whose verdict does not follow from its own findings.
 | GenVM check | 32 methods, 23 view / 9 write |
 | Mutation sweep | <!-- SWEEP --> |
 | Live scenarios | 7 / 7, every assertion held |
-| Live re-verification off chain | <!-- VERIFY --> |
+| Live re-verification off chain | 112 checks, 0 discrepancies, 51 reads |
 | Clean-clone reproduction | <!-- CLEANCLONE --> |
 
 Evidence: [`docs/proofs/live.md`](docs/proofs/live.md), regenerated from

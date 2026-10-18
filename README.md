@@ -268,7 +268,7 @@ sha256 `197fba21…57ce9ca`.
 | GenVM check | 32 methods, 23 view / 9 write | `genvm-lint check contracts/trustroute.py` |
 | Mutation sweep | <!-- SWEEP --> | `python -u scripts/mutate.py > sweep.log` |
 | Live scenarios | 7 / 7, every assertion held | `python scripts/live.py --commit <sha>` |
-| Live re-verification | <!-- VERIFY --> | `python scripts/verify.py` |
+| Live re-verification | 112 checks, 0 discrepancies, 51 reads | `python scripts/verify.py` |
 | Clean-clone reproduction | <!-- CLEANCLONE --> | clone, install, run the gates |
 
 The mutation sweep is the gate worth explaining: a green suite says the
