@@ -253,6 +253,13 @@ findings with the words each rests on.
   guessing.
 - **Bounded.** 8 records, 6 custody events, 4 identity keys, 4 compliance
   criteria, 48 readings, 16 versions, 3 rounds.
+- **Very large, quote-heavy records can exhaust the prompt budget.** Eight
+  records made of characters JSON must escape exceed the 60,000-character
+  cap once escaped, and the blob truncates. It is deterministic and fails
+  closed to `EVIDENCE_UNAVAILABLE`, so it cannot split a round or produce a
+  wrong verdict, but a legitimate submitter gets no explanation naming the
+  cause. Found in the final audit and documented rather than patched into a
+  frozen deployment; `docs/SECURITY.md` has the reasoning.
 - **Studionet only.** Not audited, not for production value.
 
 ## Verification

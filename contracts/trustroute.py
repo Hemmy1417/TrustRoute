@@ -3212,8 +3212,14 @@ class TrustRoute(gl.Contract):
 
     @gl.public.view
     def record_first_seen(self, sha256: str) -> str:
-        """Which submission first committed these exact bytes. The same
-        bytes cannot be evidence in two different challenges."""
+        """Which submission first committed these exact bytes.
+
+        The same bytes may be evidence in several challenges about the same
+        shipment or lot - a bill of lading legitimately serves both a cold
+        chain requirement and a custody one, opened by different parties.
+        What they cannot do is stand as evidence for a *different* shipment
+        or lot, which is the replay `submit_records` refuses.
+        """
         first = self.record_registry.get(str(sha256))
         if first is None or str(first) == "":
             return ""

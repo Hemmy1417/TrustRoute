@@ -116,3 +116,35 @@ in the findings.
   That is the intended direction of error.
 - **Studionet, not production.** This is a demonstration deployment on a
   development network, not an audited production system.
+
+## A bound found in the final audit, and why it was left alone
+
+The blob sent to the reading stage is capped at `PANEL_BLOB_CAP` (60,000
+characters) and each record is excerpted to `RECORD_EXCERPT_CAP` (6,000).
+Eight records of 6,000 ordinary characters fit comfortably. Eight records
+made entirely of characters that JSON must escape do not: `"` doubles in
+length, so the worst case is 96,016 characters and the blob is truncated
+mid-structure, handing the model invalid JSON.
+
+This was found by measuring rather than by reasoning, and it is reachable
+in principle — a submitter controls their records' bytes.
+
+It was left in place deliberately, and the reasoning is the same one used
+throughout this contract:
+
+- **It cannot split a round.** Every node hashes the same bytes and builds
+  the same canonical JSON, so every node truncates at exactly the same
+  character. A disagreement is impossible.
+- **It fails closed.** An unusable answer is `PANEL_INVALID`, which makes
+  the findings the one empty shape and the verdict `EVIDENCE_UNAVAILABLE`,
+  retryable. The outcome is "these records could not answer the question",
+  which is true, and is never `CLAIM_SUPPORTED`.
+- **The contract is frozen and deployed.** Changing it would mean a new
+  deployment and a full re-run of every gate, to convert one honest
+  fail-closed outcome into a different honest fail-closed outcome.
+
+The honest note is that a legitimate submitter with large, quote-heavy
+records would get `EVIDENCE_UNAVAILABLE` and no explanation naming the
+cause. The remedy today is smaller records; the fix, in a later version,
+is to excerpt against the escaped length and to classify the record
+`TOO_LARGE` rather than silently truncating the blob.
