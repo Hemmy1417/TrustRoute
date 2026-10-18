@@ -77,7 +77,7 @@ the chain read-only.
 
 ## What the build taught
 
-Six deployments. Five are historical, and
+Seven deployments. Six are historical, and
 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) records what each one taught,
 because the live network found things no local test produced.
 
