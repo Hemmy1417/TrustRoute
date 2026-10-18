@@ -9,11 +9,11 @@ and how to reproduce the canonical one.
 |---|---|
 | Network | GenLayer Studionet, chain **61999** |
 | RPC | `https://studio.genlayer.com/api` |
-| Contract | [`0xB70040Bca306122b795F7Cd9d7623aCe9175067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B) |
-| Deploy transaction | [`0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134`](https://explorer-studio.genlayer.com/tx/0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134) |
-| Source | `contracts/trustroute.py` @ `5a464a2` |
-| sha256 | `197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca` |
-| Size | 136,524 bytes |
+| Contract | [`0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150`](https://explorer-studio.genlayer.com/address/0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150) |
+| Deploy transaction | [`0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96`](https://explorer-studio.genlayer.com/tx/0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96) |
+| Source | `contracts/trustroute.py` @ `471b56b` |
+| sha256 | `8088723dc96fbaf8937b8de15a80318e997a10aea9d23acc254765d7bac9d783` |
+| Size | 136,826 bytes |
 | Lifecycle | FINALIZED |
 | Execution | SUCCESS |
 | Consensus | 3 agree / 0 disagree / 2 idle of 5 |
@@ -55,7 +55,7 @@ no key or balance is required.
 To re-run the scenarios against a deployment that already exists:
 
 ```bash
-python scripts/live.py --commit <sha> --address 0xB70040...067B
+python scripts/live.py --commit <sha> --address 0xf2Fc3406...0150
 ```
 
 Ids carry a per-run tag, because a policy id is claimed once for the life
@@ -66,7 +66,7 @@ to name a run's ids instead of taking the generated one.
 
 ## Deployment history
 
-Six deployments. Five are historical and are listed because what they
+Seven deployments. Six are historical and are listed because what they
 taught is the substance of the design — in particular that **every model
 judgement in the consensus path is a way for a round to split**, which
 only the live network demonstrates.
@@ -81,9 +81,10 @@ against the committed source. It is evidence, not recollection.
 | 3 | [`0xe8DbEbE2…a4DC`](https://explorer-studio.genlayer.com/address/0xe8DbEbE2fC8f43dC2aeCa0996D5e63f37B7ca4DC) | `3b457e4` | `aa7b8dc66bae8066…` | 131,877 | an over-long explanation discarded a correct reading; the diagnostic was too small to act on |
 | 4 | [`0x7ff65941…7524`](https://explorer-studio.genlayer.com/address/0x7ff6594146f478a2494b431488637b8481977524) | `acd6bbb` | `373077c4197d5676…` | 133,729 | `NO_MAJORITY` - a model's extraction of a measurement table was consensus-critical |
 | 5 | [`0xa982922B…e1A6`](https://explorer-studio.genlayer.com/address/0xa982922Bc7e77dB577D9E41581fE48ef8C62e1A6) | `b500ada` | `49f4c760f0fc9947…` | 135,328 | a volunteered answer to a question the policy never asked could fail a round, and split one |
-| 6 | [`0xB70040Bc…067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B) | `5a464a2` | `197fba21c20d17eb…` | 136,524 | **canonical** - seven scenarios, every assertion held |
+| 6 | [`0xB70040Bc…067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B) | `5a464a2` | `197fba21c20d17eb…` | 136,524 | seven scenarios green, twice - replaced only because the final audit found a docstring describing a replay rule the contract does not have |
+| 7 | [`0xf2Fc3406…0150`](https://explorer-studio.genlayer.com/address/0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150) | `471b56b` | `8088723dc96fbaf8…` | 136,826 | **canonical** - seven scenarios, every assertion held |
 
-Every one of the six deployed exactly a committed state: the hash the node
+Every one of the seven deployed exactly a committed state: the hash the node
 reports for each contract matches `git show <commit>:contracts/trustroute.py`
 byte for byte, so nothing here was deployed from a dirty working tree. The
 hashes above were read back from Studionet with `gen_getContractCode`, not
@@ -161,7 +162,22 @@ the frozen definition, so every node normalises identically and the round
 cannot split on it. The strict direction is unchanged: a *declared*
 requirement answered `NOT_ASSESSED` is still a non-answer.
 
-**6 — canonical.** Seven scenarios, every assertion held.
+**6 — seven scenarios green, twice.** This was the canonical
+deployment, and the second run against it reproduced all seven verdicts
+with fresh ids, a fresh signer and different validator draws - which is
+what the per-run id tagging is for.
+
+It was replaced for one line. The final cold audit found that
+`record_first_seen` still described the replay rule as binding bytes to a
+*challenge*, which stopped being true when the rule was rebound to the
+shipment or lot. The behaviour was correct; the docstring was a false
+statement about a security rule, in the bytes a reviewer reads and the
+chain serves. Fixing a docstring changes the deployed bytes, so it meant a
+new deployment and a full re-run of every gate. The audit runs before the
+freeze for exactly this reason.
+
+**7 — canonical.** Seven scenarios, every assertion held, on the
+audited source.
 
 ## The seven live scenarios
 

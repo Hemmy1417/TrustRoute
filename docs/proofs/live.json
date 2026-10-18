@@ -1,227 +1,233 @@
 {
   "as_of": "2026-10-20T12:00Z",
   "chain_id": 61999,
-  "commit": "5a464a2",
-  "contract": "0xB70040Bca306122b795F7Cd9d7623aCe9175067B",
-  "contract_sha256": "197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca",
-  "deploy_tx": "",
-  "deployer": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
-  "explorer": "https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B",
+  "commit": "471b56b",
+  "contract": "0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150",
+  "contract_sha256": "8088723dc96fbaf8937b8de15a80318e997a10aea9d23acc254765d7bac9d783",
+  "deploy_tx": "0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96",
+  "deployer": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
+  "explorer": "https://explorer-studio.genlayer.com/address/0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150",
   "finality": {
-    "0x0fe01bbf0d14c1f1789d8444fb44c5f9215d53334f60762c45788e0a8597fdca": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "resolve sub-cust-ooo",
-      "lifecycle": "FINALIZED"
-    },
-    "0x11a51296fff0ccd5f9fc18fb57ae83c50c46567d67c25b94fb1fc4e9bc7ab8c3": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "publish pol-cust-ooo-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x1f9b1d6953f37d021b0dcc92cfc5c390964357fd988eb2907ea63c3534b5fa00": {
-      "consensus": "4 agree, 0 disagree, 1 idle of 5",
-      "execution": "SUCCESS",
-      "label": "open chal-cust-dir-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x3315feb82ea89faef62ed67946876d8e8ef9f9ced363ad39663eb2e105c332c2": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "publish pol-origin-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x37f356cc58e811865702414dfb71400ec331eb0a5dc2c8807605cbbcb6e197d6": {
-      "consensus": "4 agree, 0 disagree, 1 idle of 5",
-      "execution": "SUCCESS",
-      "label": "open chal-cust-conf-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x3d4666160b1e51fd3a4e402b08e1c78ab21be4af5953cbadf089d250b6b19236": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "register pol-origin-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x3f5067370f3d0cbc67bf9645b0843680a1bb4a02caa7ffea0a2e102b98b37f5d": {
-      "consensus": "5 agree, 0 disagree, 0 idle of 5",
-      "execution": "SUCCESS",
-      "label": "submit sub-cold-exc",
-      "lifecycle": "FINALIZED"
-    },
-    "0x4043f30482dd28c287a116d52ad84fb994ac7ee71d4e587dfdcce9bbb39f3a49": {
-      "consensus": "3 agree, 1 disagree, 1 idle of 5",
-      "execution": "SUCCESS",
-      "label": "resolve sub-cust-conf",
-      "lifecycle": "FINALIZED"
-    },
-    "0x4988fada604bb4985ad8dd2e5f1a734bee59c616d390b2621f39287b112b1830": {
-      "consensus": "5 agree, 0 disagree, 0 idle of 5",
-      "execution": "SUCCESS",
-      "label": "retry sub-cold-gone",
-      "lifecycle": "FINALIZED"
-    },
-    "0x4ba0b0b38f161a6363c720fec7a67634c1bb7e0c1224eaa7a0a0133815499a80": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "publish pol-cold-exc-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x4f46fbd6265ef32e778b96c2aadcbc1409742ecae0aa7d87abade078595909a1": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "publish pol-cust-conf-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x55277cdcd9d1552d5b095dd525404538ca8afec1db8543e519ffaaa532777b60": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "resolve sub-cust-dir",
-      "lifecycle": "FINALIZED"
-    },
-    "0x59ba60ebf8f84a4cdae06de80f7ed5836c80e8ac868c764c94168097a70726ed": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "register pol-cold-exc-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x5c5dedc7683a0b0722a7b846375d9fb661436fb416b3800cecdb56033e112ad6": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "register pol-cust-ooo-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x6558a99e461f81eda15e98bfe80e84cb6db2b737667a0ecc366a70eaf0459a54": {
+    "0x19cf69382b94034354a5c5cde4ec4e59f640d3760b27298f1e4fcf598cc91df0": {
       "consensus": "3 agree, 0 disagree, 2 idle of 5",
       "execution": "SUCCESS",
       "label": "submit sub-cold-gone",
       "lifecycle": "FINALIZED"
     },
-    "0x6b16dfac9364f7a463a9fe520d2cd82c47838eb5c1092bb0dd9505fb01748e1b": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "resolve sub-cold-gone",
-      "lifecycle": "FINALIZED"
-    },
-    "0x6b5317cd210b1b7ec38e5e344371b15ea32990a93893fc4b86fa33ce2a7fba84": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "submit sub-cust-ooo",
-      "lifecycle": "FINALIZED"
-    },
-    "0x7703e03e41181bc2671677b63ce077d3b84233f38a4036e2d6232f1346ebbd9d": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "open chal-cold-ok-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x7b5362621386bf46bc5c5d97c4bdf4cb4b8b45acee9c600a5c65a21bd45dfca6": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "resolve sub-origin",
-      "lifecycle": "FINALIZED"
-    },
-    "0x7b6cefeb6f730907ef7df1d4557973582ff0e6b83e8230dde3890136eed8cc18": {
+    "0x2817c3b570343e30e04bf691ce6850d16b2d6db2656982ac925f90b46c9d2a41": {
       "consensus": "5 agree, 0 disagree, 0 idle of 5",
-      "execution": "SUCCESS",
-      "label": "publish pol-cold-gone-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x7e8345f0e8a603f3f5082d448496317ec7ba1c23f32b2ffe966a2f6271298aaa": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "open chal-cold-exc-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x7f2aa7318d3f7caa2254cc2f9a98b181988d35755bfb0ef59da1847e6087befd": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
       "execution": "SUCCESS",
       "label": "submit sub-cold-ok",
       "lifecycle": "FINALIZED"
     },
-    "0x813a4c02287ab3244a0adabf16dad88248fa20f9ca8fe02423e803de293c5d13": {
+    "0x2b3332015aba3bf9773132bfe662565c4867652ef929f1441cc7c81611e0cf37": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cold-exc",
+      "lifecycle": "FINALIZED"
+    },
+    "0x32f7f1e12c5510c62d0eb00694d0cc548a4788986efcd874e2ff600408bba356": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cust-dir-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x4869086aa378ea43aec910a2cea9d6914b6860c9cefcab0b28d611aa4f80977b": {
       "consensus": "5 agree, 0 disagree, 0 idle of 5",
       "execution": "SUCCESS",
-      "label": "register pol-cust-dir-5a464a-4437",
+      "label": "open chal-cold-gone-471b56-5c6c",
       "lifecycle": "FINALIZED"
     },
-    "0x8745eeef06903b255e2114aefc1b95a5c2ca1824ea789f044f22cddde35c7688": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "resolve sub-cold-ok",
-      "lifecycle": "FINALIZED"
-    },
-    "0x896b7c00fc89dc5a157737497b9ca8c98580db8365f4fc39101a364afba9d64e": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "register pol-cust-conf-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0x8989292cb5797f97bce188cd0f189cabfe45a032c395fb5491a7e63eee0c0c16": {
+    "0x4e3389b7b707f3a6ee8868a98ec8b8f8d11173c738f31b58129de685a8e90eb3": {
       "consensus": "5 agree, 0 disagree, 0 idle of 5",
       "execution": "SUCCESS",
-      "label": "publish pol-cust-dir-5a464a-4437",
+      "label": "publish pol-cold-exc-471b56-5c6c",
       "lifecycle": "FINALIZED"
     },
-    "0x94fc55418f71d299d17f96e387297830c947e677a24205f26879efad66373625": {
+    "0x52f185835294202deb08784ff6099749faf542e0eb7d9ccf909f2bb55daa7a04": {
       "consensus": "3 agree, 0 disagree, 2 idle of 5",
       "execution": "SUCCESS",
-      "label": "submit sub-origin",
+      "label": "submit sub-cust-dir",
       "lifecycle": "FINALIZED"
     },
-    "0x9949fe97faff64866a7da14066130a5bc4568fc6f1eeef93f3d990b49dc69cf7": {
+    "0x5a60e195867dcb7e8d3410d7db16c5565026d3997c7f9967edc3d93a6db0a3ec": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cust-conf-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x5e803c1cccab38b7000840b974390878440af019222968124e43ac2454592e05": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-origin-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x68cd9734c09908efb340445754c7cc155a5206c4c02c03c00c40ba26e2606712": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "retry sub-cold-gone",
+      "lifecycle": "FINALIZED"
+    },
+    "0x708ae7822cddf7d67a5056adfd368093934d514655e847a11027d4fc8e5024fb": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cold-gone-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x79438ed5990984d8b1becc95d41dbc699a93866867f7ba98403f8c866342f007": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cold-ok-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x7ace48112d390ad8d54c22814410fc5eb8ee5e9748472d1e9b52f45552220016": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cold-exc-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x818cab8406ff77835d28e8f2d6b8007f3242a478de45d07f659ee888c6d492eb": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-origin-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x94f72332835a77df22c25da5352513ccfd58b1ba1eec77082ae6a8235509f1ce": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cold-ok-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "deploy",
+      "lifecycle": "FINALIZED"
+    },
+    "0x9c7c895a913d7e83fd2dc795d458eec62f5cd478d7b3baee5f77ece2bb021e4f": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-origin-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0x9e7010ed0ab70d8498e07602539bc4c92b694e7b7184711dae44372baa42b87d": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cust-conf",
+      "lifecycle": "FINALIZED"
+    },
+    "0xa2d72967710e75dc9b5c6fb0942a0f496634b939910c6720ae4dbbca2ddd7781": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cold-gone-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xa43fc06c0c5a3a3f2d63351f7dec2221cbaa294f7f7c07727fb9e600d1dd31e4": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cust-ooo",
+      "lifecycle": "FINALIZED"
+    },
+    "0xa6f9d1caf3aa86853ec2722852eb3bbd50ef46685dc701d328ca7c841a14693f": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cust-ooo-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xa778aca1f255f1bb536e73e31e63617cfd4f0ae850ed1bb6cd2ce1e836b400be": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cust-ooo-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xac45125f8a9638c62f7d2541b1edfa7e9e16b56394acf3ef0fae8cc4d1e9a947": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cust-dir",
+      "lifecycle": "FINALIZED"
+    },
+    "0xb61169f7e708891e7c9e61fbce5201b057da2c5035de61b27b931556a8919446": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cust-dir-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xb6983f55ec51dfd330c5b06b122229125a4189cb7d3398f95567f04cdd7bdc1d": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cold-exc-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xb77e3996281751435416955bcf30d2b8bc5032ba26add4e479b155bf3d72fcc2": {
       "consensus": "3 agree, 0 disagree, 2 idle of 5",
       "execution": "SUCCESS",
       "label": "submit sub-cust-conf",
       "lifecycle": "FINALIZED"
     },
-    "0x9f50f9e353a4ea0462ab155dd4935404f0ab6e67bfc32bcd1b779660ed92fc5a": {
+    "0xbfabc35b62355c5b53bdaaeb1598d605261ec2c2ebed1d127f9512fb43a2a341": {
       "consensus": "3 agree, 0 disagree, 2 idle of 5",
       "execution": "SUCCESS",
-      "label": "open chal-cold-gone-5a464a-4437",
+      "label": "register pol-cust-conf-471b56-5c6c",
       "lifecycle": "FINALIZED"
     },
-    "0xa1aadb2eff7d42a3e217e6e5cd97a0a74f5a023c796be4405242ac52946e31a1": {
+    "0xbfbfc2efc0fb6b665fe846294411cf3737ec9ed762580ff61dec6e428a8bd23c": {
       "consensus": "3 agree, 0 disagree, 2 idle of 5",
       "execution": "SUCCESS",
-      "label": "register pol-cold-ok-5a464a-4437",
+      "label": "resolve sub-origin",
       "lifecycle": "FINALIZED"
     },
-    "0xa59775cc0faa172fc17bd7611fe6cc47cc95852ecdd093ffb0e48cc54ac27019": {
+    "0xc98bec9ad44bb240689cabf615d3f2f78d2052cf57728a09c92ee1d6c3c7e6f3": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "register pol-cold-ok-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xcf4db5d57e10cbe360871245e87bb73670c55165c3827297c58f61cbbb1ec8fa": {
       "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "publish pol-cold-ok-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0xa7afb5a50249571fdb69923c008ef2029c4a4d274fdf10faa7b7966e5b1bd8a5": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "open chal-cust-ooo-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0xb8a5300974fa3964045730e8ad72720e3c2a156fa4ce185cdc2a04b700c1c2c0": {
-      "consensus": "4 agree, 0 disagree, 1 idle of 5",
-      "execution": "SUCCESS",
-      "label": "submit sub-cust-dir",
-      "lifecycle": "FINALIZED"
-    },
-    "0xbf05c48853e4fdf0fe21385ac497f7a17d6e670f7e18a6d630e4869076ed25d5": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "open chal-origin-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0xde7394857b84f8f15df4da986325cc497ee4ab57ac7b030f03b1eed3b51ce5c5": {
-      "consensus": "3 agree, 0 disagree, 2 idle of 5",
-      "execution": "SUCCESS",
-      "label": "register pol-cold-gone-5a464a-4437",
-      "lifecycle": "FINALIZED"
-    },
-    "0xe4355ce985aaef1c844ee5e6c9e087f8d5212f6901be0bcc09a0322bb0e8429f": {
-      "consensus": "3 agree, 1 disagree, 1 idle of 5",
       "execution": "SUCCESS",
       "label": "resolve sub-cold-exc",
+      "lifecycle": "FINALIZED"
+    },
+    "0xdb20d956b563ac77530fa484d321505e3b07939abd8d8edaa01d915ba61d1ff9": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "publish pol-cust-ooo-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xe35e63022b53dcb8aff819bfd55fadda38fd85f0b6672ac60506ac6385881079": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cust-dir-471b56-5c6c",
+      "lifecycle": "FINALIZED"
+    },
+    "0xec4a024566d9034730734685d6ac8c3ba04ea32377be96dd155bef7decd83546": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-cust-ooo",
+      "lifecycle": "FINALIZED"
+    },
+    "0xf2cdad8f5092af452bc5b633ce967b7c76359bef94f393ef4a9199ce9109409d": {
+      "consensus": "3 agree, 0 disagree, 2 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cold-gone",
+      "lifecycle": "FINALIZED"
+    },
+    "0xf7701b519de9e836ba8da159ddefef81b17c012f56de289e06e418040774d968": {
+      "consensus": "4 agree, 0 disagree, 1 idle of 5",
+      "execution": "SUCCESS",
+      "label": "submit sub-origin",
+      "lifecycle": "FINALIZED"
+    },
+    "0xf9e04e2725ab2593dd36ba6467fb565fdbe51acac35e1b32d9c4003c961c1cfd": {
+      "consensus": "3 agree, 1 disagree, 1 idle of 5",
+      "execution": "SUCCESS",
+      "label": "resolve sub-cold-ok",
+      "lifecycle": "FINALIZED"
+    },
+    "0xfc01e10f08f7b64e224a2b68002a8c545f87c0ae9f6a14dc23255f63512649e3": {
+      "consensus": "5 agree, 0 disagree, 0 idle of 5",
+      "execution": "SUCCESS",
+      "label": "open chal-cust-conf-471b56-5c6c",
       "lifecycle": "FINALIZED"
     }
   },
@@ -229,79 +235,79 @@
     "bill-of-lading.txt": {
       "bytes": 690,
       "sha256": "a21c29edfd30b35b9ba66c457d099fdb1b58f0cacb9415dc6f34d88e564cf3cf",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/bill-of-lading.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/bill-of-lading.txt"
     },
     "condition-log-compliant.txt": {
       "bytes": 798,
       "sha256": "3db875da6dcd013a1e0dd2f6c8abb31545044e44ba9832a57c85f25bfe73464d",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/condition-log-compliant.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/condition-log-compliant.txt"
     },
     "condition-log-excursion.txt": {
       "bytes": 845,
       "sha256": "38ce32a19200208c8492403d6169e1f3299a102421b53524049b23d3a40bf405",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/condition-log-excursion.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/condition-log-excursion.txt"
     },
     "custody-scan-destination-out-of-order.txt": {
       "bytes": 733,
       "sha256": "a403264a598e8cadbafb1bc93fc7157d2f26c3ec6c8129dced7480d6ecf395a5",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-destination-out-of-order.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/custody-scan-destination-out-of-order.txt"
     },
     "custody-scan-destination.txt": {
       "bytes": 692,
       "sha256": "9a95bd11ab77c03ceb9c75a1bb1d1cd6841e19ea87f5514513d095c604c4fa9f",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-destination.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/custody-scan-destination.txt"
     },
     "custody-scan-directed.txt": {
       "bytes": 895,
       "sha256": "29cc22f19692e51b60267e36fef76b13f829754c5fc62bebc0b624e772590129",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-directed.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/custody-scan-directed.txt"
     },
     "custody-scan-origin.txt": {
       "bytes": 764,
       "sha256": "53ab95dcf00acd9442b7e6bd9fc93eedec320b365d9bfeedd40ed36362665cda",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-origin.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/custody-scan-origin.txt"
     },
     "custody-scan-transit.txt": {
       "bytes": 716,
       "sha256": "1d300d08ebc3f1bb59ceb199e53126730ba2fa0eb3b0437a56db8f904cb9295a",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/custody-scan-transit.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/custody-scan-transit.txt"
     },
     "customs-entry.txt": {
       "bytes": 664,
       "sha256": "caa1844aeb9af2df542e7bbd4f72e38603dfa53f8fc5ec6df8b6c283f9ee4aae",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/customs-entry.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/customs-entry.txt"
     },
     "delivery-confirmation.txt": {
       "bytes": 559,
       "sha256": "91127d7d7f793554fa513cbd90a5cc8f6015b86c74619072df662e4bdac22eb7",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/delivery-confirmation.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/delivery-confirmation.txt"
     },
     "inspection-certificate.txt": {
       "bytes": 757,
       "sha256": "8af00a86c32b36ab39228a0c34012ec5f423e0a816464290f83ea21e1e4af717",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/inspection-certificate.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/inspection-certificate.txt"
     },
     "origin-certificate.txt": {
       "bytes": 660,
       "sha256": "758a0960830ca2c2b69a7e27f66dd83b1e7d0b57c11b2b7c4c0afbbb06056f6b",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/origin-certificate.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/origin-certificate.txt"
     },
     "warehouse-receipt-conflicting-lot.txt": {
       "bytes": 551,
       "sha256": "d28bbfe55b14a461ce9269cb6c732a1680c1bc2302f0554d9031cad5912b46c5",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/warehouse-receipt-conflicting-lot.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/warehouse-receipt-conflicting-lot.txt"
     },
     "warehouse-receipt.txt": {
       "bytes": 551,
       "sha256": "543192989bd9f84318602c41f8c15736909f1b54516adfa9a5a69cf2ff5c4aca",
-      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/5a464a2/fixtures/warehouse-receipt.txt"
+      "url": "https://raw.githubusercontent.com/Hemmy1417/TrustRoute/471b56b/fixtures/warehouse-receipt.txt"
     }
   },
   "rpc": "https://studio.genlayer.com/api",
   "scenarios": {
     "a": {
       "authenticity_state": "AUTHENTICATED_ORIGIN",
-      "challenge_id": "chal-cold-ok-5a464a-4437",
+      "challenge_id": "chal-cold-ok-471b56-5c6c",
       "claim_summary": "the reefer held its range across the carriage window",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 11,
@@ -318,12 +324,12 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 0,
-      "evidence_digest": "560490b90d073c9731e55cbbf7649b33c91397e49b68ad0158d39a6ccfa60c6c",
+      "evidence_digest": "c547f2bde3e8b2a17f5df60c8b0eba5d7f240aae0b803cd666d7618087ef27e8",
       "evidence_status": "EVIDENCE_SUFFICIENT",
       "identity_state": "CONSISTENT",
       "origin_state": "NOT_ASSESSED",
       "panel_state": "ASSESSED",
-      "policy_id": "pol-cold-ok-5a464a-4437",
+      "policy_id": "pol-cold-ok-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -345,18 +351,18 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:13Z",
+      "resolved_at": "2026-10-18T21:57Z",
       "rounds_used": 1,
       "status": "RESOLVED",
-      "submission_id": "sub-cold-ok-5a464a-4437",
-      "submitted_at": "2026-10-18T20:13Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-cold-ok-471b56-5c6c",
+      "submitted_at": "2026-10-18T21:56Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0412",
       "verdict": "CLAIM_SUPPORTED"
     },
     "b": {
       "authenticity_state": "AUTHENTICATED_ORIGIN",
-      "challenge_id": "chal-cold-exc-5a464a-4437",
+      "challenge_id": "chal-cold-exc-471b56-5c6c",
       "claim_summary": "the reefer log is submitted for the carriage window",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 11,
@@ -373,12 +379,12 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 0,
-      "evidence_digest": "99840ba132821d196daa3909385db56008895552fc0cf881ca38a27a9852dcae",
+      "evidence_digest": "61b6c82127c27e0304f7f4827cea9cb4b6cede116f15e5a13d6f3c938c7f655f",
       "evidence_status": "EVIDENCE_INSUFFICIENT",
       "identity_state": "CONSISTENT",
       "origin_state": "NOT_ASSESSED",
       "panel_state": "ASSESSED",
-      "policy_id": "pol-cold-exc-5a464a-4437",
+      "policy_id": "pol-cold-exc-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -400,18 +406,18 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:14Z",
+      "resolved_at": "2026-10-18T21:58Z",
       "rounds_used": 1,
       "status": "RESOLVED",
-      "submission_id": "sub-cold-exc-5a464a-4437",
-      "submitted_at": "2026-10-18T20:14Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-cold-exc-471b56-5c6c",
+      "submitted_at": "2026-10-18T21:58Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0418",
       "verdict": "CLAIM_NOT_ESTABLISHED"
     },
     "c": {
       "authenticity_state": "AUTHENTICATED_ORIGIN",
-      "challenge_id": "chal-cust-ooo-5a464a-4437",
+      "challenge_id": "chal-cust-ooo-471b56-5c6c",
       "claim_summary": "every declared checkpoint is evidenced for this lot",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 0,
@@ -428,12 +434,12 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 0,
-      "evidence_digest": "d9c0a09b83c605e252086b6f32f4a4da61f6877f50fed83835e6e31b566fef97",
+      "evidence_digest": "1029e89da4586cbbb0ff082ee6d9701ca7893e20ca537eba51f2c8c8451e0b6c",
       "evidence_status": "EVIDENCE_CONTRADICTORY",
       "identity_state": "CONSISTENT",
       "origin_state": "NOT_ASSESSED",
       "panel_state": "ASSESSED",
-      "policy_id": "pol-cust-ooo-5a464a-4437",
+      "policy_id": "pol-cust-ooo-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -464,18 +470,18 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:16Z",
+      "resolved_at": "2026-10-18T21:59Z",
       "rounds_used": 1,
       "status": "RETRYABLE",
-      "submission_id": "sub-cust-ooo-5a464a-4437",
-      "submitted_at": "2026-10-18T20:16Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-cust-ooo-471b56-5c6c",
+      "submitted_at": "2026-10-18T21:59Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0421",
       "verdict": "INCONSISTENT_EVIDENCE"
     },
     "d": {
       "authenticity_state": "AUTHENTICATED_ORIGIN",
-      "challenge_id": "chal-cust-conf-5a464a-4437",
+      "challenge_id": "chal-cust-conf-471b56-5c6c",
       "claim_summary": "the custody record for this lot, with the warehouse receipt",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 0,
@@ -492,12 +498,12 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 0,
-      "evidence_digest": "8ec7fcf0e3da72d585856c8cc3be2245852d70e8661562e9900ecc1371bb9d2f",
+      "evidence_digest": "60688a8f27dbc55b123163ec637a7d08c2ff7aee3d6d31a349ac3d2fa51b3830",
       "evidence_status": "EVIDENCE_CONTRADICTORY",
       "identity_state": "CONFLICTING",
       "origin_state": "NOT_ASSESSED",
       "panel_state": "ASSESSED",
-      "policy_id": "pol-cust-conf-5a464a-4437",
+      "policy_id": "pol-cust-conf-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -537,18 +543,18 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:17Z",
+      "resolved_at": "2026-10-18T22:01Z",
       "rounds_used": 1,
       "status": "RETRYABLE",
-      "submission_id": "sub-cust-conf-5a464a-4437",
-      "submitted_at": "2026-10-18T20:17Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-cust-conf-471b56-5c6c",
+      "submitted_at": "2026-10-18T22:01Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0425",
       "verdict": "INCONSISTENT_EVIDENCE"
     },
     "e": {
       "authenticity_state": "AUTHENTICATED_ORIGIN",
-      "challenge_id": "chal-cust-dir-5a464a-4437",
+      "challenge_id": "chal-cust-dir-471b56-5c6c",
       "claim_summary": "every declared checkpoint is evidenced for this lot",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 0,
@@ -565,12 +571,12 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 6,
-      "evidence_digest": "b28c5153f29f1fd11ed7ee3ef3e19db245b98a09dad65b2cd7cc94266a75bd4d",
+      "evidence_digest": "7e99a377689de169f117f3e2c317c8942f0bc59b5d1cbb4bf7b92ad1e2c6c69d",
       "evidence_status": "EVIDENCE_SUFFICIENT",
       "identity_state": "CONSISTENT",
       "origin_state": "NOT_ASSESSED",
       "panel_state": "ASSESSED",
-      "policy_id": "pol-cust-dir-5a464a-4437",
+      "policy_id": "pol-cust-dir-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -601,18 +607,18 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:19Z",
+      "resolved_at": "2026-10-18T22:03Z",
       "rounds_used": 1,
       "status": "RESOLVED",
-      "submission_id": "sub-cust-dir-5a464a-4437",
-      "submitted_at": "2026-10-18T20:18Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-cust-dir-471b56-5c6c",
+      "submitted_at": "2026-10-18T22:03Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0428",
       "verdict": "CLAIM_NOT_ESTABLISHED"
     },
     "f": {
       "authenticity_state": "SOURCE_UNVERIFIED",
-      "challenge_id": "chal-origin-5a464a-4437",
+      "challenge_id": "chal-origin-471b56-5c6c",
       "claim_summary": "the lot came from the region the certificate names",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 0,
@@ -629,12 +635,12 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 0,
-      "evidence_digest": "a568fbc410c7291d11e0ebf9e5b6e57ab3b1d4932a1e1c30bdd0580a270d31eb",
+      "evidence_digest": "d4e668f25acfff5e4f44e2766eee371086c8c62cca606b69bf3df0f0bb8fcabc",
       "evidence_status": "SOURCE_AUTHENTICITY_UNVERIFIED",
       "identity_state": "CONSISTENT",
       "origin_state": "SUPPORTED",
       "panel_state": "ASSESSED",
-      "policy_id": "pol-origin-5a464a-4437",
+      "policy_id": "pol-origin-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -656,18 +662,18 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:20Z",
+      "resolved_at": "2026-10-18T22:05Z",
       "rounds_used": 1,
       "status": "RESOLVED",
-      "submission_id": "sub-origin-5a464a-4437",
-      "submitted_at": "2026-10-18T20:20Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-origin-471b56-5c6c",
+      "submitted_at": "2026-10-18T22:04Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0430",
       "verdict": "CLAIM_NOT_ESTABLISHED"
     },
     "g": {
       "authenticity_state": "SOURCE_UNVERIFIED",
-      "challenge_id": "chal-cold-gone-5a464a-4437",
+      "challenge_id": "chal-cold-gone-471b56-5c6c",
       "claim_summary": "the reefer log is submitted for the carriage window",
       "compliance_state": "NOT_ASSESSED",
       "condition_readings_used": 0,
@@ -684,7 +690,7 @@
       "delivery_state": "NOT_DECLARED",
       "delivery_time": "",
       "directed_text_hits": 0,
-      "evidence_digest": "4f0efd85bd3c45d7835c0e3b252476277778b7742963605f01f6b844ddc7e3e0",
+      "evidence_digest": "c748f8548602c3c2e4980e09e9bdff5c834e296e72b0baacfab6a20bbec0b2ed",
       "evidence_status": "EVIDENCE_UNAVAILABLE",
       "first_round": {
         "panel_state": "SKIPPED",
@@ -694,7 +700,7 @@
       "identity_state": "UNKNOWN",
       "origin_state": "NOT_ASSESSED",
       "panel_state": "SKIPPED",
-      "policy_id": "pol-cold-gone-5a464a-4437",
+      "policy_id": "pol-cold-gone-471b56-5c6c",
       "policy_version": 1,
       "records": [
         {
@@ -716,166 +722,170 @@
           "status": "RECORD_READABLE"
         }
       ],
-      "resolved_at": "2026-10-18T20:21Z",
+      "resolved_at": "2026-10-18T22:06Z",
       "rounds_used": 1,
       "status": "PENDING",
-      "submission_id": "sub-cold-gone-5a464a-4437",
-      "submitted_at": "2026-10-18T20:21Z",
-      "submitter": "0x31f8AD449d0D1a6f3A13D00e9190411576271888",
+      "submission_id": "sub-cold-gone-471b56-5c6c",
+      "submitted_at": "2026-10-18T22:06Z",
+      "submitter": "0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d",
       "submitter_reference": "PO-2026-0502",
       "verdict": "EVIDENCE_UNAVAILABLE"
     }
   },
   "stats": {
-    "challenges": 14,
-    "policies": 14,
-    "resolved": 8,
-    "submissions": 14
+    "challenges": 7,
+    "policies": 7,
+    "resolved": 4,
+    "submissions": 7
   },
   "transactions": [
     {
-      "label": "register pol-cold-ok-5a464a-4437",
-      "tx": "0xa1aadb2eff7d42a3e217e6e5cd97a0a74f5a023c796be4405242ac52946e31a1"
+      "label": "deploy",
+      "tx": "0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96"
     },
     {
-      "label": "publish pol-cold-ok-5a464a-4437",
-      "tx": "0xa59775cc0faa172fc17bd7611fe6cc47cc95852ecdd093ffb0e48cc54ac27019"
+      "label": "register pol-cold-ok-471b56-5c6c",
+      "tx": "0xc98bec9ad44bb240689cabf615d3f2f78d2052cf57728a09c92ee1d6c3c7e6f3"
     },
     {
-      "label": "open chal-cold-ok-5a464a-4437",
-      "tx": "0x7703e03e41181bc2671677b63ce077d3b84233f38a4036e2d6232f1346ebbd9d"
+      "label": "publish pol-cold-ok-471b56-5c6c",
+      "tx": "0x94f72332835a77df22c25da5352513ccfd58b1ba1eec77082ae6a8235509f1ce"
+    },
+    {
+      "label": "open chal-cold-ok-471b56-5c6c",
+      "tx": "0x79438ed5990984d8b1becc95d41dbc699a93866867f7ba98403f8c866342f007"
     },
     {
       "label": "submit sub-cold-ok",
-      "tx": "0x7f2aa7318d3f7caa2254cc2f9a98b181988d35755bfb0ef59da1847e6087befd"
+      "tx": "0x2817c3b570343e30e04bf691ce6850d16b2d6db2656982ac925f90b46c9d2a41"
     },
     {
       "label": "resolve sub-cold-ok",
-      "tx": "0x8745eeef06903b255e2114aefc1b95a5c2ca1824ea789f044f22cddde35c7688"
+      "tx": "0xf9e04e2725ab2593dd36ba6467fb565fdbe51acac35e1b32d9c4003c961c1cfd"
     },
     {
-      "label": "register pol-cold-exc-5a464a-4437",
-      "tx": "0x59ba60ebf8f84a4cdae06de80f7ed5836c80e8ac868c764c94168097a70726ed"
+      "label": "register pol-cold-exc-471b56-5c6c",
+      "tx": "0x7ace48112d390ad8d54c22814410fc5eb8ee5e9748472d1e9b52f45552220016"
     },
     {
-      "label": "publish pol-cold-exc-5a464a-4437",
-      "tx": "0x4ba0b0b38f161a6363c720fec7a67634c1bb7e0c1224eaa7a0a0133815499a80"
+      "label": "publish pol-cold-exc-471b56-5c6c",
+      "tx": "0x4e3389b7b707f3a6ee8868a98ec8b8f8d11173c738f31b58129de685a8e90eb3"
     },
     {
-      "label": "open chal-cold-exc-5a464a-4437",
-      "tx": "0x7e8345f0e8a603f3f5082d448496317ec7ba1c23f32b2ffe966a2f6271298aaa"
+      "label": "open chal-cold-exc-471b56-5c6c",
+      "tx": "0xb6983f55ec51dfd330c5b06b122229125a4189cb7d3398f95567f04cdd7bdc1d"
     },
     {
       "label": "submit sub-cold-exc",
-      "tx": "0x3f5067370f3d0cbc67bf9645b0843680a1bb4a02caa7ffea0a2e102b98b37f5d"
+      "tx": "0x2b3332015aba3bf9773132bfe662565c4867652ef929f1441cc7c81611e0cf37"
     },
     {
       "label": "resolve sub-cold-exc",
-      "tx": "0xe4355ce985aaef1c844ee5e6c9e087f8d5212f6901be0bcc09a0322bb0e8429f"
+      "tx": "0xcf4db5d57e10cbe360871245e87bb73670c55165c3827297c58f61cbbb1ec8fa"
     },
     {
-      "label": "register pol-cust-ooo-5a464a-4437",
-      "tx": "0x5c5dedc7683a0b0722a7b846375d9fb661436fb416b3800cecdb56033e112ad6"
+      "label": "register pol-cust-ooo-471b56-5c6c",
+      "tx": "0xa6f9d1caf3aa86853ec2722852eb3bbd50ef46685dc701d328ca7c841a14693f"
     },
     {
-      "label": "publish pol-cust-ooo-5a464a-4437",
-      "tx": "0x11a51296fff0ccd5f9fc18fb57ae83c50c46567d67c25b94fb1fc4e9bc7ab8c3"
+      "label": "publish pol-cust-ooo-471b56-5c6c",
+      "tx": "0xdb20d956b563ac77530fa484d321505e3b07939abd8d8edaa01d915ba61d1ff9"
     },
     {
-      "label": "open chal-cust-ooo-5a464a-4437",
-      "tx": "0xa7afb5a50249571fdb69923c008ef2029c4a4d274fdf10faa7b7966e5b1bd8a5"
+      "label": "open chal-cust-ooo-471b56-5c6c",
+      "tx": "0xa778aca1f255f1bb536e73e31e63617cfd4f0ae850ed1bb6cd2ce1e836b400be"
     },
     {
       "label": "submit sub-cust-ooo",
-      "tx": "0x6b5317cd210b1b7ec38e5e344371b15ea32990a93893fc4b86fa33ce2a7fba84"
+      "tx": "0xec4a024566d9034730734685d6ac8c3ba04ea32377be96dd155bef7decd83546"
     },
     {
       "label": "resolve sub-cust-ooo",
-      "tx": "0x0fe01bbf0d14c1f1789d8444fb44c5f9215d53334f60762c45788e0a8597fdca"
+      "tx": "0xa43fc06c0c5a3a3f2d63351f7dec2221cbaa294f7f7c07727fb9e600d1dd31e4"
     },
     {
-      "label": "register pol-cust-conf-5a464a-4437",
-      "tx": "0x896b7c00fc89dc5a157737497b9ca8c98580db8365f4fc39101a364afba9d64e"
+      "label": "register pol-cust-conf-471b56-5c6c",
+      "tx": "0xbfabc35b62355c5b53bdaaeb1598d605261ec2c2ebed1d127f9512fb43a2a341"
     },
     {
-      "label": "publish pol-cust-conf-5a464a-4437",
-      "tx": "0x4f46fbd6265ef32e778b96c2aadcbc1409742ecae0aa7d87abade078595909a1"
+      "label": "publish pol-cust-conf-471b56-5c6c",
+      "tx": "0x5a60e195867dcb7e8d3410d7db16c5565026d3997c7f9967edc3d93a6db0a3ec"
     },
     {
-      "label": "open chal-cust-conf-5a464a-4437",
-      "tx": "0x37f356cc58e811865702414dfb71400ec331eb0a5dc2c8807605cbbcb6e197d6"
+      "label": "open chal-cust-conf-471b56-5c6c",
+      "tx": "0xfc01e10f08f7b64e224a2b68002a8c545f87c0ae9f6a14dc23255f63512649e3"
     },
     {
       "label": "submit sub-cust-conf",
-      "tx": "0x9949fe97faff64866a7da14066130a5bc4568fc6f1eeef93f3d990b49dc69cf7"
+      "tx": "0xb77e3996281751435416955bcf30d2b8bc5032ba26add4e479b155bf3d72fcc2"
     },
     {
       "label": "resolve sub-cust-conf",
-      "tx": "0x4043f30482dd28c287a116d52ad84fb994ac7ee71d4e587dfdcce9bbb39f3a49"
+      "tx": "0x9e7010ed0ab70d8498e07602539bc4c92b694e7b7184711dae44372baa42b87d"
     },
     {
-      "label": "register pol-cust-dir-5a464a-4437",
-      "tx": "0x813a4c02287ab3244a0adabf16dad88248fa20f9ca8fe02423e803de293c5d13"
+      "label": "register pol-cust-dir-471b56-5c6c",
+      "tx": "0xb61169f7e708891e7c9e61fbce5201b057da2c5035de61b27b931556a8919446"
     },
     {
-      "label": "publish pol-cust-dir-5a464a-4437",
-      "tx": "0x8989292cb5797f97bce188cd0f189cabfe45a032c395fb5491a7e63eee0c0c16"
+      "label": "publish pol-cust-dir-471b56-5c6c",
+      "tx": "0x32f7f1e12c5510c62d0eb00694d0cc548a4788986efcd874e2ff600408bba356"
     },
     {
-      "label": "open chal-cust-dir-5a464a-4437",
-      "tx": "0x1f9b1d6953f37d021b0dcc92cfc5c390964357fd988eb2907ea63c3534b5fa00"
+      "label": "open chal-cust-dir-471b56-5c6c",
+      "tx": "0xe35e63022b53dcb8aff819bfd55fadda38fd85f0b6672ac60506ac6385881079"
     },
     {
       "label": "submit sub-cust-dir",
-      "tx": "0xb8a5300974fa3964045730e8ad72720e3c2a156fa4ce185cdc2a04b700c1c2c0"
+      "tx": "0x52f185835294202deb08784ff6099749faf542e0eb7d9ccf909f2bb55daa7a04"
     },
     {
       "label": "resolve sub-cust-dir",
-      "tx": "0x55277cdcd9d1552d5b095dd525404538ca8afec1db8543e519ffaaa532777b60"
+      "tx": "0xac45125f8a9638c62f7d2541b1edfa7e9e16b56394acf3ef0fae8cc4d1e9a947"
     },
     {
-      "label": "register pol-origin-5a464a-4437",
-      "tx": "0x3d4666160b1e51fd3a4e402b08e1c78ab21be4af5953cbadf089d250b6b19236"
+      "label": "register pol-origin-471b56-5c6c",
+      "tx": "0x9c7c895a913d7e83fd2dc795d458eec62f5cd478d7b3baee5f77ece2bb021e4f"
     },
     {
-      "label": "publish pol-origin-5a464a-4437",
-      "tx": "0x3315feb82ea89faef62ed67946876d8e8ef9f9ced363ad39663eb2e105c332c2"
+      "label": "publish pol-origin-471b56-5c6c",
+      "tx": "0x818cab8406ff77835d28e8f2d6b8007f3242a478de45d07f659ee888c6d492eb"
     },
     {
-      "label": "open chal-origin-5a464a-4437",
-      "tx": "0xbf05c48853e4fdf0fe21385ac497f7a17d6e670f7e18a6d630e4869076ed25d5"
+      "label": "open chal-origin-471b56-5c6c",
+      "tx": "0x5e803c1cccab38b7000840b974390878440af019222968124e43ac2454592e05"
     },
     {
       "label": "submit sub-origin",
-      "tx": "0x94fc55418f71d299d17f96e387297830c947e677a24205f26879efad66373625"
+      "tx": "0xf7701b519de9e836ba8da159ddefef81b17c012f56de289e06e418040774d968"
     },
     {
       "label": "resolve sub-origin",
-      "tx": "0x7b5362621386bf46bc5c5d97c4bdf4cb4b8b45acee9c600a5c65a21bd45dfca6"
+      "tx": "0xbfbfc2efc0fb6b665fe846294411cf3737ec9ed762580ff61dec6e428a8bd23c"
     },
     {
-      "label": "register pol-cold-gone-5a464a-4437",
-      "tx": "0xde7394857b84f8f15df4da986325cc497ee4ab57ac7b030f03b1eed3b51ce5c5"
+      "label": "register pol-cold-gone-471b56-5c6c",
+      "tx": "0x708ae7822cddf7d67a5056adfd368093934d514655e847a11027d4fc8e5024fb"
     },
     {
-      "label": "publish pol-cold-gone-5a464a-4437",
-      "tx": "0x7b6cefeb6f730907ef7df1d4557973582ff0e6b83e8230dde3890136eed8cc18"
+      "label": "publish pol-cold-gone-471b56-5c6c",
+      "tx": "0xa2d72967710e75dc9b5c6fb0942a0f496634b939910c6720ae4dbbca2ddd7781"
     },
     {
-      "label": "open chal-cold-gone-5a464a-4437",
-      "tx": "0x9f50f9e353a4ea0462ab155dd4935404f0ab6e67bfc32bcd1b779660ed92fc5a"
+      "label": "open chal-cold-gone-471b56-5c6c",
+      "tx": "0x4869086aa378ea43aec910a2cea9d6914b6860c9cefcab0b28d611aa4f80977b"
     },
     {
       "label": "submit sub-cold-gone",
-      "tx": "0x6558a99e461f81eda15e98bfe80e84cb6db2b737667a0ecc366a70eaf0459a54"
+      "tx": "0x19cf69382b94034354a5c5cde4ec4e59f640d3760b27298f1e4fcf598cc91df0"
     },
     {
       "label": "resolve sub-cold-gone",
-      "tx": "0x6b16dfac9364f7a463a9fe520d2cd82c47838eb5c1092bb0dd9505fb01748e1b"
+      "tx": "0xf2cdad8f5092af452bc5b633ce967b7c76359bef94f393ef4a9199ce9109409d"
     },
     {
       "label": "retry sub-cold-gone",
-      "tx": "0x4988fada604bb4985ad8dd2e5f1a734bee59c616d390b2621f39287b112b1830"
+      "tx": "0x68cd9734c09908efb340445754c7cc155a5206c4c02c03c00c40ba26e2606712"
     }
   ]
 }

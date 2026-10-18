@@ -6,11 +6,11 @@ Written by `python scripts/verify.py`, which reads everything below off GenLayer
 |---|---|
 | Network | GenLayer Studionet, chain 61999 |
 | RPC | `https://studio.genlayer.com/api` |
-| Contract | [`0xB70040Bca306122b795F7Cd9d7623aCe9175067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B) |
-| Deployer | `0x31f8AD449d0D1a6f3A13D00e9190411576271888` |
-| Source commit | `5a464a2` |
-| Contract source | `contracts/trustroute.py`, 136524 bytes, sha256 `197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca` |
-| Deployed bytes | 136524 bytes, sha256 `197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca` |
+| Contract | [`0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150`](https://explorer-studio.genlayer.com/address/0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150) |
+| Deployer | `0x3d642eD4d279494b4ee7ef0Fa81A322400fe467d` |
+| Source commit | `471b56b` |
+| Contract source | `contracts/trustroute.py`, 136826 bytes, sha256 `8088723dc96fbaf8937b8de15a80318e997a10aea9d23acc254765d7bac9d783` |
+| Deployed bytes | 136826 bytes, sha256 `8088723dc96fbaf8937b8de15a80318e997a10aea9d23acc254765d7bac9d783` |
 | Deployed = committed source | **yes, byte-identical** |
 
 ## The records, re-fetched
@@ -40,42 +40,43 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | What | Transaction | Lifecycle | Execution | Consensus |
 |---|---|---|---|---|
-| register pol-cold-ok-5a464a-4437 | [`0xa1aadb2eff7d42a3...`](https://explorer-studio.genlayer.com/tx/0xa1aadb2eff7d42a3e217e6e5cd97a0a74f5a023c796be4405242ac52946e31a1) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| publish pol-cold-ok-5a464a-4437 | [`0xa59775cc0faa172f...`](https://explorer-studio.genlayer.com/tx/0xa59775cc0faa172fc17bd7611fe6cc47cc95852ecdd093ffb0e48cc54ac27019) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| open chal-cold-ok-5a464a-4437 | [`0x7703e03e41181bc2...`](https://explorer-studio.genlayer.com/tx/0x7703e03e41181bc2671677b63ce077d3b84233f38a4036e2d6232f1346ebbd9d) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| submit sub-cold-ok | [`0x7f2aa7318d3f7caa...`](https://explorer-studio.genlayer.com/tx/0x7f2aa7318d3f7caa2254cc2f9a98b181988d35755bfb0ef59da1847e6087befd) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| resolve sub-cold-ok | [`0x8745eeef06903b25...`](https://explorer-studio.genlayer.com/tx/0x8745eeef06903b255e2114aefc1b95a5c2ca1824ea789f044f22cddde35c7688) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| register pol-cold-exc-5a464a-4437 | [`0x59ba60ebf8f84a4c...`](https://explorer-studio.genlayer.com/tx/0x59ba60ebf8f84a4cdae06de80f7ed5836c80e8ac868c764c94168097a70726ed) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| publish pol-cold-exc-5a464a-4437 | [`0x4ba0b0b38f161a63...`](https://explorer-studio.genlayer.com/tx/0x4ba0b0b38f161a6363c720fec7a67634c1bb7e0c1224eaa7a0a0133815499a80) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| open chal-cold-exc-5a464a-4437 | [`0x7e8345f0e8a603f3...`](https://explorer-studio.genlayer.com/tx/0x7e8345f0e8a603f3f5082d448496317ec7ba1c23f32b2ffe966a2f6271298aaa) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| submit sub-cold-exc | [`0x3f5067370f3d0cbc...`](https://explorer-studio.genlayer.com/tx/0x3f5067370f3d0cbc67bf9645b0843680a1bb4a02caa7ffea0a2e102b98b37f5d) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
-| resolve sub-cold-exc | [`0xe4355ce985aaef1c...`](https://explorer-studio.genlayer.com/tx/0xe4355ce985aaef1c844ee5e6c9e087f8d5212f6901be0bcc09a0322bb0e8429f) | FINALIZED | SUCCESS | 3 agree, 1 disagree, 1 idle of 5 |
-| register pol-cust-ooo-5a464a-4437 | [`0x5c5dedc7683a0b07...`](https://explorer-studio.genlayer.com/tx/0x5c5dedc7683a0b0722a7b846375d9fb661436fb416b3800cecdb56033e112ad6) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| publish pol-cust-ooo-5a464a-4437 | [`0x11a51296fff0ccd5...`](https://explorer-studio.genlayer.com/tx/0x11a51296fff0ccd5f9fc18fb57ae83c50c46567d67c25b94fb1fc4e9bc7ab8c3) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| open chal-cust-ooo-5a464a-4437 | [`0xa7afb5a50249571f...`](https://explorer-studio.genlayer.com/tx/0xa7afb5a50249571fdb69923c008ef2029c4a4d274fdf10faa7b7966e5b1bd8a5) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| submit sub-cust-ooo | [`0x6b5317cd210b1b7e...`](https://explorer-studio.genlayer.com/tx/0x6b5317cd210b1b7ec38e5e344371b15ea32990a93893fc4b86fa33ce2a7fba84) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| resolve sub-cust-ooo | [`0x0fe01bbf0d14c1f1...`](https://explorer-studio.genlayer.com/tx/0x0fe01bbf0d14c1f1789d8444fb44c5f9215d53334f60762c45788e0a8597fdca) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| register pol-cust-conf-5a464a-4437 | [`0x896b7c00fc89dc5a...`](https://explorer-studio.genlayer.com/tx/0x896b7c00fc89dc5a157737497b9ca8c98580db8365f4fc39101a364afba9d64e) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| publish pol-cust-conf-5a464a-4437 | [`0x4f46fbd6265ef32e...`](https://explorer-studio.genlayer.com/tx/0x4f46fbd6265ef32e778b96c2aadcbc1409742ecae0aa7d87abade078595909a1) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| open chal-cust-conf-5a464a-4437 | [`0x37f356cc58e81186...`](https://explorer-studio.genlayer.com/tx/0x37f356cc58e811865702414dfb71400ec331eb0a5dc2c8807605cbbcb6e197d6) | FINALIZED | SUCCESS | 4 agree, 0 disagree, 1 idle of 5 |
-| submit sub-cust-conf | [`0x9949fe97faff6486...`](https://explorer-studio.genlayer.com/tx/0x9949fe97faff64866a7da14066130a5bc4568fc6f1eeef93f3d990b49dc69cf7) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| resolve sub-cust-conf | [`0x4043f30482dd28c2...`](https://explorer-studio.genlayer.com/tx/0x4043f30482dd28c287a116d52ad84fb994ac7ee71d4e587dfdcce9bbb39f3a49) | FINALIZED | SUCCESS | 3 agree, 1 disagree, 1 idle of 5 |
-| register pol-cust-dir-5a464a-4437 | [`0x813a4c02287ab324...`](https://explorer-studio.genlayer.com/tx/0x813a4c02287ab3244a0adabf16dad88248fa20f9ca8fe02423e803de293c5d13) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
-| publish pol-cust-dir-5a464a-4437 | [`0x8989292cb5797f97...`](https://explorer-studio.genlayer.com/tx/0x8989292cb5797f97bce188cd0f189cabfe45a032c395fb5491a7e63eee0c0c16) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
-| open chal-cust-dir-5a464a-4437 | [`0x1f9b1d6953f37d02...`](https://explorer-studio.genlayer.com/tx/0x1f9b1d6953f37d021b0dcc92cfc5c390964357fd988eb2907ea63c3534b5fa00) | FINALIZED | SUCCESS | 4 agree, 0 disagree, 1 idle of 5 |
-| submit sub-cust-dir | [`0xb8a5300974fa3964...`](https://explorer-studio.genlayer.com/tx/0xb8a5300974fa3964045730e8ad72720e3c2a156fa4ce185cdc2a04b700c1c2c0) | FINALIZED | SUCCESS | 4 agree, 0 disagree, 1 idle of 5 |
-| resolve sub-cust-dir | [`0x55277cdcd9d1552d...`](https://explorer-studio.genlayer.com/tx/0x55277cdcd9d1552d5b095dd525404538ca8afec1db8543e519ffaaa532777b60) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| register pol-origin-5a464a-4437 | [`0x3d4666160b1e51fd...`](https://explorer-studio.genlayer.com/tx/0x3d4666160b1e51fd3a4e402b08e1c78ab21be4af5953cbadf089d250b6b19236) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| publish pol-origin-5a464a-4437 | [`0x3315feb82ea89fae...`](https://explorer-studio.genlayer.com/tx/0x3315feb82ea89faef62ed67946876d8e8ef9f9ced363ad39663eb2e105c332c2) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| open chal-origin-5a464a-4437 | [`0xbf05c48853e4fdf0...`](https://explorer-studio.genlayer.com/tx/0xbf05c48853e4fdf0fe21385ac497f7a17d6e670f7e18a6d630e4869076ed25d5) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| submit sub-origin | [`0x94fc55418f71d299...`](https://explorer-studio.genlayer.com/tx/0x94fc55418f71d299d17f96e387297830c947e677a24205f26879efad66373625) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| resolve sub-origin | [`0x7b5362621386bf46...`](https://explorer-studio.genlayer.com/tx/0x7b5362621386bf46bc5c5d97c4bdf4cb4b8b45acee9c600a5c65a21bd45dfca6) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| register pol-cold-gone-5a464a-4437 | [`0xde7394857b84f8f1...`](https://explorer-studio.genlayer.com/tx/0xde7394857b84f8f15df4da986325cc497ee4ab57ac7b030f03b1eed3b51ce5c5) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| publish pol-cold-gone-5a464a-4437 | [`0x7b6cefeb6f730907...`](https://explorer-studio.genlayer.com/tx/0x7b6cefeb6f730907ef7df1d4557973582ff0e6b83e8230dde3890136eed8cc18) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
-| open chal-cold-gone-5a464a-4437 | [`0x9f50f9e353a4ea04...`](https://explorer-studio.genlayer.com/tx/0x9f50f9e353a4ea0462ab155dd4935404f0ab6e67bfc32bcd1b779660ed92fc5a) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| submit sub-cold-gone | [`0x6558a99e461f81ed...`](https://explorer-studio.genlayer.com/tx/0x6558a99e461f81eda15e98bfe80e84cb6db2b737667a0ecc366a70eaf0459a54) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| resolve sub-cold-gone | [`0x6b16dfac9364f7a4...`](https://explorer-studio.genlayer.com/tx/0x6b16dfac9364f7a463a9fe520d2cd82c47838eb5c1092bb0dd9505fb01748e1b) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
-| retry sub-cold-gone | [`0x4988fada604bb498...`](https://explorer-studio.genlayer.com/tx/0x4988fada604bb4985ad8dd2e5f1a734bee59c616d390b2621f39287b112b1830) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| deploy | [`0x9729f8d74b3242d9...`](https://explorer-studio.genlayer.com/tx/0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| register pol-cold-ok-471b56-5c6c | [`0xc98bec9ad44bb240...`](https://explorer-studio.genlayer.com/tx/0xc98bec9ad44bb240689cabf615d3f2f78d2052cf57728a09c92ee1d6c3c7e6f3) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| publish pol-cold-ok-471b56-5c6c | [`0x94f72332835a77df...`](https://explorer-studio.genlayer.com/tx/0x94f72332835a77df22c25da5352513ccfd58b1ba1eec77082ae6a8235509f1ce) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| open chal-cold-ok-471b56-5c6c | [`0x79438ed5990984d8...`](https://explorer-studio.genlayer.com/tx/0x79438ed5990984d8b1becc95d41dbc699a93866867f7ba98403f8c866342f007) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| submit sub-cold-ok | [`0x2817c3b570343e30...`](https://explorer-studio.genlayer.com/tx/0x2817c3b570343e30e04bf691ce6850d16b2d6db2656982ac925f90b46c9d2a41) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| resolve sub-cold-ok | [`0xf9e04e2725ab2593...`](https://explorer-studio.genlayer.com/tx/0xf9e04e2725ab2593dd36ba6467fb565fdbe51acac35e1b32d9c4003c961c1cfd) | FINALIZED | SUCCESS | 3 agree, 1 disagree, 1 idle of 5 |
+| register pol-cold-exc-471b56-5c6c | [`0x7ace48112d390ad8...`](https://explorer-studio.genlayer.com/tx/0x7ace48112d390ad8d54c22814410fc5eb8ee5e9748472d1e9b52f45552220016) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| publish pol-cold-exc-471b56-5c6c | [`0x4e3389b7b707f3a6...`](https://explorer-studio.genlayer.com/tx/0x4e3389b7b707f3a6ee8868a98ec8b8f8d11173c738f31b58129de685a8e90eb3) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| open chal-cold-exc-471b56-5c6c | [`0xb6983f55ec51dfd3...`](https://explorer-studio.genlayer.com/tx/0xb6983f55ec51dfd330c5b06b122229125a4189cb7d3398f95567f04cdd7bdc1d) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| submit sub-cold-exc | [`0x2b3332015aba3bf9...`](https://explorer-studio.genlayer.com/tx/0x2b3332015aba3bf9773132bfe662565c4867652ef929f1441cc7c81611e0cf37) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| resolve sub-cold-exc | [`0xcf4db5d57e10cbe3...`](https://explorer-studio.genlayer.com/tx/0xcf4db5d57e10cbe360871245e87bb73670c55165c3827297c58f61cbbb1ec8fa) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| register pol-cust-ooo-471b56-5c6c | [`0xa6f9d1caf3aa8685...`](https://explorer-studio.genlayer.com/tx/0xa6f9d1caf3aa86853ec2722852eb3bbd50ef46685dc701d328ca7c841a14693f) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| publish pol-cust-ooo-471b56-5c6c | [`0xdb20d956b563ac77...`](https://explorer-studio.genlayer.com/tx/0xdb20d956b563ac77530fa484d321505e3b07939abd8d8edaa01d915ba61d1ff9) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| open chal-cust-ooo-471b56-5c6c | [`0xa778aca1f255f1bb...`](https://explorer-studio.genlayer.com/tx/0xa778aca1f255f1bb536e73e31e63617cfd4f0ae850ed1bb6cd2ce1e836b400be) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| submit sub-cust-ooo | [`0xec4a024566d90347...`](https://explorer-studio.genlayer.com/tx/0xec4a024566d9034730734685d6ac8c3ba04ea32377be96dd155bef7decd83546) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| resolve sub-cust-ooo | [`0xa43fc06c0c5a3a3f...`](https://explorer-studio.genlayer.com/tx/0xa43fc06c0c5a3a3f2d63351f7dec2221cbaa294f7f7c07727fb9e600d1dd31e4) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| register pol-cust-conf-471b56-5c6c | [`0xbfabc35b62355c5b...`](https://explorer-studio.genlayer.com/tx/0xbfabc35b62355c5b53bdaaeb1598d605261ec2c2ebed1d127f9512fb43a2a341) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| publish pol-cust-conf-471b56-5c6c | [`0x5a60e195867dcb7e...`](https://explorer-studio.genlayer.com/tx/0x5a60e195867dcb7e8d3410d7db16c5565026d3997c7f9967edc3d93a6db0a3ec) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| open chal-cust-conf-471b56-5c6c | [`0xfc01e10f08f7b64e...`](https://explorer-studio.genlayer.com/tx/0xfc01e10f08f7b64e224a2b68002a8c545f87c0ae9f6a14dc23255f63512649e3) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| submit sub-cust-conf | [`0xb77e399628175143...`](https://explorer-studio.genlayer.com/tx/0xb77e3996281751435416955bcf30d2b8bc5032ba26add4e479b155bf3d72fcc2) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| resolve sub-cust-conf | [`0x9e7010ed0ab70d84...`](https://explorer-studio.genlayer.com/tx/0x9e7010ed0ab70d8498e07602539bc4c92b694e7b7184711dae44372baa42b87d) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| register pol-cust-dir-471b56-5c6c | [`0xb61169f7e708891e...`](https://explorer-studio.genlayer.com/tx/0xb61169f7e708891e7c9e61fbce5201b057da2c5035de61b27b931556a8919446) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| publish pol-cust-dir-471b56-5c6c | [`0x32f7f1e12c5510c6...`](https://explorer-studio.genlayer.com/tx/0x32f7f1e12c5510c62d0eb00694d0cc548a4788986efcd874e2ff600408bba356) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| open chal-cust-dir-471b56-5c6c | [`0xe35e63022b53dcb8...`](https://explorer-studio.genlayer.com/tx/0xe35e63022b53dcb8aff819bfd55fadda38fd85f0b6672ac60506ac6385881079) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| submit sub-cust-dir | [`0x52f185835294202d...`](https://explorer-studio.genlayer.com/tx/0x52f185835294202deb08784ff6099749faf542e0eb7d9ccf909f2bb55daa7a04) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| resolve sub-cust-dir | [`0xac45125f8a9638c6...`](https://explorer-studio.genlayer.com/tx/0xac45125f8a9638c62f7d2541b1edfa7e9e16b56394acf3ef0fae8cc4d1e9a947) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| register pol-origin-471b56-5c6c | [`0x9c7c895a913d7e83...`](https://explorer-studio.genlayer.com/tx/0x9c7c895a913d7e83fd2dc795d458eec62f5cd478d7b3baee5f77ece2bb021e4f) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| publish pol-origin-471b56-5c6c | [`0x818cab8406ff7783...`](https://explorer-studio.genlayer.com/tx/0x818cab8406ff77835d28e8f2d6b8007f3242a478de45d07f659ee888c6d492eb) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| open chal-origin-471b56-5c6c | [`0x5e803c1cccab38b7...`](https://explorer-studio.genlayer.com/tx/0x5e803c1cccab38b7000840b974390878440af019222968124e43ac2454592e05) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| submit sub-origin | [`0xf7701b519de9e836...`](https://explorer-studio.genlayer.com/tx/0xf7701b519de9e836ba8da159ddefef81b17c012f56de289e06e418040774d968) | FINALIZED | SUCCESS | 4 agree, 0 disagree, 1 idle of 5 |
+| resolve sub-origin | [`0xbfbfc2efc0fb6b66...`](https://explorer-studio.genlayer.com/tx/0xbfbfc2efc0fb6b665fe846294411cf3737ec9ed762580ff61dec6e428a8bd23c) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| register pol-cold-gone-471b56-5c6c | [`0x708ae7822cddf7d6...`](https://explorer-studio.genlayer.com/tx/0x708ae7822cddf7d67a5056adfd368093934d514655e847a11027d4fc8e5024fb) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| publish pol-cold-gone-471b56-5c6c | [`0xa2d72967710e75dc...`](https://explorer-studio.genlayer.com/tx/0xa2d72967710e75dc9b5c6fb0942a0f496634b939910c6720ae4dbbca2ddd7781) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| open chal-cold-gone-471b56-5c6c | [`0x4869086aa378ea43...`](https://explorer-studio.genlayer.com/tx/0x4869086aa378ea43aec910a2cea9d6914b6860c9cefcab0b28d611aa4f80977b) | FINALIZED | SUCCESS | 5 agree, 0 disagree, 0 idle of 5 |
+| submit sub-cold-gone | [`0x19cf69382b940343...`](https://explorer-studio.genlayer.com/tx/0x19cf69382b94034354a5c5cde4ec4e59f640d3760b27298f1e4fcf598cc91df0) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| resolve sub-cold-gone | [`0xf2cdad8f5092af45...`](https://explorer-studio.genlayer.com/tx/0xf2cdad8f5092af452bc5b633ce967b7c76359bef94f393ef4a9199ce9109409d) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
+| retry sub-cold-gone | [`0x68cd9734c09908ef...`](https://explorer-studio.genlayer.com/tx/0x68cd9734c09908efb340445754c7cc155a5206c4c02c03c00c40ba26e2606712) | FINALIZED | SUCCESS | 3 agree, 0 disagree, 2 idle of 5 |
 
 ## What the contract stores
 
@@ -83,7 +84,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-cold-ok-5a464a-4437` | OK |
+| submission | `sub-cold-ok-471b56-5c6c` | OK |
 | verdict | `CLAIM_SUPPORTED` | OK |
 | status | `RESOLVED` | OK |
 | evidence status | `EVIDENCE_SUFFICIENT` | OK |
@@ -102,7 +103,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-cold-exc-5a464a-4437` | OK |
+| submission | `sub-cold-exc-471b56-5c6c` | OK |
 | verdict | `CLAIM_NOT_ESTABLISHED` | OK |
 | status | `RESOLVED` | OK |
 | evidence status | `EVIDENCE_INSUFFICIENT` | OK |
@@ -121,7 +122,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-cust-ooo-5a464a-4437` | OK |
+| submission | `sub-cust-ooo-471b56-5c6c` | OK |
 | verdict | `INCONSISTENT_EVIDENCE` | OK |
 | status | `RETRYABLE` | OK |
 | evidence status | `EVIDENCE_CONTRADICTORY` | OK |
@@ -140,7 +141,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-cust-conf-5a464a-4437` | OK |
+| submission | `sub-cust-conf-471b56-5c6c` | OK |
 | verdict | `INCONSISTENT_EVIDENCE` | OK |
 | status | `RETRYABLE` | OK |
 | evidence status | `EVIDENCE_CONTRADICTORY` | OK |
@@ -159,7 +160,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-cust-dir-5a464a-4437` | OK |
+| submission | `sub-cust-dir-471b56-5c6c` | OK |
 | verdict | `CLAIM_NOT_ESTABLISHED` | OK |
 | status | `RESOLVED` | OK |
 | evidence status | `EVIDENCE_SUFFICIENT` | OK |
@@ -178,7 +179,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-origin-5a464a-4437` | OK |
+| submission | `sub-origin-471b56-5c6c` | OK |
 | verdict | `CLAIM_NOT_ESTABLISHED` | OK |
 | status | `RESOLVED` | OK |
 | evidence status | `SOURCE_AUTHENTICITY_UNVERIFIED` | OK |
@@ -197,7 +198,7 @@ A round whose validators do not reach a majority commits nothing and still repor
 
 | | | |
 |---|---|---|
-| submission | `sub-cold-gone-5a464a-4437` | OK |
+| submission | `sub-cold-gone-471b56-5c6c` | OK |
 | verdict | `EVIDENCE_UNAVAILABLE` | OK |
 | status | `PENDING` | OK |
 | evidence status | `EVIDENCE_UNAVAILABLE` | OK |
@@ -218,10 +219,10 @@ This submission was retried after its first round, so what the contract holds no
 
 | | |
 |---|---|
-| policies | 14 |
-| challenges | 14 |
-| submissions | 14 |
-| resolved | 8 |
+| policies | 7 |
+| challenges | 7 |
+| submissions | 7 |
+| resolved | 4 |
 
 Only a settled verdict - `CLAIM_SUPPORTED` or `CLAIM_NOT_ESTABLISHED` - moves the resolved counter, which is why it is lower than the number of submissions.
 
@@ -237,5 +238,5 @@ Only a settled verdict - `CLAIM_SUPPORTED` or `CLAIM_NOT_ESTABLISHED` - moves th
 - a required record nobody can fetch is `EVIDENCE_UNAVAILABLE` and retryable, never a finding about the world;
 - every reliance gate is false for everything uncertain.
 
-Schema `trustroute/1`, contract version `0.1.0`. 51 reads.
+Schema `trustroute/1`, contract version `0.1.0`. 52 reads.
 

@@ -28,11 +28,11 @@ CLAIM_SUPPORTED · CLAIM_NOT_ESTABLISHED · INCONSISTENT_EVIDENCE · EVIDENCE_UN
 | | |
 |---|---|
 | Network | GenLayer Studionet, chain **61999** |
-| Contract | [`0xB70040Bca306122b795F7Cd9d7623aCe9175067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B) |
-| Deploy transaction | [`0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134`](https://explorer-studio.genlayer.com/tx/0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134) |
-| Source | [`contracts/trustroute.py`](contracts/trustroute.py) @ [`5a464a2`](https://github.com/Hemmy1417/TrustRoute/commit/5a464a2) |
-| sha256 of those bytes | `197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca` |
-| Size | 136,524 bytes |
+| Contract | [`0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150`](https://explorer-studio.genlayer.com/address/0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150) |
+| Deploy transaction | [`0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96`](https://explorer-studio.genlayer.com/tx/0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96) |
+| Source | [`contracts/trustroute.py`](contracts/trustroute.py) @ [`471b56b`](https://github.com/Hemmy1417/TrustRoute/commit/471b56b) |
+| sha256 of those bytes | `8088723dc96fbaf8937b8de15a80318e997a10aea9d23acc254765d7bac9d783` |
+| Size | 136,826 bytes |
 | Deploy consensus | FINALIZED, SUCCESS, 3 agree / 0 disagree / 2 idle of 5 |
 
 The deployed bytes are the committed file, and that is checked rather than
@@ -265,7 +265,7 @@ findings with the words each rests on.
 ## Verification
 
 Everything below was measured at the deployed source,
-sha256 `197fba21…57ce9ca`.
+sha256 `8088723d…bac9d783`.
 
 | Gate | Result | How to reproduce |
 |---|---|---|
@@ -275,7 +275,7 @@ sha256 `197fba21…57ce9ca`.
 | GenVM check | 32 methods, 23 view / 9 write | `genvm-lint check contracts/trustroute.py` |
 | Mutation sweep | 83 / 85 killed, 2 equivalent by construction, 0 survived | `python -u scripts/mutate.py > sweep.log` |
 | Live scenarios | 7 / 7, every assertion held | `python scripts/live.py --commit <sha>` |
-| Live re-verification | 112 checks, 0 discrepancies, 51 reads | `python scripts/verify.py` |
+| Live re-verification | 112 checks, 0 discrepancies, 52 reads | `python scripts/verify.py` |
 | Clean-clone reproduction | 366 tests, 216/216, lint + check green, `live.md` reproduced byte-identical | clone, install, run the gates |
 
 The mutation sweep is the gate worth explaining: a green suite says the
@@ -303,7 +303,7 @@ survivor.
 A fresh `git clone` of this repository, on a different path, with nothing
 from the build environment: 366 tests passed, 216/216 preflight, lint and
 check green, and `contracts/trustroute.py` hashed to
-`197fba21…57ce9ca` — the same bytes the chain reports for the canonical
+`8088723d…bac9d783` — the same bytes the chain reports for the canonical
 deployment. Running `scripts/verify.py` from that clone regenerated
 `docs/proofs/live.md` **byte-identical** to the committed copy, which is
 the part worth taking seriously: the live evidence in this repository is

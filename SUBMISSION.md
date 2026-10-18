@@ -11,14 +11,14 @@ Copy-ready. Everything here is measured, not estimated.
 **Network** — GenLayer Studionet, chain 61999
 
 **Contract** —
-[`0xB70040Bca306122b795F7Cd9d7623aCe9175067B`](https://explorer-studio.genlayer.com/address/0xB70040Bca306122b795F7Cd9d7623aCe9175067B)
+[`0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150`](https://explorer-studio.genlayer.com/address/0xf2Fc34063eab9Ca8f531fEb5A5BbAd81Bb450150)
 
 **Deploy transaction** —
-[`0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134`](https://explorer-studio.genlayer.com/tx/0xfb6e29ca7ba7439701c147b25575282abb32fa91d243274b09751c4ad364d134)
+[`0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96`](https://explorer-studio.genlayer.com/tx/0x9729f8d74b3242d929ed0dfe72c096440a7f5027f4f9f6b4cc556b68f0acdf96)
 
-**Source** — `contracts/trustroute.py` @ `5a464a2`,
-sha256 `197fba21c20d17eb81c24e19eecd88025be61355623ab31fca303f41057ce9ca`,
-136,524 bytes. The deployed bytes are that file: `scripts/verify.py` reads
+**Source** — `contracts/trustroute.py` @ `471b56b`,
+sha256 `8088723dc96fbaf8937b8de15a80318e997a10aea9d23acc254765d7bac9d783`,
+136,826 bytes. The deployed bytes are that file: `scripts/verify.py` reads
 the contract back off the chain and compares the hash.
 
 ## Portal description
@@ -57,7 +57,7 @@ whose verdict does not follow from its own findings.
 | GenVM check | 32 methods, 23 view / 9 write |
 | Mutation sweep | 83 / 85 killed, 2 equivalent by construction, 0 survived |
 | Live scenarios | 7 / 7, every assertion held |
-| Live re-verification off chain | 112 checks, 0 discrepancies, 51 reads |
+| Live re-verification off chain | 112 checks, 0 discrepancies, 52 reads |
 | Clean-clone reproduction | 366 tests, 216/216, lint + check green, `live.md` reproduced byte-identical |
 
 Evidence: [`docs/proofs/live.md`](docs/proofs/live.md), regenerated from
