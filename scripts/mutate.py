@@ -23,6 +23,7 @@ import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "contracts" / "trustroute.py"
+TESTS = ROOT / "tests" / "direct"
 
 
 MUTATIONS = [
@@ -40,8 +41,16 @@ MUTATIONS = [
      "    return _flatten(quote) in _flatten(text)",
      "    return True"),
     ("grounding: an ungrounded checkpoint keeps its force",
-     "                finding, stated = CHECK_UNCLEAR, None",
-     "                pass"),
+     '''        if finding == CHECK_EVIDENCED:
+            if not _grounded_in(row["record_id"], row["quote"], texts):
+                finding, stated = CHECK_UNCLEAR, None''',
+     '''        if finding == CHECK_EVIDENCED:
+            if not _grounded_in(row["record_id"], row["quote"], texts):
+                pass'''),
+    ("grounding: a checkpoint time need not occur in its record",
+     '''            elif stated not in _record_instants(
+                    texts.get(row["record_id"], "")):''',
+     "            elif False:"),
     ("grounding: an ungrounded accusation stands",
      "        if not anchored:",
      "        if False:"),
@@ -60,18 +69,24 @@ MUTATIONS = [
     ("types: a bool passes for an integer",
      "    return type(value) is int",
      "    return isinstance(value, int)"),
-    ("types: a float reading is accepted",
-     '''        if not _is_int(entry["value_tenths"]):
+    # The readings are parsed out of the log by code, so the guards worth
+    # mutating are the parser's own rather than a type check on an answer
+    # no model gives any more.
+    ("parser: a measurement with two decimals is rounded, not refused",
+     '''        if len(fraction) != 1 or not whole.isdigit() \\
+                or not fraction.isdigit():
             return None''',
-     '''        if not isinstance(entry["value_tenths"], (int, float)):
-            return None'''),
+     '''        if not whole.isdigit() or not fraction.isdigit():
+            return None
+        fraction = fraction[:1]'''),
     ("types: an unknown enum value is kept",
      "    return candidate if candidate in allowed else None",
      "    return candidate"),
-    ("types: a reading outside the sane range is accepted",
-     '''        if not (-10_000 <= int(entry["value_tenths"]) <= 10_000):
-            return None''',
-     "        pass"),
+    ("parser: a non-numeric measurement is read as zero",
+     '''        if not text.isdigit():
+            return None
+        value = int(text) * 10''',
+     "        value = (int(text) if text.isdigit() else 0) * 10"),
 
     # -- the custody chain --------------------------------------------
     ("custody: the declared order is not checked",
@@ -229,9 +244,13 @@ MUTATIONS = [
      '''    if not criteria["source_authenticity_verified"]:
         return CLAIM_NOT_ESTABLISHED''',
      "    pass"),
-    ("verdict: insufficient evidence may win",
-     '''    if not payload["findings"]["sufficient"]:
-        return CLAIM_NOT_ESTABLISHED''',
+    ("verdict: records that contradict each other may still win",
+     '''    if payload["findings"]["contradiction"]["found"]:
+        return INCONSISTENT_EVIDENCE''',
+     "    pass"),
+    ("verdict: a round that read nothing may still win",
+     '''    if payload["panel_state"] != PANEL_ASSESSED:
+        return VERDICT_UNAVAILABLE''',
      "    pass"),
     ("verdict: an uncorroborated identifier may win",
      '''    if payload["identity_state"] == IDENTITY_UNKNOWN:
@@ -249,11 +268,46 @@ MUTATIONS = [
      '''        difference = _first_difference(own, theirs)
         if False:'''),
     ("validator: the verdict is not compared",
-     '''                   "authenticity_state", "evidence_status", "verdict"]''',
-     '''                   "authenticity_state", "evidence_status"]'''),
+     '''                   "evidence_status", "verdict"]''',
+     '''                   "evidence_status"]'''),
     # One field at a time. A mutation that drops four states at once is
     # killed by whichever of them a fixture happens to exercise, which
     # proves nothing about the other three.
+    # -- answering a question the policy did not ask ------------------
+    ("answer: a declared origin requirement can be opted out of",
+     """    if ctx["origin_requirement"] is None:
+        origin_finding = ORIGIN_NOT_ASSESSED
+    elif origin_finding == ORIGIN_NOT_ASSESSED:
+        return None""",
+     """    if ctx["origin_requirement"] is None:
+        origin_finding = ORIGIN_NOT_ASSESSED"""),
+    ("answer: a declared delivery window can be opted out of",
+     """    if ctx["delivery_window"] is None:
+        delivery_state = SERIES_NOT_ASSESSED
+    elif delivery_state == SERIES_NOT_ASSESSED:
+        return None""",
+     """    if ctx["delivery_window"] is None:
+        delivery_state = SERIES_NOT_ASSESSED"""),
+    ("answer: an unasked origin finding is refused rather than dropped",
+     """    if ctx["origin_requirement"] is None:
+        origin_finding = ORIGIN_NOT_ASSESSED
+    elif""",
+     """    if ctx["origin_requirement"] is None:
+        if origin_finding != ORIGIN_NOT_ASSESSED:
+            return None
+    elif"""),
+    ("answer: an unasked origin finding keeps its record and quote",
+     """    if origin_finding == ORIGIN_NOT_ASSESSED:
+        # Carry nothing about a question nobody asked.
+        read_origin = {"finding": origin_finding, "record_id": "",
+                       "quote": ""}
+    else:
+        read_origin = {"finding": origin_finding,
+                       "record_id": str(origin["record_id"]),
+                       "quote": str(origin["quote"])}""",
+     """    read_origin = {"finding": origin_finding,
+                   "record_id": str(origin["record_id"]),
+                   "quote": str(origin["quote"])}"""),
     ("validator: the origin state is not compared",
      '''                   "delivery_time", "origin_state", "compliance_state",''',
      '''                   "delivery_time", "compliance_state",'''),
@@ -332,9 +386,9 @@ MUTATIONS = [
                 self._reject("this requirement needs a record of kind "
                              + kind)''',
      "        pass"),
-    ("lifecycle: bytes may be replayed across challenges",
-     '''            elif str(self.record_challenge.get(item["sha256"])) \\
-                    != str(challenge_id):''',
+    ("lifecycle: bytes may be replayed across shipments",
+     '''            elif str(self.record_lot.get(item["sha256"])) \\
+                    != str(challenge.shipment_or_lot_id):''',
      "            elif False:"),
     ("lifecycle: rounds never run out",
      '''        if int(submission.rounds_used) >= MAX_ROUNDS:
@@ -386,7 +440,7 @@ MUTATIONS = [
 ]
 
 
-# Two mutations cannot change behaviour, so a sweep cannot kill them and a
+# Some mutations cannot change behaviour, so a sweep cannot kill them and a
 # test that claimed to would be lying. They are kept in the list because
 # removing them would hide the reasoning, and reported separately.
 EQUIVALENT = {
@@ -395,11 +449,20 @@ EQUIVALENT = {
         "loop below it: a URL whose host cannot be read yields a single "
         "empty label, which `len(labels) < 2` and the empty-label check "
         "both reject. Removing it changes no result.",
+    "answer: an unasked origin finding keeps its record and quote":
+        "blanking the record and quote of a NOT_ASSESSED origin tidies the "
+        "stored payload; it decides nothing. `_origin_state` returns "
+        "NOT_ASSESSED from the frozen definition without reading the "
+        "finding, and grounding only runs on SUPPORTED or NOT_SUPPORTED, "
+        "so a stray record id and quote reach no outcome. Both nodes also "
+        "normalise identically either way, so it is not a consensus rule "
+        "either. It stays because a payload should not carry findings "
+        "about questions nobody asked.",
     "validator: the verdict is not compared":
         "the verdict is a pure function of fields that are themselves "
         "compared - the four criteria, the panel state, the identity "
-        "state, the directed-text count, and the contradiction and "
-        "sufficiency findings. Two nodes agreeing on all of those cannot "
+        "state, the directed-text count and the contradiction finding. "
+        "Two nodes agreeing on all of those cannot "
         "differ on the verdict, so comparing it is redundancy that makes a "
         "disagreement message clearer, not a rule doing work.",
 }
@@ -412,16 +475,27 @@ def run_suite(contract_path: pathlib.Path) -> bool:
     env["PYTHONUTF8"] = "1"
     # The whole suite runs, but in this order: the files that discriminate
     # most come first, so a mutant that is going to die usually dies in the
-    # first few seconds. With `-x` that turns a sweep of seventy-nine
+    # first few seconds. With `-x` that turns a sweep of eighty-five
     # mutations from hours into minutes without weakening it - a survivor
-    # still had to pass every one of the 345 tests.
+    # still had to pass every one of the 359 tests.
     order = ["tests/direct/test_survivors.py",
              "tests/direct/test_gate_units.py",
              "tests/direct/test_validators.py",
              "tests/direct/test_verdicts.py",
              "tests/direct/test_hardening.py",
+             "tests/direct/test_live_lessons.py",
              "tests/direct/test_lifecycle.py",
              "tests/direct/test_smoke.py"]
+    # Naming the files is what orders them, and it is also what makes it
+    # possible to leave one out - `test_live_lessons.py` was missing from
+    # this list, so the whole sweep ran against seven eighths of the
+    # suite. Anything on disk and not named here is appended, so a new
+    # file is slow rather than invisible.
+    named = set(order)
+    for path in sorted(TESTS.glob("test_*.py")):
+        relative = "tests/direct/" + path.name
+        if relative not in named:
+            order.append(relative)
     result = subprocess.run(
         [sys.executable, "-m", "pytest"] + order
         + ["-x", "-q", "--no-header", "-p", "no:cacheprovider"],
@@ -437,6 +511,21 @@ def main() -> int:
     expected = []
     broken = []
     work = tempfile.mkdtemp(prefix="trustroute-mutants-")
+
+    # Every anchor is checked before any suite runs. A sweep used to
+    # discover a stale pattern only when it reached it, which on a list
+    # this long meant finding out an hour in that a mutation had been
+    # testing nothing since the contract was last refactored.
+    stale = []
+    for label, find, _replace in MUTATIONS:
+        if source.count(find) != 1:
+            stale.append((label, source.count(find)))
+    if stale:
+        print("these patterns no longer match the contract exactly once, "
+              "so the mutations are testing nothing:")
+        for label, count in stale:
+            print("    %s (occurs %d times)" % (label, count))
+        return 1
 
     print("baseline: running the suite against the committed contract",
           flush=True)
