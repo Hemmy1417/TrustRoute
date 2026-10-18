@@ -269,7 +269,7 @@ sha256 `197fba21…57ce9ca`.
 | Mutation sweep | 83 / 85 killed, 2 equivalent by construction, 0 survived | `python -u scripts/mutate.py > sweep.log` |
 | Live scenarios | 7 / 7, every assertion held | `python scripts/live.py --commit <sha>` |
 | Live re-verification | 112 checks, 0 discrepancies, 51 reads | `python scripts/verify.py` |
-| Clean-clone reproduction | <!-- CLEANCLONE --> | clone, install, run the gates |
+| Clean-clone reproduction | 366 tests, 216/216, lint + check green, `live.md` reproduced byte-identical | clone, install, run the gates |
 
 The mutation sweep is the gate worth explaining: a green suite says the
 contract passes its tests, not that the tests would notice if a guard were
@@ -290,6 +290,22 @@ existing test was weakened and the contract was not touched. The 2
 remaining equivalents are listed with their arguments in
 `scripts/mutate.py`, and the sweep exits non-zero on any undocumented
 survivor.
+
+### The clean-clone gate
+
+A fresh `git clone` of this repository, on a different path, with nothing
+from the build environment: 366 tests passed, 216/216 preflight, lint and
+check green, and `contracts/trustroute.py` hashed to
+`197fba21…57ce9ca` — the same bytes the chain reports for the canonical
+deployment. Running `scripts/verify.py` from that clone regenerated
+`docs/proofs/live.md` **byte-identical** to the committed copy, which is
+the part worth taking seriously: the live evidence in this repository is
+not a transcript of my session, it is a document anyone can rebuild from
+the chain.
+
+Line endings are pinned by `.gitattributes` (`* text=auto eol=lf`), which
+is what makes the deployed bytes platform-independent and the hash stable
+on a Windows checkout.
 
 ## Reviewer fast path
 

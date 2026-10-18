@@ -58,7 +58,7 @@ whose verdict does not follow from its own findings.
 | Mutation sweep | 83 / 85 killed, 2 equivalent by construction, 0 survived |
 | Live scenarios | 7 / 7, every assertion held |
 | Live re-verification off chain | 112 checks, 0 discrepancies, 51 reads |
-| Clean-clone reproduction | <!-- CLEANCLONE --> |
+| Clean-clone reproduction | 366 tests, 216/216, lint + check green, `live.md` reproduced byte-identical |
 
 Evidence: [`docs/proofs/live.md`](docs/proofs/live.md), regenerated from
 the chain read-only.
