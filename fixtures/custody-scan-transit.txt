@@ -1,0 +1,19 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+CUSTODY SCAN - TRANSIT HANDOVER
+Issued by: Meridian Cold Logistics (synthetic)
+Vessel: MV Synthetic Carrier, voyage 2026-07
+Scan reference: MCL-TR-20451
+
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+Seal number verified: SL-99318
+
+Event: container loaded and custody accepted by the carrier.
+Event time: 2026-03-14T19:45Z
+
+Reefer unit confirmed running on vessel power at setpoint 5.0 C.
+No damage, no seal discrepancy and no deviation was recorded at handover.

@@ -1,0 +1,17 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+CUSTOMS EXPORT ENTRY
+Issued by: Accra Customs Service (synthetic)
+Entry number: AC-EX-2026-551280
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+
+Commodity: fermented and dried cocoa beans, 20 pallets
+Declared origin: Ashanti region, Ghana
+Entry accepted: 2026-03-14T09:30Z
+
+Released for export against the above entry. The declared origin was
+supported by the producer certificate referenced in the entry file.

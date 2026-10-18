@@ -1877,6 +1877,17 @@ def _first_difference(own: dict, theirs: dict) -> str:
 
 
 def _error_text(err) -> str:
+    """The message of an error, whichever way the runtime hands it over.
+
+    A `UserError` this contract raised itself carries the text in `args`.
+    One the runtime reconstructs for a validator carries it as `message`
+    and has no `args` at all, in which case `str(err)` is the repr - which
+    would make every prefix check below fail silently, and a validator can
+    only compare error classes it can actually read.
+    """
+    message = getattr(err, "message", None)
+    if message is not None:
+        return str(message)
     args = getattr(err, "args", None)
     if args:
         return str(args[0])

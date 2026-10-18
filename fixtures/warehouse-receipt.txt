@@ -1,0 +1,14 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+WAREHOUSE RECEIPT
+Issued by: Ashanti Growers Union (synthetic)
+Receipt number: AGU-WR-55120
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+
+Received into the union's Kumasi warehouse and held pending export.
+Pallets: 20. Gross weight: 18,400 kg.
+Released to the shipper's haulier: 2026-03-13T15:40Z

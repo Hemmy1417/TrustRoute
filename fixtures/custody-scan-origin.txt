@@ -1,0 +1,20 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+CUSTODY SCAN - ORIGIN TERMINAL
+Issued by: Tema Port Authority (synthetic)
+Facility: Origin container terminal, berth 4
+Scan reference: TPA-SC-88120
+
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+Gross weight recorded: 18,400 kg
+Seal number on arrival: SL-99318
+
+Event: container received into terminal custody and sealed for export.
+Event time: 2026-03-14T06:10Z
+
+The container was lodged in the refrigerated stack at setpoint 5.0 C.
+Custody passed from the shipper's haulier to the terminal at the time above.

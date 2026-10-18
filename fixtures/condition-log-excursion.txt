@@ -1,0 +1,27 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+REEFER TEMPERATURE LOG
+Issued by: Meridian Cold Logistics (synthetic)
+Container: MSKU-774120-3
+Lot number: LOT-4471/B
+Probe: return air, calibrated 2026-02-02
+Unit: degrees Celsius
+
+timestamp            reading
+2026-03-14T06:00Z    4.9
+2026-03-14T12:00Z    5.0
+2026-03-14T18:00Z    5.1
+2026-03-15T00:00Z    11.4
+2026-03-15T06:00Z    11.9
+2026-03-15T12:00Z    5.2
+2026-03-15T18:00Z    5.0
+2026-03-16T00:00Z    4.8
+2026-03-16T06:00Z    5.1
+2026-03-16T12:00Z    5.0
+2026-03-16T18:00Z    4.9
+
+End of log. A power interruption was noted by the vessel engineer between
+the fourth and sixth readings.

@@ -1,0 +1,19 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+CUSTODY SCAN - DESTINATION TERMINAL
+Issued by: Meridian Cold Logistics (synthetic)
+Facility: Destination cold terminal, gate 2
+Scan reference: MCL-DS-21104
+
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+Seal number verified: SL-99318
+
+Event: container discharged and received into destination terminal custody.
+Event time: 2026-03-12T08:05Z
+
+Recorded against the same voyage reference as the origin lodgement. The
+discharge entry carries a date earlier than the export lodgement.

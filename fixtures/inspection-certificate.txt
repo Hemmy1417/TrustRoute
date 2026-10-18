@@ -1,0 +1,17 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+PHYTOSANITARY AND QUALITY INSPECTION CERTIFICATE
+Issued by: Accra Customs Service (synthetic)
+Certificate number: AC-INS-2026-88401
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+
+The consignment was inspected at the origin terminal before stuffing.
+Inspection date: 2026-03-13T11:00Z
+
+Findings: moisture content 7.1 per cent, mould count within tolerance, no
+live infestation found. Bean count per 100 g within the contract range.
+The consignment is certified fit for export under the declared standard.

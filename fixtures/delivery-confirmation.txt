@@ -1,0 +1,15 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+DELIVERY CONFIRMATION
+Issued by: Meridian Cold Logistics (synthetic)
+Consignee reference: CN-2026-0412
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+
+Delivered to the consignee's cold store and signed for.
+Delivery time: 2026-03-16T16:40Z
+
+Pallet count delivered: 20 of 20. Temperature at the door: 5.1 C.

@@ -1,0 +1,17 @@
+TEST / DEMONSTRATION ONLY - NOT FOR PRODUCTION
+Synthetic record generated for a GenLayer contract demonstration.
+No real shipment, organisation, port or measurement is described.
+======================================================================
+
+BILL OF LADING (COPY)
+Issued by: Meridian Cold Logistics (synthetic)
+B/L number: MCL-BL-7741205
+Lot number: LOT-4471/B
+Container: MSKU-774120-3
+
+Shipper: Ashanti Growers Union (synthetic)
+Consignee: order of the consignee bank
+Commodity: fermented and dried cocoa beans, 20 pallets, 18,400 kg
+Carriage: origin terminal to destination terminal, refrigerated
+Required carriage temperature: 2.0 C to 8.0 C
+Shipped on board: 2026-03-14T19:45Z
