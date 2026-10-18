@@ -857,10 +857,13 @@ PANEL_HEADER = (
     "One `checkpoints` entry per declared checkpoint, in the order the "
     "task gives them, and likewise one `identity` entry per declared "
     "identifier and one `compliance` entry per declared criterion. Where "
-    "the task declares none of something, give an empty list. Use "
-    "NOT_ASSESSED for `origin` or `delivery` only where the task asks for "
-    "neither. Copy every time exactly as its record gives it. Field names "
-    "are exactly as shown.\n"
+    "the task declares none of something, give an empty list. Where the "
+    "task states no origin requirement, `origin.finding` MUST be "
+    "NOT_ASSESSED, and where it requests no delivery time, "
+    "`delivery.state` MUST be NOT_ASSESSED - even when the records would "
+    "let you answer. Do not volunteer a finding about a question the task "
+    "does not ask. Copy every time exactly as its record gives it. Field "
+    "names are exactly as shown.\n"
     "TASK:\n"
 )
 
@@ -1057,9 +1060,15 @@ def _read_answer(raw, ctx: dict):
     origin_finding = _enum(origin["finding"], ORIGIN_FINDINGS)
     if origin_finding is None:
         return None
+    # A finding about a question this policy never asked is ignored, not
+    # refused - the same rule the `condition` key gets, for the same
+    # reason: `_origin_state` answers from the frozen definition alone, so
+    # the finding is already dead data. Whether a requirement was declared
+    # is deterministic, so every node normalises this identically and the
+    # round cannot split on it. The other direction stays strict: a
+    # declared requirement answered NOT_ASSESSED is a real non-answer.
     if ctx["origin_requirement"] is None:
-        if origin_finding != ORIGIN_NOT_ASSESSED:
-            return None
+        origin_finding = ORIGIN_NOT_ASSESSED
     elif origin_finding == ORIGIN_NOT_ASSESSED:
         return None
     if type(origin["record_id"]) is not str or type(
@@ -1068,9 +1077,14 @@ def _read_answer(raw, ctx: dict):
     if len(origin["quote"]) > MAX_QUOTE_LEN or len(
             origin["record_id"]) > MAX_ID_LEN:
         return None
-    read_origin = {"finding": origin_finding,
-                   "record_id": str(origin["record_id"]),
-                   "quote": str(origin["quote"])}
+    if origin_finding == ORIGIN_NOT_ASSESSED:
+        # Carry nothing about a question nobody asked.
+        read_origin = {"finding": origin_finding, "record_id": "",
+                       "quote": ""}
+    else:
+        read_origin = {"finding": origin_finding,
+                       "record_id": str(origin["record_id"]),
+                       "quote": str(origin["quote"])}
 
     delivery = obj["delivery"]
     if type(delivery) is not dict or set(delivery.keys()) != {
@@ -1079,9 +1093,10 @@ def _read_answer(raw, ctx: dict):
     delivery_state = _enum(delivery["state"], SERIES_STATES)
     if delivery_state is None:
         return None
+    # Ignored rather than refused when no window is declared, for the
+    # reason given above the origin field.
     if ctx["delivery_window"] is None:
-        if delivery_state != SERIES_NOT_ASSESSED:
-            return None
+        delivery_state = SERIES_NOT_ASSESSED
     elif delivery_state == SERIES_NOT_ASSESSED:
         return None
     if type(delivery["record_id"]) is not str or type(
@@ -1094,10 +1109,14 @@ def _read_answer(raw, ctx: dict):
         return None
     if len(delivery["stated_time"]) > 64:
         return None
-    read_delivery = {"state": delivery_state,
-                     "record_id": str(delivery["record_id"]),
-                     "stated_time": str(delivery["stated_time"]),
-                     "quote": str(delivery["quote"])}
+    if delivery_state == SERIES_NOT_ASSESSED:
+        read_delivery = {"state": delivery_state, "record_id": "",
+                         "stated_time": "", "quote": ""}
+    else:
+        read_delivery = {"state": delivery_state,
+                         "record_id": str(delivery["record_id"]),
+                         "stated_time": str(delivery["stated_time"]),
+                         "quote": str(delivery["quote"])}
 
     compliance = obj["compliance"]
     if type(compliance) is not list or len(compliance) != len(

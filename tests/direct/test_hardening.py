@@ -13,16 +13,19 @@ import pytest
 import sys
 
 from conftest import (BILL_OF_LADING, COLD_CHAIN_RECORDS, CUSTODY_RECORDS,
-                      LOG_COMPLIANT, SCAN_DESTINATION, SCAN_ORIGIN,
-                      SCAN_TRANSIT, quote_from, synthetic_log)
+                      CUSTOMS, CUSTOMS_ENTRY, LOG_COMPLIANT,
+                      ORIGIN_CERTIFICATE, ORIGIN_CLAIM, SCAN_DESTINATION,
+                      SCAN_ORIGIN, SCAN_TRANSIT, UNION, quote_from, record,
+                      synthetic_log)
 
 NL = chr(10)
 
-from test_verdicts import (BOL_CONTAINER, BOL_LOT, COMPLIANT_READINGS,
-                           DEST_EVENT, DEST_LOT, LOG_CONTAINER, LOG_LOT,
-                           LOG_READING, ORIGIN_EVENT, ORIGIN_LOT,
-                           TRANSIT_EVENT, TRANSIT_LOT, cold_answer,
-                           custody_answer, resolved)
+from test_verdicts import (BOL_CONTAINER, BOL_LOT, CERT_LOT,
+                           COMPLIANT_READINGS, DEST_EVENT, DEST_LOT,
+                           ENTRY_LOT, LOG_CONTAINER, LOG_LOT, LOG_READING,
+                           ORIGIN_EVENT, ORIGIN_LOT, TRANSIT_EVENT,
+                           TRANSIT_LOT, cold_answer, custody_answer,
+                           resolved)
 
 
 def _cold_submission(harness, challenge_id):
@@ -232,15 +235,71 @@ def test_a_checkpoint_may_not_claim_it_was_not_assessed(harness, custody):
     assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
 
 
-def test_an_origin_answer_where_no_origin_was_asked_is_refused(harness,
+def test_an_origin_answer_where_no_origin_was_asked_is_ignored(harness,
                                                                cold_chain):
+    """A finding about a question the policy never asked is dropped, not
+    fatal. Three live rounds were discarded because a model volunteered
+    `origin: SUPPORTED` on a cold-chain policy that declares no origin
+    requirement - a field `_origin_state` answers from the frozen
+    definition and never reads. Refusing the answer threw away a complete,
+    correct reading of the records.
+
+    Whether a requirement was declared is deterministic, so every node
+    drops it identically; `test_live_lessons.py` holds the consensus
+    argument. The opposite direction stays strict - see
+    `test_a_declared_origin_requirement_cannot_be_opted_out_of`."""
     harness, _policy_id, challenge_id = cold_chain
     _cold_submission(harness, challenge_id)
     answer = json.loads(cold_answer(harness))
     answer["origin"] = {"finding": "SUPPORTED", "record_id": "R1",
                         "quote": LOG_LOT}
     harness.mock_panel(json.dumps(answer))
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+
+    # Ignored, not merely survived: nothing about the volunteered question
+    # reaches the stored record.
+    stored = json.loads(harness.contract.get_submission("sub-1"))
+    assert stored["origin_state"] == "NOT_ASSESSED"
+    findings = json.loads(harness.contract.get_findings("sub-1"))
+    assert findings["origin_state"] == "NOT_ASSESSED"
+    assert findings["panel_state"] == "ASSESSED"
+
+
+def test_a_declared_origin_requirement_cannot_be_opted_out_of(harness):
+    """The strict direction of the rule above. Dropping a finding nobody
+    asked for is safe; accepting NOT_ASSESSED where the policy *does* ask
+    would let a round answer an origin claim by declining to look."""
+    harness.register("pol-o")
+    harness.publish("pol-o", ORIGIN_CLAIM)
+    harness.open_challenge("pol-o", 1, "chal-o")
+    harness.mock_records(ORIGIN_CERTIFICATE, CUSTOMS_ENTRY)
+    harness.submit("chal-o", "sub-1", [
+        record("R1", ORIGIN_CERTIFICATE, "ORIGIN_CERTIFICATE", UNION),
+        record("R2", CUSTOMS_ENTRY, "CUSTOMS_ENTRY", CUSTOMS)])
+    harness.mock_panel(harness.panel(
+        identity=[("LOT", [("R1", "LOT-4471/B", CERT_LOT),
+                           ("R2", "LOT-4471/B", ENTRY_LOT)])],
+        origin={"finding": "NOT_ASSESSED", "record_id": "", "quote": ""}))
     assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
+
+
+def test_a_delivery_time_where_none_was_requested_is_ignored(harness,
+                                                             cold_chain):
+    """The same rule as origin, on the other optional section."""
+    harness, _policy_id, challenge_id = cold_chain
+    _cold_submission(harness, challenge_id)
+    answer = json.loads(cold_answer(harness))
+    answer["delivery"] = {"state": "READ", "record_id": "R1",
+                          "stated_time": "2026-03-16T18:00Z",
+                          "quote": LOG_LOT}
+    harness.mock_panel(json.dumps(answer))
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+
+    stored = json.loads(harness.contract.get_submission("sub-1"))
+    assert stored["delivery_state"] == "NOT_DECLARED"
+    assert stored["delivery_time"] == ""
+    findings = json.loads(harness.contract.get_findings("sub-1"))
+    assert findings["panel_state"] == "ASSESSED"
 
 
 def test_an_oversized_basis_is_bounded_rather_than_refused(harness,

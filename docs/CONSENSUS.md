@@ -95,6 +95,22 @@ which grounded span of the right record was quoted
 how many records happened to repeat an identifier
 ```
 
+A freedom was *added* after a later run, for the same underlying reason. A
+model asked about a cold-chain policy kept volunteering `origin:
+SUPPORTED` - the records do name a growing region - on a policy that
+declares no origin requirement. The contract refused the whole answer for
+it, and four scenarios of one seven-scenario run were lost that way. Worse,
+one of them split 1 agree / 3 disagree: whether a round was usable depended
+on which nodes happened to volunteer. A field that `_origin_state` answers
+from the frozen definition and never reads must not be able to fail a
+round, so an answer to an undeclared origin or delivery section is now
+normalised to `NOT_ASSESSED` instead of refused. That normalisation is
+deterministic - whether a requirement was declared is a fact about the
+frozen definition - so every node performs it identically and it cannot
+itself split a round. The strict direction is unchanged: a *declared*
+requirement answered `NOT_ASSESSED` is still a non-answer and still
+refused.
+
 Two freedoms were removed after a live round reached `NO_MAJORITY`, and they
 are worth recording because the reasoning applies to any primitive like
 this. A checkpoint quote used to be free to come from **any** record, since
