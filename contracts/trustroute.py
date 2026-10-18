@@ -751,7 +751,39 @@ PANEL_HEADER = (
     "Every quote must be verbatim from the record you name, 12 to 240 "
     "characters. If you cannot ground a finding in words from a record, "
     "answer UNCLEAR. Answering UNCLEAR is always better than guessing.\n"
-    "Return JSON only, with exactly the keys shown in the task.\n"
+    "\n"
+    # The exact answer shape. Without this the questions above were
+    # answered correctly and in a structure of the model's own invention -
+    # `log_record_id` for `record_id`, a `measurement_label` nobody asked
+    # for - and the whole round was discarded as unusable. Describing the
+    # questions is not the same as showing the form.
+    "Return JSON only, in exactly this shape, with no other keys:\n"
+    "{\n"
+    '  "checkpoints": [{"ref": "", "finding": '
+    '"EVIDENCED|NOT_EVIDENCED|UNCLEAR", "record_id": "", "quote": "", '
+    '"stated_time": ""}],\n'
+    '  "identity": [{"ref": "", "values": [{"record_id": "", "value": "", '
+    '"quote": ""}]}],\n'
+    '  "origin": {"finding": '
+    '"SUPPORTED|NOT_SUPPORTED|UNCLEAR|NOT_ASSESSED", "record_id": "", '
+    '"quote": ""},\n'
+    '  "condition": {"state": "READ|NOT_FOUND|NOT_ASSESSED", '
+    '"record_id": "", "readings": [{"time": "", "value_tenths": 0}], '
+    '"quote": ""},\n'
+    '  "delivery": {"state": "READ|NOT_FOUND|NOT_ASSESSED", '
+    '"record_id": "", "stated_time": "", "quote": ""},\n'
+    '  "compliance": [{"ref": "", "finding": "MET|NOT_MET|UNCLEAR", '
+    '"record_id": "", "quote": ""}],\n'
+    '  "contradiction": {"found": false, "record_ids": [], "quote": ""},\n'
+    '  "sufficient": true,\n'
+    '  "basis": "one sentence"\n'
+    "}\n"
+    "One `checkpoints` entry per declared checkpoint, in the order the "
+    "task gives them, and likewise one `identity` entry per declared "
+    "identifier and one `compliance` entry per declared criterion. Where "
+    "the task declares none of something, give an empty list. Use "
+    "NOT_ASSESSED for `origin`, `condition` or `delivery` only where the "
+    "task asks for none of them. Field names are exactly as shown.\n"
     "TASK:\n"
 )
 
@@ -2126,7 +2158,7 @@ class TrustRoute(gl.Contract):
     submissions: TreeMap[str, Submission]
     receipts: TreeMap[str, str]                # "<submission>#<round>"
     record_registry: TreeMap[str, str]         # record sha256 -> submission
-    record_challenge: TreeMap[str, str]        # record sha256 -> challenge
+    record_lot: TreeMap[str, str]              # record sha256 -> lot
     verdict_tally: TreeMap[str, str]           # "<policy>#<version>"
     policy_count: u256
     challenge_count: u256
@@ -2610,13 +2642,21 @@ class TrustRoute(gl.Contract):
             first = self.record_registry.get(item["sha256"])
             if first is None or str(first) == "":
                 self.record_registry[item["sha256"]] = str(submission_id)
-                self.record_challenge[item["sha256"]] = str(challenge_id)
-            elif str(self.record_challenge.get(item["sha256"])) \
-                    != str(challenge_id):
+                self.record_lot[item["sha256"]] = str(
+                    challenge.shipment_or_lot_id)
+            elif str(self.record_lot.get(item["sha256"])) \
+                    != str(challenge.shipment_or_lot_id):
                 # The same bytes already stand as evidence for a different
-                # shipment. Re-using them here would be a replay.
-                self._reject("those bytes are already evidence in another "
-                             "challenge")
+                # shipment or lot, which would be a replay.
+                #
+                # Bound to the lot, not to the challenge: one shipment is
+                # legitimately the subject of several requirements - a cold
+                # chain rule and a custody rule, say, opened by a buyer and
+                # a carrier - and its bill of lading is the same bill of
+                # lading in each. A live run on Studionet refused exactly
+                # that, which is how this came to be keyed correctly.
+                self._reject("those bytes are already evidence for another "
+                             "shipment or lot")
         for event in definition["custody_events"]:
             entry = record.checkpoints.append_new_get()
             entry.ref = event["ref"]

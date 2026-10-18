@@ -548,15 +548,39 @@ def test_the_deadline_closes_the_challenge(harness, cold_chain):
         harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
 
 
-def test_the_same_bytes_cannot_be_evidence_in_two_challenges(harness):
+def test_the_same_bytes_cannot_be_evidence_for_another_lot(harness):
     harness.register("pol-1")
     harness.publish("pol-1", COLD_CHAIN)
     harness.open_challenge("pol-1", 1, "chal-1", lot="LOT-A")
     harness.open_challenge("pol-1", 1, "chal-2", lot="LOT-B")
     harness.mock_records(LOG_COMPLIANT, BILL_OF_LADING)
     harness.submit("chal-1", "sub-1", COLD_CHAIN_RECORDS)
-    with harness.vm.expect_revert("already evidence in another challenge"):
+    with harness.vm.expect_revert("already evidence for another shipment"):
         harness.submit("chal-2", "sub-2", COLD_CHAIN_RECORDS)
+
+
+def test_one_shipment_may_be_the_subject_of_several_requirements(harness):
+    """A live run caught this. One lot is legitimately judged against more
+    than one requirement - a cold-chain rule and a custody rule, opened by a
+    buyer and a carrier - and the same bill of lading is evidence in both.
+    The replay rule binds bytes to the lot, not to the challenge."""
+    harness.register("pol-cold")
+    harness.publish("pol-cold", COLD_CHAIN)
+    harness.register("pol-cust")
+    harness.publish("pol-cust", CUSTODY_CHAIN)
+    harness.open_challenge("pol-cold", 1, "chal-cold", lot="LOT-4471-B")
+    harness.open_challenge("pol-cust", 1, "chal-cust", lot="LOT-4471-B")
+    harness.mock_records(LOG_COMPLIANT, BILL_OF_LADING, SCAN_ORIGIN)
+    harness.submit("chal-cold", "sub-cold", COLD_CHAIN_RECORDS)
+    # The bill of lading again, for the same lot, under another requirement.
+    shared = [record("R1", SCAN_ORIGIN, "CUSTODY_SCAN", PORT),
+              record("R2", BILL_OF_LADING, "BILL_OF_LADING", CARRIER)]
+    harness.submit("chal-cust", "sub-cust", shared)
+    assert json.loads(harness.contract.get_submission(
+        "sub-cust"))["status"] == "PENDING"
+    # Still recorded against the submission that first bound it.
+    assert harness.contract.record_first_seen(
+        record_sha(BILL_OF_LADING)) == "sub-cold"
 
 
 def test_the_same_bytes_may_be_resubmitted_in_their_own_challenge(harness,
