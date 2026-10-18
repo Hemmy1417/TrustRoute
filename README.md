@@ -284,19 +284,27 @@ removed. The sweep removes one guard at a time in a scratch copy and runs
 the whole suite against it. A mutant that survives is a hole in the tests,
 and is reported as one rather than explained away.
 
-**How that figure was reached, exactly.** The first full pass over the
-frozen source killed 75, declared 3 equivalent by construction, and left 7
-survivors. One was a real missing test. The other six were masked by a
-correlated field that was still compared — which is precisely what an
-integration test cannot distinguish — so `_first_difference` was given
-direct, field-by-field tests. Re-running those 7 killed all of them, and
-one of the 3 equivalents fell to the new test that pins the documented
-comparison set. Combining the two runs is sound because tests were only
-**added** between them, and an added test cannot un-kill a mutant; no
-existing test was weakened and the contract was not touched. The 2
-remaining equivalents are listed with their arguments in
-`scripts/mutate.py`, and the sweep exits non-zero on any undocumented
-survivor.
+**How that figure was reached, exactly.** One pass over the deployed
+source, run as two slices (`0-43` and `43-85`) because a full sweep
+outlives the two-hour limit of the environment it runs in; together they
+cover all 85 with no overlap and no gap. 83 killed, 2 equivalent by
+construction, none surviving.
+
+Getting there took three rounds of being wrong, which is the part worth
+reading. The first full pass left 7 survivors. One was a real missing
+test. The other six were each masked by a *correlated* field that was
+still compared — precisely what an integration test cannot distinguish
+— so `_first_difference` was given direct, field-by-field tests. Four
+of those six still survived, and the new test was the reason: it iterated
+the contract's own `DECISION_FIELDS`, the list the mutation edits, so a
+deleted field simply was not iterated. The expected set is written out in
+the test now and asserted both ways.
+
+The 2 remaining equivalents are listed with their arguments in
+`scripts/mutate.py`, which exits non-zero on any undocumented survivor.
+One mutation that used to be listed there is now killed instead — by the
+test that pins the documented comparison set rather than by a behavioural
+difference, and `docs/CONSENSUS.md` says so rather than taking the credit.
 
 ### The clean-clone gate
 
