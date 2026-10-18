@@ -1,0 +1,6 @@
+# Line endings are part of the deployed bytes: a contract checked out with
+# CRLF would hash differently from the same file on another platform, and the
+# source-parity proof in docs/DEPLOYMENT.md would depend on who cloned it.
+* text=auto eol=lf
+*.png binary
+*.svg text eol=lf
