@@ -134,3 +134,36 @@ def test_the_two_notations_produce_the_same_payload(harness, cold_chain):
         if key in ("submission_id",):
             continue
         assert one[key] == two[key], key
+
+
+def test_an_overlong_basis_is_bounded_not_refused(harness, cold_chain):
+    """A live round answered every question correctly and explained itself
+    in a sentence longer than the 200-character bound, and the contract
+    threw the whole reading away. The basis is prose: it is not compared
+    between validators, nothing is derived from it, and no consumer gates
+    on it. It is bounded now, not refused."""
+    harness, _policy_id, challenge_id = cold_chain
+    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
+    answer = json.loads(cold_answer(harness))
+    answer["basis"] = ("The records identify the lot and the container and "
+                       "provide a return-air temperature log with eleven "
+                       "timestamped readings across the requested window, "
+                       "and the bill of lading states the same lot and "
+                       "container as the log does throughout.")
+    assert len(answer["basis"]) > 200
+    harness.mock_panel(json.dumps(answer))
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+    findings = json.loads(harness.contract.get_findings("sub-1"))
+    assert len(findings["basis"]) == 200
+    assert findings["basis"] == answer["basis"][:200]
+
+
+def test_a_basis_that_is_not_a_string_is_still_refused(harness, cold_chain):
+    """Bounding prose is not the same as accepting anything in its place."""
+    harness, _policy_id, challenge_id = cold_chain
+    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
+    answer = json.loads(cold_answer(harness))
+    answer["basis"] = {"text": "the records are fine"}
+    harness.mock_panel(json.dumps(answer))
+    assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
+    assert resolved(harness)["panel_state"] == "INVALID"

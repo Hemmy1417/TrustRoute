@@ -776,7 +776,7 @@ PANEL_HEADER = (
     '"record_id": "", "quote": ""}],\n'
     '  "contradiction": {"found": false, "record_ids": [], "quote": ""},\n'
     '  "sufficient": true,\n'
-    '  "basis": "one sentence"\n'
+    '  "basis": "one sentence, at most 200 characters"\n'
     "}\n"
     "One `checkpoints` entry per declared checkpoint, in the order the "
     "task gives them, and likewise one `identity` entry per declared "
@@ -1107,15 +1107,22 @@ def _read_answer(raw, ctx: dict):
 
     if not _is_bool(obj["sufficient"]):
         return None
-    if type(obj["basis"]) is not str or len(obj["basis"]) > MAX_TEXT_LEN:
+    # The basis is prose. It is not compared between validators, nothing is
+    # derived from it, and no consumer gates on it - so an explanatory
+    # sentence forty characters too long is a notation problem, not a
+    # semantic one, and bounding it is the right answer rather than throwing
+    # away a correct reading of the records. A live round was refused for
+    # exactly this.
+    if type(obj["basis"]) is not str:
         return None
+    basis = obj["basis"][:MAX_TEXT_LEN]
 
     return {"checkpoints": read_checkpoints, "identity": read_identity,
             "origin": read_origin, "condition": read_condition,
             "delivery": read_delivery, "compliance": read_compliance,
             "contradiction": read_contradiction,
             "sufficient": bool(obj["sufficient"]),
-            "basis": str(obj["basis"])}
+            "basis": basis}
 
 
 def _unassessed(ctx: dict) -> dict:
@@ -1637,7 +1644,31 @@ def _node_round(ctx: dict) -> tuple:
             raise gl.vm.UserError(ERROR_TRANSIENT + " the model call failed")
         parsed = _read_answer(raw, ctx)
         if parsed is None:
-            print("[PANEL_OUTPUT_INVALID] " + repr(raw)[:160])
+            # Enough to localise a rejection from a transaction receipt
+            # without another deployment: the key set, the row counts the
+            # contract expected against the ones it got, and a longer
+            # sample of the answer itself. Two live rounds were spent
+            # learning that 160 characters of `repr` is not enough.
+            print("[PANEL_OUTPUT_INVALID] " + repr(raw)[:900])
+            shape = _json_object(raw)
+            if type(shape) is dict:
+                print("[PANEL_KEYS] got " + _canonical(sorted(shape.keys()))
+                      + " want " + _canonical(sorted(ANSWER_KEYS)))
+                counts = {}
+                for key in ("checkpoints", "identity", "compliance"):
+                    value = shape.get(key)
+                    counts[key] = (len(value) if type(value) is list
+                                   else "not a list")
+                print("[PANEL_ROWS] got " + _canonical(counts)
+                      + " want " + _canonical({
+                          "checkpoints": len(ctx["custody_events"]),
+                          "identity": len(ctx["identity_keys"]),
+                          "compliance": len(ctx["compliance_criteria"])}))
+                for key in ("sufficient", "basis"):
+                    value = shape.get(key)
+                    print("[PANEL_FIELD] " + key + " type "
+                          + type(value).__name__ + " length "
+                          + str(len(value) if type(value) is str else 0))
             panel_state = PANEL_INVALID
             findings = _unassessed(ctx)
         else:

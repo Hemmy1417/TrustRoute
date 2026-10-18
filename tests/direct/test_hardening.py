@@ -341,12 +341,21 @@ def test_an_oversized_quote_is_refused(harness, cold_chain):
     assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
 
 
-def test_an_oversized_basis_is_refused(harness, cold_chain):
+def test_an_oversized_basis_is_bounded_rather_than_refused(harness,
+                                                            cold_chain):
+    """The basis is the one field that is prose and nothing else: not
+    compared between validators, not derived from, not gated on. A live
+    round was discarded because its explanation ran past the bound, so the
+    bound is now applied to the text instead of to the answer.
+    `test_live_lessons.py` holds the detail, including that a basis which is
+    not a string is still refused outright."""
     harness, _policy_id, challenge_id = cold_chain
     _cold_submission(harness, challenge_id)
     harness.mock_panel(cold_answer(harness).replace(
         '"synthetic test basis"', '"' + "x" * 201 + '"'))
-    assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+    findings = json.loads(harness.contract.get_findings("sub-1"))
+    assert findings["basis"] == "x" * 200
 
 
 # == findings that are not in the bytes ====================================
