@@ -15,7 +15,7 @@ risking a source changing in between.
 | Call | Where | What enters | What comes back | Why code cannot do it |
 |---|---|---|---|---|
 | `gl.nondet.web.get` | `_fetch_record`, once per record | one committed https location | status and body | the records live off chain; the contract has no other way to see them |
-| `gl.nondet.exec_prompt` | `_node_round`, once per round | the bounded questions plus the bytes this node verified | strict JSON | which record evidences a checkpoint, what identifier a record carries, whether an origin claim is supported, which readings a log contains, whether a criterion is met, whether two records contradict each other |
+| `gl.nondet.exec_prompt` | `_node_round`, once per round | the bounded questions plus the bytes this node verified | strict JSON | which record evidences a checkpoint, what identifier a record carries, whether an origin claim is supported, whether a criterion is met, whether two records contradict each other |
 
 Everything else in the round is ordinary deterministic Python.
 
@@ -83,18 +83,28 @@ per record: record_id, kind, status, reason, byte_count, authenticity
 per checkpoint: ref, finding, the instant the record states
 per criterion: ref, finding
 per identifier: ref, whether it reconciled, and to what value
-whether a contradiction was found, and whether the evidence was sufficient
+whether a contradiction was found
+the readings parsed out of the measurement log
 ```
 
 May differ:
 
 ```text
 the sentence of reasoning
-which grounded span was quoted
-which record a quote was taken from, when more than one evidences the same
-  checkpoint
+which grounded span of the right record was quoted
 how many records happened to repeat an identifier
 ```
+
+Two freedoms were removed after a live round reached `NO_MAJORITY`, and they
+are worth recording because the reasoning applies to any primitive like
+this. A checkpoint quote used to be free to come from **any** record, since
+`Lot number: LOT-4471/B` appears in every scan; it must now come from the
+record whose stated time is being relied on. And the reading stage used to
+be asked to copy the measurement series out of the log, which made the
+outcome depend on how much of an eleven-line table a given model chose to
+summarise. Code reads the log now. Every thing two honest nodes can do
+differently is a way for a round to split, and neither of those bought
+anything.
 
 In one line: **the facts must match, the outcome must match, and the
 reasoning may differ.**
@@ -134,6 +144,7 @@ sent to the model carries none of them.
 | Question nobody asks a model | Who answers it |
 |---|---|
 | did the checkpoints happen in the right order? | code, from the instants the records state |
+| what readings does the log contain? | code, parsing the log itself |
 | did the readings stay in range? | code, comparing integer tenths |
 | was an excursion short enough to allow? | code, summing minutes between readings |
 | was delivery inside the window? | code |
@@ -167,7 +178,7 @@ not mean a shipment never moved.
 Remove consensus and the contract loses the only inputs it cannot compute:
 which record evidences a checkpoint and what time it states, what identifier
 each record carries, whether a stated origin satisfies the claimed one,
-which readings a log contains, whether a criterion is met, and whether two
+whether a criterion is met, and whether two
 records materially conflict.
 
 Keep a single reader instead of consensus and it loses something else: the

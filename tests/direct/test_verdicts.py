@@ -10,6 +10,7 @@ import json
 import pytest
 
 from conftest import (AS_OF, BILL_OF_LADING, COLD_CHAIN, COLD_CHAIN_RECORDS,
+                      synthetic_log,
                       COMPLIANCE_CLAIM, CUSTODY_CHAIN, CUSTODY_RECORDS,
                       CARRIER, CUSTOMS, DELIVERY_CLAIM, DELIVERY_LATE,
                       DELIVERY_NOTE, CUSTOMS_ENTRY, INSPECTION,
@@ -18,6 +19,9 @@ from conftest import (AS_OF, BILL_OF_LADING, COLD_CHAIN, COLD_CHAIN_RECORDS,
                       SCAN_ORIGIN, SCAN_OUT_OF_ORDER, SCAN_TRANSIT, UNION,
                       WAREHOUSE_CONFLICTING, WAREHOUSE_RECEIPT, record,
                       quote_from, record_sha, url_for)
+
+
+NL = chr(10)
 
 
 # == quotes, taken verbatim from the fixtures ==============================
@@ -70,25 +74,24 @@ EXCURSION_READINGS = [
 
 # == builders ==============================================================
 
-def cold_answer(harness, readings=None, identity=None, sufficient=True,
-                contradiction=None, state="READ", record_id="R1",
-                quote=None):
+def cold_answer(harness, identity=None, contradiction=None):
+    """The reading stage's whole answer for a cold-chain claim.
+
+    There is no measurement series in it. The contract reads that off the
+    log's bytes, so a test that wants particular readings supplies a log -
+    see `harness.submit_cold_log`.
+    """
     return harness.panel(
         identity=identity if identity is not None else [
             ("LOT", [("R1", "LOT-4471/B", LOG_LOT),
                      ("R2", "LOT-4471/B", BOL_LOT)]),
             ("CONTAINER", [("R1", "MSKU-774120-3", LOG_CONTAINER),
                            ("R2", "MSKU-774120-3", BOL_CONTAINER)])],
-        condition={"state": state, "record_id": record_id,
-                   "readings": readings if readings is not None
-                   else COMPLIANT_READINGS,
-                   "quote": quote if quote is not None else LOG_READING},
-        sufficient=sufficient,
         contradiction=contradiction,
     )
 
 
-def custody_answer(harness, checkpoints=None, identity=None, sufficient=True,
+def custody_answer(harness, checkpoints=None, identity=None,
                    contradiction=None):
     return harness.panel(
         checkpoints=checkpoints if checkpoints is not None else [
@@ -99,7 +102,6 @@ def custody_answer(harness, checkpoints=None, identity=None, sufficient=True,
             ("LOT", [("R1", "LOT-4471/B", ORIGIN_LOT),
                      ("R2", "LOT-4471/B", TRANSIT_LOT),
                      ("R3", "LOT-4471/B", DEST_LOT)])],
-        sufficient=sufficient,
         contradiction=contradiction,
     )
 
@@ -122,9 +124,10 @@ def test_a_series_that_held_its_range_supports_the_claim(harness,
     assert stored["evidence_status"] == "EVIDENCE_SUFFICIENT"
 
 
-def test_a_breach_is_decided_by_code_not_by_the_panel(harness):
-    """The panel copies readings and is never told the range. The excursion
-    here is eighteen hours against an allowance of thirty minutes."""
+def test_a_breach_is_decided_by_code_not_by_a_model(harness):
+    """No model reads the log at all: code parses it and code compares the
+    range. The excursion here is eighteen hours against an allowance of
+    thirty minutes."""
     harness.register("pol-1")
     harness.publish("pol-1", COLD_CHAIN)
     harness.open_challenge("pol-1", 1, "chal-1")
@@ -136,9 +139,8 @@ def test_a_breach_is_decided_by_code_not_by_the_panel(harness):
         identity=[("LOT", [("R1", "LOT-4471/B", EXC_LOT),
                            ("R2", "LOT-4471/B", BOL_LOT)]),
                   ("CONTAINER", [("R1", "MSKU-774120-3", EXC_CONTAINER),
-                                 ("R2", "MSKU-774120-3", BOL_CONTAINER)])],
-        condition={"state": "READ", "record_id": "R1",
-                   "readings": EXCURSION_READINGS, "quote": EXC_READING}))
+                                 ("R2", "MSKU-774120-3",
+                                  BOL_CONTAINER)])]))
     assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
     stored = resolved(harness)
     assert stored["condition_state"] == "BREACHED"
@@ -157,15 +159,14 @@ def test_a_breach_is_decided_by_code_not_by_the_panel(harness):
 def test_the_excursion_allowance_is_an_exact_boundary(harness, cold_chain,
                                                       gap, expected):
     harness, _policy_id, challenge_id = cold_chain
-    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
-    minute = "2026-03-15T00:" + str(gap).zfill(2) + "Z"
-    readings = [
-        {"time": "2026-03-14T06:00Z", "value_tenths": 50},
-        {"time": "2026-03-15T00:00Z", "value_tenths": 95},
-        {"time": minute, "value_tenths": 50},
-        {"time": "2026-03-16T18:00Z", "value_tenths": 50},
-    ]
-    harness.mock_panel(cold_answer(harness, readings=readings))
+    body = synthetic_log([
+        ("2026-03-14T06:00Z", "5.0"),
+        ("2026-03-15T00:00Z", "9.5"),
+        ("2026-03-15T00:" + str(gap).zfill(2) + "Z", "5.0"),
+        ("2026-03-16T18:00Z", "5.0"),
+    ])
+    harness.submit_cold_log(body, challenge_id, "sub-1")
+    harness.mock_panel(cold_answer(harness))
     harness.resolve("sub-1")
     stored = resolved(harness)
     assert stored["condition_state"] == expected
@@ -178,13 +179,10 @@ def test_a_zero_allowance_refuses_any_excursion(harness):
     strict["condition_requirement"]["max_excursion_minutes"] = 0
     harness.publish("pol-1", strict)
     harness.open_challenge("pol-1", 1, "chal-1")
-    harness.mock_records(LOG_COMPLIANT, BILL_OF_LADING)
-    harness.submit("chal-1", "sub-1", COLD_CHAIN_RECORDS)
-    readings = [
-        {"time": "2026-03-14T06:00Z", "value_tenths": 50},
-        {"time": "2026-03-16T18:00Z", "value_tenths": 95},
-    ]
-    harness.mock_panel(cold_answer(harness, readings=readings))
+    body = synthetic_log([("2026-03-14T06:00Z", "5.0"),
+                          ("2026-03-16T18:00Z", "9.5")])
+    harness.submit_cold_log(body, "chal-1", "sub-1")
+    harness.mock_panel(cold_answer(harness))
     assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
     assert resolved(harness)["condition_state"] == "BREACHED"
 
@@ -194,12 +192,10 @@ def test_a_log_that_does_not_span_the_window_is_unreadable(harness,
     """Readings that start after the window opens cannot show the condition
     held across it. That is not compliance and it is not a breach."""
     harness, _policy_id, challenge_id = cold_chain
-    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
-    readings = [
-        {"time": "2026-03-15T06:00Z", "value_tenths": 50},
-        {"time": "2026-03-16T18:00Z", "value_tenths": 50},
-    ]
-    harness.mock_panel(cold_answer(harness, readings=readings))
+    body = synthetic_log([("2026-03-15T06:00Z", "5.0"),
+                          ("2026-03-16T18:00Z", "5.0")])
+    harness.submit_cold_log(body, challenge_id, "sub-1")
+    harness.mock_panel(cold_answer(harness))
     assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
     stored = resolved(harness)
     assert stored["condition_state"] == "UNREADABLE"
@@ -207,22 +203,46 @@ def test_a_log_that_does_not_span_the_window_is_unreadable(harness,
 
 
 def test_a_log_with_no_readings_is_unreadable(harness, cold_chain):
+    """A log whose lines are prose carries no readings, and prose is not a
+    measurement. The claim is not established and no excursion is
+    invented."""
     harness, _policy_id, challenge_id = cold_chain
-    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
-    harness.mock_panel(cold_answer(harness, state="NOT_FOUND", readings=[],
-                                   record_id="", quote=""))
+    body = ("REEFER TEMPERATURE LOG" + NL + "Lot number: LOT-4471/B" + NL
+            + "Container: MSKU-774120-3" + NL
+            + "The probe was offline for the whole of the carriage window "
+              "and no readings were recorded." + NL)
+    harness.submit_cold_log(body, challenge_id, "sub-1")
+    harness.mock_panel(cold_answer(harness))
     assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
-    assert resolved(harness)["condition_state"] == "UNREADABLE"
+    stored = resolved(harness)
+    assert stored["condition_state"] == "UNREADABLE"
+    assert stored["condition_readings_used"] == 0
 
 
-def test_readings_whose_quote_is_not_in_the_log_are_dropped(harness,
-                                                            cold_chain):
+def test_the_series_is_read_from_the_bytes_not_from_the_answer(harness,
+                                                               cold_chain):
+    """A live round split because a model was asked to copy eleven readings
+    out of a log and two models copied different amounts of it. The reading
+    stage is no longer asked, and an answer that volunteers a series is
+    ignored rather than believed."""
     harness, _policy_id, challenge_id = cold_chain
-    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
-    harness.mock_panel(cold_answer(
-        harness, quote="the log states every reading was perfectly fine"))
-    assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
-    assert resolved(harness)["condition_state"] == "UNREADABLE"
+    body = synthetic_log([("2026-03-14T06:00Z", "5.0"),
+                          ("2026-03-16T18:00Z", "5.0")])
+    harness.submit_cold_log(body, challenge_id, "sub-1")
+    answer = json.loads(cold_answer(harness))
+    answer["condition"] = {"state": "READ", "record_id": "R1",
+                           "readings": [{"time": "2026-03-14T06:00Z",
+                                         "value_tenths": 950}],
+                           "quote": ""}
+    harness.mock_panel(json.dumps(answer))
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+    stored = resolved(harness)
+    assert stored["condition_state"] == "HELD"
+    assert stored["condition_readings_used"] == 2
+    receipt = json.loads(harness.contract.get_receipt("sub-1", 1))
+    assert receipt["findings"]["condition"]["readings"] == [
+        {"time": "2026-03-14T06:00Z", "value_tenths": 50},
+        {"time": "2026-03-16T18:00Z", "value_tenths": 50}]
 
 
 def test_the_condition_report_shows_the_requirement_and_the_arithmetic(
@@ -235,7 +255,7 @@ def test_the_condition_report_shows_the_requirement_and_the_arithmetic(
     assert report["requirement"]["min_tenths"] == 20
     assert report["requirement"]["max_tenths"] == 80
     assert report["condition_state"] == "HELD"
-    assert report["readings_used"] == 3
+    assert report["readings_used"] == 11
 
 
 # == the custody claim =====================================================
@@ -278,14 +298,49 @@ def test_checkpoints_out_of_order_do_not_support_the_claim(harness):
 
 
 def test_equal_timestamps_are_in_order(harness, custody):
+    """Three checkpoints stamped at the same instant are in order: the rule
+    is that time must not go backwards, not that it must advance.
+
+    Tested on the derivation directly, because a round cannot deliver this
+    input - a stated time has to be one its own record states, and no two
+    of these records state the same instant. Claiming otherwise is what
+    `test_a_checkpoint_time_must_occur_in_its_record` covers.
+    """
+    import sys
+    harness, _policy_id, challenge_id = custody
+    harness.submit(challenge_id, "sub-1", CUSTODY_RECORDS)
+    harness.mock_panel(custody_answer(harness))
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+    module = sys.modules[type(harness.contract).__module__]
+    context = harness.contract._context(
+        harness.contract.submissions.get("sub-1"))
+    findings = json.loads(harness.contract.get_receipt("sub-1", 1))["findings"]
+    for row in findings["checkpoints"]:
+        row["stated_time"] = "2026-03-14T06:10Z"
+    assert module._custody_state(context, findings) == "COMPLETE"
+
+
+def test_a_checkpoint_time_must_occur_in_its_record(harness, custody):
+    """A time nobody can find in the record it is attributed to is not a
+    copied fact, so the checkpoint becomes unclear.
+
+    This rule also keeps rounds together: it was added because a live round
+    reached NO_MAJORITY, and a time taken on trust is one more thing two
+    honest nodes can state differently.
+    """
     harness, _policy_id, challenge_id = custody
     harness.submit(challenge_id, "sub-1", CUSTODY_RECORDS)
     harness.mock_panel(custody_answer(harness, checkpoints=[
         ("C1", "EVIDENCED", "R1", ORIGIN_EVENT, "2026-03-14T06:10Z"),
+        # The transit scan states 19:45, not 06:10.
         ("C2", "EVIDENCED", "R2", TRANSIT_EVENT, "2026-03-14T06:10Z"),
-        ("C3", "EVIDENCED", "R3", DEST_EVENT, "2026-03-14T06:10Z")]))
-    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
-    assert resolved(harness)["custody_state"] == "COMPLETE"
+        ("C3", "EVIDENCED", "R3", DEST_EVENT, "2026-03-16T14:20Z")]))
+    assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
+    findings = json.loads(harness.contract.get_findings("sub-1"))
+    assert findings["checkpoints"][0]["finding"] == "EVIDENCED"
+    assert findings["checkpoints"][1]["finding"] == "UNCLEAR"
+    assert findings["checkpoints"][1]["stated_time"] == ""
+    assert resolved(harness)["custody_state"] == "UNREADABLE"
 
 
 def test_a_missing_checkpoint_makes_the_chain_incomplete(harness, custody):
@@ -663,11 +718,17 @@ def test_the_compliance_claim(harness, finding, verdict, state):
     assert resolved(harness)["compliance_state"] == state
 
 
-def test_evidence_the_panel_calls_insufficient_establishes_nothing(
-        harness, cold_chain):
+def test_a_claim_whose_event_is_not_supported_is_insufficient(harness,
+                                                              cold_chain):
+    """There is no longer a question asking a model whether the evidence was
+    "enough": the evidence status follows from whether the required event
+    was established, which is derived in code."""
     harness, _policy_id, challenge_id = cold_chain
-    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
-    harness.mock_panel(cold_answer(harness, sufficient=False))
+    body = synthetic_log([("2026-03-14T06:00Z", "5.0"),
+                          ("2026-03-15T00:00Z", "9.5"),
+                          ("2026-03-16T18:00Z", "5.0")])
+    harness.submit_cold_log(body, challenge_id, "sub-1")
+    harness.mock_panel(cold_answer(harness))
     assert harness.resolve("sub-1") == "CLAIM_NOT_ESTABLISHED"
     assert resolved(harness)["evidence_status"] == "EVIDENCE_INSUFFICIENT"
 

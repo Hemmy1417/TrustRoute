@@ -288,7 +288,6 @@ def test_an_assessed_round_cannot_claim_to_have_read_a_missing_record(
                      "stated_time": "", "quote": ""},
         "compliance": [],
         "contradiction": {"found": False, "record_ids": [], "quote": ""},
-        "sufficient": True,
         "basis": "read from the one record that arrived",
     }
     module._derive_into(forged, context)
@@ -531,15 +530,14 @@ def test_an_excursion_length_that_stays_within_the_allowance_is_compared(
     still reported to consumers.
     """
     harness, _policy_id, challenge_id = cold_chain
-    harness.submit(challenge_id, "sub-1", COLD_CHAIN_RECORDS)
+    from conftest import synthetic_log
     from test_verdicts import cold_answer as answer
-    readings = [
-        {"time": "2026-03-14T06:00Z", "value_tenths": 50},
-        {"time": "2026-03-15T00:00Z", "value_tenths": 95},
-        {"time": "2026-03-15T00:20Z", "value_tenths": 50},
-        {"time": "2026-03-16T18:00Z", "value_tenths": 50},
-    ]
-    harness.mock_panel(answer(harness, readings=readings))
+    body = synthetic_log([("2026-03-14T06:00Z", "5.0"),
+                          ("2026-03-15T00:00Z", "9.5"),
+                          ("2026-03-15T00:20Z", "5.0"),
+                          ("2026-03-16T18:00Z", "5.0")])
+    harness.submit_cold_log(body, challenge_id, "sub-1")
+    harness.mock_panel(answer(harness))
     assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
     module = sys.modules[type(harness.contract).__module__]
     record_row = harness.contract.submissions.get("sub-1")

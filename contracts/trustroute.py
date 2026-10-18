@@ -439,6 +439,86 @@ def _quote_is_grounded(quote: str, text: str) -> bool:
     return _flatten(quote) in _flatten(text)
 
 
+SERIES_FORMAT_LINES = "TIMESTAMP_VALUE_LINES"
+SERIES_FORMATS = (SERIES_FORMAT_LINES,)
+
+
+def _tenths_of(token: str):
+    """Integer tenths from a token like `4.8`, `11` or `-2.5`, else None.
+
+    No float is ever constructed: the whole and fractional parts are parsed
+    as integers and combined. A token with more than one decimal place is
+    refused rather than rounded - rounding a measurement is a judgement, and
+    this function does not make judgements.
+    """
+    text = token.strip()
+    negative = text.startswith("-")
+    if negative:
+        text = text[1:]
+    if text == "":
+        return None
+    if "." in text:
+        whole, _dot, fraction = text.partition(".")
+        if len(fraction) != 1 or not whole.isdigit() \
+                or not fraction.isdigit():
+            return None
+        value = int(whole) * 10 + int(fraction)
+    else:
+        if not text.isdigit():
+            return None
+        value = int(text) * 10
+    return -value if negative else value
+
+
+def _parse_series(text: str) -> list:
+    """Every reading a condition log states, read in code.
+
+    One reading per line: a timestamp first, the measurement last. A line
+    that does not begin with a timestamp is not a reading - headings,
+    issuer lines and calibration dates are all skipped by that rule alone.
+
+    This is the whole reason the condition path is dependable. The readings
+    are a table, not a judgement, so asking a model for them made the
+    round's outcome depend on which model read it and how much of it that
+    model chose to summarise. A live round split over exactly that.
+    """
+    readings = []
+    for line in text.splitlines():
+        tokens = line.replace(",", " ").split()
+        if len(tokens) < 2:
+            continue
+        stamp = _normalise_time(tokens[0])
+        if stamp is None:
+            continue
+        value = _tenths_of(tokens[-1])
+        if value is None or not (-10_000 <= value <= 10_000):
+            continue
+        readings.append({"time": stamp, "value_tenths": value})
+        if len(readings) >= MAX_READINGS:
+            break
+    return sorted(readings,
+                  key=lambda item: (item["time"], item["value_tenths"]))
+
+
+def _record_instants(text: str) -> list:
+    """Every instant that occurs in a record, normalised.
+
+    A checkpoint's time has to be one of these. That stops a reviewer
+    inventing a time, and - just as important - stops two reviewers
+    splitting a round because one copied `2026-03-14T06:10Z` and the other
+    wrote the same moment another way.
+    """
+    tokens = text.replace(",", " ").split()
+    out = []
+    for index in range(len(tokens)):
+        stamp = _normalise_time(tokens[index])
+        if stamp is None and index + 1 < len(tokens):
+            stamp = _normalise_time(tokens[index] + " " + tokens[index + 1])
+        if stamp is not None and stamp not in out:
+            out.append(stamp)
+    return out
+
+
 DIRECTED_TEXT_MARKERS = (
     "ignore previous", "ignore all previous", "ignore the above",
     "disregard previous", "disregard the above", "system prompt",
@@ -552,14 +632,18 @@ def _validate_definition(obj) -> str:
 
     condition = obj["condition_requirement"]
     if condition is not None:
-        expected = {"metric", "unit", "min_tenths", "max_tenths",
-                    "window_start", "window_end", "max_excursion_minutes"}
+        expected = {"metric", "unit", "series_format", "min_tenths",
+                    "max_tenths", "window_start", "window_end",
+                    "max_excursion_minutes"}
         if type(condition) is not dict or set(condition.keys()) != expected:
             return "condition_requirement fields are wrong"
         if not _is_text(condition["metric"], MAX_TEXT_LEN):
             return "the condition metric is out of bounds"
         if not _is_text(condition["unit"], 32):
             return "the condition unit is out of bounds"
+        if condition["series_format"] not in SERIES_FORMATS:
+            return "series_format must be one of " + ", ".join(
+                SERIES_FORMATS)
         # Tenths of a unit, as integers. A float cannot cross calldata and
         # must never be the way a range is expressed.
         if not _is_int(condition["min_tenths"]) or not _is_int(
@@ -731,22 +815,18 @@ PANEL_HEADER = (
     "that this shipment or lot came from the claimed origin, in the "
     "sense the requirement describes? SUPPORTED, NOT_SUPPORTED or "
     "UNCLEAR, with a record and a quote.\n"
-    "4. CONDITION: if a measurement series is requested, copy the readings "
-    "out of the named log: for each, the time as the log states it and the "
-    "value in TENTHS of the unit as a whole number (7.5 becomes 75). Give "
-    'each reading as {"time": "...", "value_tenths": 48}. State READ if '
-    "you copied readings, NOT_FOUND if the log has none. Do NOT decide "
-    "whether the readings are acceptable, in range, or compliant - you are "
-    "not being told the range.\n"
-    "5. DELIVERY: if a delivery confirmation is requested, copy the time it "
-    "states for delivery. Do not judge whether it is on time.\n"
-    "6. COMPLIANCE: for each declared criterion, is it met by the record "
+    "4. DELIVERY: if a delivery confirmation is requested, copy the time it "
+    "states for delivery, exactly as that record gives it. Do not judge "
+    "whether it is on time.\n"
+    "5. COMPLIANCE: for each declared criterion, is it met by the record "
     "named? MET, NOT_MET or UNCLEAR, with a quote.\n"
-    "7. CONTRADICTION: do two records materially conflict - different "
+    "6. CONTRADICTION: do two records materially conflict - different "
     "quantities, different parties, incompatible times for the same event? "
     "If so, name the records and quote one of them.\n"
-    "8. SUFFICIENT: taken together, are these records enough to answer the "
-    "requirement at all?\n"
+    "\n"
+    "You are NOT asked to read any measurement log, and you are NOT asked "
+    "whether the evidence is sufficient. Both of those are decided from the "
+    "bytes by the contract itself.\n"
     "\n"
     "Every quote must be verbatim from the record you name, 12 to 240 "
     "characters. If you cannot ground a finding in words from a record, "
@@ -767,28 +847,28 @@ PANEL_HEADER = (
     '  "origin": {"finding": '
     '"SUPPORTED|NOT_SUPPORTED|UNCLEAR|NOT_ASSESSED", "record_id": "", '
     '"quote": ""},\n'
-    '  "condition": {"state": "READ|NOT_FOUND|NOT_ASSESSED", '
-    '"record_id": "", "readings": [{"time": "", "value_tenths": 0}], '
-    '"quote": ""},\n'
     '  "delivery": {"state": "READ|NOT_FOUND|NOT_ASSESSED", '
     '"record_id": "", "stated_time": "", "quote": ""},\n'
     '  "compliance": [{"ref": "", "finding": "MET|NOT_MET|UNCLEAR", '
     '"record_id": "", "quote": ""}],\n'
     '  "contradiction": {"found": false, "record_ids": [], "quote": ""},\n'
-    '  "sufficient": true,\n'
     '  "basis": "one sentence, at most 200 characters"\n'
     "}\n"
     "One `checkpoints` entry per declared checkpoint, in the order the "
     "task gives them, and likewise one `identity` entry per declared "
     "identifier and one `compliance` entry per declared criterion. Where "
     "the task declares none of something, give an empty list. Use "
-    "NOT_ASSESSED for `origin`, `condition` or `delivery` only where the "
-    "task asks for none of them. Field names are exactly as shown.\n"
+    "NOT_ASSESSED for `origin` or `delivery` only where the task asks for "
+    "neither. Copy every time exactly as its record gives it. Field names "
+    "are exactly as shown.\n"
     "TASK:\n"
 )
 
-ANSWER_KEYS = ("checkpoints", "identity", "origin", "condition", "delivery",
-               "compliance", "contradiction", "sufficient", "basis")
+# What the reading stage is asked for. The measurement series is not here:
+# code reads that off the bytes. Neither is any judgement about whether the
+# evidence was "enough" - the verdict answers that from the findings.
+ANSWER_KEYS = ("checkpoints", "identity", "origin", "delivery",
+               "compliance", "contradiction", "basis")
 
 
 def _panel_blob(ctx: dict, texts: dict) -> dict:
@@ -816,10 +896,6 @@ def _panel_blob(ctx: dict, texts: dict) -> dict:
         "origin_claimed": ctx["declared_origin"],
         "origin_requirement": (ctx["origin_requirement"]["requirement"]
                                if ctx["origin_requirement"] else ""),
-        "measurement_requested": (ctx["condition_requirement"]["metric"]
-                                  + " in tenths of "
-                                  + ctx["condition_requirement"]["unit"]
-                                  if ctx["condition_requirement"] else ""),
         "delivery_time_requested": ctx["delivery_window"] is not None,
         "criteria": [{"ref": c["ref"], "requirement": c["requirement"],
                       "record_id_kind": c["record_kind"]}
@@ -904,7 +980,11 @@ def _read_answer(raw, ctx: dict):
     obj = _json_object(raw)
     if obj is None:
         return None
-    if set(obj.keys()) != set(ANSWER_KEYS):
+    # A model that answers about the series anyway is not refused for it;
+    # the key is ignored, because code owns that answer either way. This
+    # also lets the gate read a stored payload, whose findings carry the
+    # code-derived series.
+    if set(obj.keys()) - {"condition"} != set(ANSWER_KEYS):
         return None
 
     checkpoints = obj["checkpoints"]
@@ -992,49 +1072,6 @@ def _read_answer(raw, ctx: dict):
                    "record_id": str(origin["record_id"]),
                    "quote": str(origin["quote"])}
 
-    condition = obj["condition"]
-    if type(condition) is not dict or set(condition.keys()) != {
-            "state", "record_id", "readings", "quote"}:
-        return None
-    series_state = _enum(condition["state"], SERIES_STATES)
-    if series_state is None:
-        return None
-    if ctx["condition_requirement"] is None:
-        if series_state != SERIES_NOT_ASSESSED:
-            return None
-    elif series_state == SERIES_NOT_ASSESSED:
-        return None
-    readings = condition["readings"]
-    if type(readings) is not list or len(readings) > MAX_READINGS:
-        return None
-    if series_state != SERIES_READ and len(readings) != 0:
-        return None
-    read_readings = []
-    for raw_entry in readings:
-        entry = _as_mapping(raw_entry, ("time", "value_tenths"))
-        if entry is None:
-            return None
-        if type(entry["time"]) is not str or len(entry["time"]) > 64:
-            return None
-        # A float here is not a rounding problem, it is a different type
-        # arriving where an integer was demanded. Fail, never coerce.
-        if not _is_int(entry["value_tenths"]):
-            return None
-        if not (-10_000 <= int(entry["value_tenths"]) <= 10_000):
-            return None
-        read_readings.append({"time": str(entry["time"]),
-                              "value_tenths": int(entry["value_tenths"])})
-    if type(condition["record_id"]) is not str or type(
-            condition["quote"]) is not str:
-        return None
-    if len(condition["quote"]) > MAX_QUOTE_LEN or len(
-            condition["record_id"]) > MAX_ID_LEN:
-        return None
-    read_condition = {"state": series_state,
-                      "record_id": str(condition["record_id"]),
-                      "readings": read_readings,
-                      "quote": str(condition["quote"])}
-
     delivery = obj["delivery"]
     if type(delivery) is not dict or set(delivery.keys()) != {
             "state", "record_id", "stated_time", "quote"}:
@@ -1105,8 +1142,6 @@ def _read_answer(raw, ctx: dict):
                           "record_ids": [str(v) for v in ids],
                           "quote": str(contradiction["quote"])}
 
-    if not _is_bool(obj["sufficient"]):
-        return None
     # The basis is prose. It is not compared between validators, nothing is
     # derived from it, and no consumer gates on it - so an explanatory
     # sentence forty characters too long is a notation problem, not a
@@ -1118,11 +1153,34 @@ def _read_answer(raw, ctx: dict):
     basis = obj["basis"][:MAX_TEXT_LEN]
 
     return {"checkpoints": read_checkpoints, "identity": read_identity,
-            "origin": read_origin, "condition": read_condition,
-            "delivery": read_delivery, "compliance": read_compliance,
-            "contradiction": read_contradiction,
-            "sufficient": bool(obj["sufficient"]),
-            "basis": basis}
+            "origin": read_origin, "delivery": read_delivery,
+            "compliance": read_compliance,
+            "contradiction": read_contradiction, "basis": basis}
+
+
+def _series_findings(ctx: dict, texts: dict) -> dict:
+    """The measurement series, read off the bytes this node verified.
+
+    Called by the leader and, through grounding, by every validator - so a
+    payload claiming readings the log does not contain is refused by the
+    gate rather than by a comparison.
+    """
+    if ctx["condition_requirement"] is None:
+        return {"state": SERIES_NOT_ASSESSED, "record_id": "",
+                "readings": [], "quote": ""}
+    for record in ctx["records"]:
+        if record["kind"] != "CONDITION_LOG":
+            continue
+        text = texts.get(record["record_id"])
+        if text is None:
+            continue
+        readings = _parse_series(text)
+        if len(readings) > 0:
+            return {"state": SERIES_READ,
+                    "record_id": record["record_id"],
+                    "readings": readings, "quote": ""}
+    return {"state": SERIES_NOT_FOUND, "record_id": "", "readings": [],
+            "quote": ""}
 
 
 def _unassessed(ctx: dict) -> dict:
@@ -1144,7 +1202,6 @@ def _unassessed(ctx: dict) -> dict:
                         "record_id": "", "quote": ""}
                        for c in ctx["compliance_criteria"]],
         "contradiction": {"found": False, "record_ids": [], "quote": ""},
-        "sufficient": False,
         "basis": "",
     }
 
@@ -1176,6 +1233,13 @@ def _apply_grounding(answer: dict, ctx: dict, texts: dict) -> dict:
                 # Evidenced but with no readable time: the order of the
                 # checkpoints cannot be decided from it.
                 finding = CHECK_UNCLEAR
+            elif stated not in _record_instants(
+                    texts.get(row["record_id"], "")):
+                # The time has to be one the record actually states. This
+                # refuses an invented instant, and it also means two nodes
+                # cannot disagree because one copied the record's spelling
+                # and the other wrote the same moment differently.
+                finding, stated = CHECK_UNCLEAR, None
         if finding != CHECK_EVIDENCED:
             checkpoints.append({"ref": row["ref"], "finding": finding,
                                 "record_id": "", "quote": "",
@@ -1202,29 +1266,10 @@ def _apply_grounding(answer: dict, ctx: dict, texts: dict) -> dict:
         origin = {"finding": ORIGIN_UNCLEAR, "record_id": "", "quote": ""}
     out["origin"] = origin
 
-    condition = answer["condition"]
-    if condition["state"] == SERIES_READ:
-        ok = _grounded_in(condition["record_id"], condition["quote"], texts)
-        normalised = []
-        for entry in condition["readings"]:
-            stamp = _normalise_time(entry["time"])
-            if stamp is None:
-                ok = False
-                break
-            normalised.append({"time": stamp,
-                               "value_tenths": entry["value_tenths"]})
-        if not ok or len(normalised) == 0:
-            condition = {"state": SERIES_NOT_FOUND, "record_id": "",
-                         "readings": [], "quote": ""}
-        else:
-            normalised = sorted(normalised,
-                                key=lambda item: (item["time"],
-                                                  item["value_tenths"]))
-            condition = {"state": SERIES_READ,
-                         "record_id": condition["record_id"],
-                         "readings": normalised,
-                         "quote": condition["quote"]}
-    out["condition"] = condition
+    # The series is not the reading stage's to report: it is read off the
+    # bytes, here, so a leader cannot propose readings a validator's own copy
+    # of the log does not contain.
+    out["condition"] = _series_findings(ctx, texts)
 
     delivery = answer["delivery"]
     if delivery["state"] == SERIES_READ:
@@ -1265,7 +1310,6 @@ def _apply_grounding(answer: dict, ctx: dict, texts: dict) -> dict:
             contradiction = {"found": False, "record_ids": [], "quote": ""}
     out["contradiction"] = contradiction
 
-    out["sufficient"] = answer["sufficient"]
     return out
 
 
@@ -1523,8 +1567,7 @@ def _evidence_status(ctx: dict, payload: dict) -> str:
         return EVIDENCE_CONTRADICTORY
     if not criteria["source_authenticity_verified"]:
         return EVIDENCE_AUTH_UNVERIFIED
-    if not payload["findings"]["sufficient"] or \
-            not criteria["required_event_supported"]:
+    if not criteria["required_event_supported"]:
         return EVIDENCE_INSUFFICIENT
     return EVIDENCE_SUFFICIENT
 
@@ -1563,8 +1606,6 @@ def _derive_verdict(ctx: dict, payload: dict) -> str:
     if not criteria["source_authenticity_verified"]:
         return CLAIM_NOT_ESTABLISHED
 
-    if not payload["findings"]["sufficient"]:
-        return CLAIM_NOT_ESTABLISHED
     if payload["identity_state"] == IDENTITY_UNKNOWN:
         return CLAIM_NOT_ESTABLISHED
     if not criteria["required_event_supported"]:
@@ -1595,7 +1636,8 @@ DECISION_FIELDS = ["schema", "submission_id", "challenge_id", "round",
                    "identity_state", "condition_state",
                    "condition_worst_excursion_minutes", "delivery_state",
                    "delivery_time", "origin_state", "compliance_state",
-                   "authenticity_state", "evidence_status", "verdict"]
+                   "authenticity_state", "condition_readings_used",
+                   "evidence_status", "verdict"]
 
 
 def _node_round(ctx: dict) -> tuple:
@@ -1664,7 +1706,7 @@ def _node_round(ctx: dict) -> tuple:
                           "checkpoints": len(ctx["custody_events"]),
                           "identity": len(ctx["identity_keys"]),
                           "compliance": len(ctx["compliance_criteria"])}))
-                for key in ("sufficient", "basis"):
+                for key in ("basis",):
                     value = shape.get(key)
                     print("[PANEL_FIELD] " + key + " type "
                           + type(value).__name__ + " length "
@@ -1960,8 +2002,13 @@ def _first_difference(own: dict, theirs: dict) -> str:
                 return "identity_summary[" + str(index) + "]." + field
     if mine["contradiction"]["found"] != yours["contradiction"]["found"]:
         return "contradiction.found"
-    if mine["sufficient"] != yours["sufficient"]:
-        return "sufficient"
+    # The readings themselves are compared, because both nodes read them off
+    # bytes they each hash-verified: a difference here is a difference about
+    # the log, not about how a model chose to summarise it.
+    for index in range(len(mine["condition"]["readings"])):
+        if mine["condition"]["readings"][index] != \
+                yours["condition"]["readings"][index]:
+            return "condition.readings[" + str(index) + "]"
     return ""
 
 

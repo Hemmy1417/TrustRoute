@@ -90,14 +90,28 @@ def test_a_different_grounded_quote_is_not_disagreement(chain):
     assert _vote(harness, forged) is True
 
 
-def test_quoting_a_different_record_for_the_same_checkpoint_agrees(chain):
-    """`Lot number: LOT-4471/B` appears in every scan. A node that grounded
-    the same checkpoint in another record has not disagreed about anything
-    that matters."""
+def test_a_checkpoint_quote_must_come_from_the_record_that_times_it(chain):
+    """This freedom is narrower than it was, deliberately.
+
+    A node used to be free to ground a checkpoint in any record, because
+    `Lot number: LOT-4471/B` appears in every scan. Since a checkpoint's
+    stated time must now be an instant its own record states, a quote from
+    another record no longer supports the finding - and that is the point:
+    it was one more thing two honest nodes could do differently, and a live
+    round reached NO_MAJORITY.
+    """
     harness, payload = chain
     forged = copy.deepcopy(payload)
     forged["findings"]["checkpoints"][0]["record_id"] = "R2"
     forged["findings"]["checkpoints"][0]["quote"] = TRANSIT_LOT
+    assert _vote(harness, forged) is False
+
+
+def test_a_different_quote_from_the_same_record_still_agrees(chain):
+    """What remains free: which words of the right record were quoted."""
+    harness, payload = chain
+    forged = copy.deepcopy(payload)
+    forged["findings"]["checkpoints"][0]["quote"] = ORIGIN_LOT
     assert _vote(harness, forged) is True
 
 
@@ -154,15 +168,6 @@ def test_forged_readings_are_rejected(verified):
     ]
     forged = _restate(harness, forged)
     assert forged["condition_state"] == "BREACHED"
-    assert _vote(harness, forged) is False
-
-
-def test_a_forged_sufficiency_answer_is_rejected(verified):
-    harness, payload = verified
-    forged = copy.deepcopy(payload)
-    forged["findings"]["sufficient"] = False
-    forged = _restate(harness, forged)
-    assert forged["verdict"] == "CLAIM_NOT_ESTABLISHED"
     assert _vote(harness, forged) is False
 
 

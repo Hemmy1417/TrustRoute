@@ -32,17 +32,15 @@ READINGS = [
 ]
 
 
-def cold_chain_answer(harness, readings=None):
+def cold_chain_answer(harness):
+    """The reading stage's answer. It says nothing about the temperature
+    log: code reads that off the bytes."""
     return harness.panel(
         identity=[("LOT", [("R1", "LOT-4471/B", LOT_QUOTE),
                            ("R2", "LOT-4471/B", BOL_LOT_QUOTE)]),
                   ("CONTAINER", [("R1", "MSKU-774120-3", CONTAINER_QUOTE),
                                  ("R2", "MSKU-774120-3",
-                                  BOL_CONTAINER_QUOTE)])],
-        condition={"state": "READ", "record_id": "R1",
-                   "readings": readings if readings is not None else READINGS,
-                   "quote": READING_QUOTE},
-    )
+                                  BOL_CONTAINER_QUOTE)])])
 
 
 def test_the_whole_lifecycle_of_a_supported_claim(harness):

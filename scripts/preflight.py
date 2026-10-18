@@ -277,8 +277,13 @@ def main() -> int:
     check("the prompt does not ask about order",
           "Do not judge whether the checkpoints happened in the right order"
           in header)
-    check("the prompt does not ask whether readings are in range",
-          "you are not being told the range" in header)
+    check("the prompt does not ask for a measurement series at all",
+          "You are NOT asked to read any measurement log" in header)
+    check("the prompt does not ask whether the evidence was enough",
+          "you are NOT asked whether the evidence is sufficient" in header)
+    check("the answer has no series and no sufficiency",
+          "condition" not in namespace.get("ANSWER_KEYS", ())
+          and "sufficient" not in namespace.get("ANSWER_KEYS", ()))
     check("the prompt does not ask whether delivery was on time",
           "Do not judge whether it is on time" in header)
     check("the prompt does not ask whether identifiers agree",
@@ -376,8 +381,27 @@ def main() -> int:
               and type(node.value) is float]
     check("no float literal in the contract", len(floats) == 0)
     check("readings are integer tenths", "value_tenths" in source)
-    check("a non-integer reading is refused", "_is_int" in functions.get(
-        "_read_answer", ""))
+    # The series is read off the bytes, so the measurement rules live in the
+    # parser rather than in the answer reader.
+    check("the log is parsed in code", "_parse_series" in functions)
+    check("the parser reads integer tenths",
+          "_tenths_of" in functions.get("_parse_series", ""))
+    check("a measurement with two decimals is refused rather than rounded",
+          "len(fraction) != 1" in functions.get("_tenths_of", ""))
+    check("the parser needs a timestamp first",
+          "_normalise_time(tokens[0])" in functions.get("_parse_series", ""))
+    check("the parser honours the reading cap",
+          "MAX_READINGS" in functions.get("_parse_series", ""))
+    check("the series findings come from the bytes",
+          "_parse_series" in functions.get("_series_findings", ""))
+    check("every validator re-derives the series from its own bytes",
+          "_series_findings" in functions.get("_apply_grounding", ""))
+    check("a checkpoint time must occur in its record",
+          "_record_instants" in functions.get("_apply_grounding", ""))
+    check("the declared series format is validated",
+          "SERIES_FORMATS" in functions.get("_validate_definition", ""))
+    check("the readings are compared between validators",
+          "condition" in functions.get("_first_difference", ""))
     check("a bool is not an integer here",
           "type(value) is int" in functions.get("_is_int", ""))
 

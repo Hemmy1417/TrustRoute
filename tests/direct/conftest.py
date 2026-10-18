@@ -197,6 +197,7 @@ COLD_CHAIN = definition(
     condition={
         "metric": "return air temperature",
         "unit": "degrees Celsius",
+        "series_format": "TIMESTAMP_VALUE_LINES",
         "min_tenths": 20,
         "max_tenths": 80,
         "window_start": "2026-03-14T06:00Z",
@@ -241,6 +242,30 @@ COMPLIANCE_CLAIM = definition(
                  "record_kind": "INSPECTION_CERTIFICATE"}],
     requirement="the consignment satisfies the declared inspection rule",
 )
+
+
+def synthetic_log(rows):
+    """A condition log carrying exactly the given rows.
+
+    The contract reads a log by taking the first token of a line as a
+    timestamp and the last as the measurement, so a test that needs
+    particular readings writes them here rather than mocking an answer.
+    The lot and container lines are kept because the identity questions are
+    grounded in them.
+    """
+    lines = ["REEFER TEMPERATURE LOG",
+             "Issued by: " + CARRIER,
+             "Container: MSKU-774120-3",
+             "Lot number: LOT-4471/B",
+             "Unit: degrees Celsius",
+             "",
+             "timestamp            reading"]
+    for stamp, value in rows:
+        lines.append(str(stamp) + "    " + str(value))
+    return NL_JOIN.join(lines) + NL_JOIN
+
+
+NL_JOIN = chr(10)
 
 
 def record(record_id, name, kind, issuer, location=None, sha=None):
@@ -296,8 +321,7 @@ class Harness:
     # -- building a reading-stage answer ----------------------------------
 
     def panel(self, checkpoints=None, identity=None, origin=None,
-              condition=None, delivery=None, compliance=None,
-              contradiction=None, sufficient=True,
+              delivery=None, compliance=None, contradiction=None,
               basis="synthetic test basis"):
         """Build an answer in the one shape the contract accepts.
 
@@ -317,9 +341,6 @@ class Harness:
                 for row in (identity or [])],
             "origin": origin or {"finding": "NOT_ASSESSED", "record_id": "",
                                  "quote": ""},
-            "condition": condition or {"state": "NOT_ASSESSED",
-                                       "record_id": "", "readings": [],
-                                       "quote": ""},
             "delivery": delivery or {"state": "NOT_ASSESSED",
                                      "record_id": "", "stated_time": "",
                                      "quote": ""},
@@ -329,7 +350,6 @@ class Harness:
                 for row in (compliance or [])],
             "contradiction": contradiction or {"found": False,
                                                "record_ids": [], "quote": ""},
-            "sufficient": sufficient,
             "basis": basis,
         }
         return json.dumps(answer)
@@ -361,6 +381,23 @@ class Harness:
             submission_id, challenge_id, reference, summary,
             json.dumps(records if records is not None
                        else COLD_CHAIN_RECORDS))
+
+    def submit_cold_log(self, body, challenge_id="chal-1",
+                        submission_id="sub-1"):
+        """Submit a cold-chain claim whose log is exactly `body`.
+
+        The bytes are bound by their own sha256, as any record is, so the
+        contract fetches and hash-verifies this log the same way it would a
+        published one.
+        """
+        digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+        records = [record("R1", LOG_COMPLIANT, "CONDITION_LOG", CARRIER,
+                          sha=digest),
+                   record("R2", BILL_OF_LADING, "BILL_OF_LADING", CARRIER)]
+        self.clear()
+        self.mock_record(LOG_COMPLIANT, body=body)
+        self.mock_record(BILL_OF_LADING)
+        return self.submit(challenge_id, submission_id, records)
 
     def resolve(self, submission_id="sub-1", sender=None):
         self.vm.sender = sender or self.stranger
