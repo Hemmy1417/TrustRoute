@@ -131,6 +131,16 @@ reasoning may differ.**
 vary on the grounds that the verdict pins them. That is not true here and the
 contract does not pretend it is: `_first_difference` walks `CRITERIA_FIELDS`.
 
+That claim is now held up by a test that can fail. A mutation sweep showed
+that removing the comparison of the criteria - or of the origin,
+compliance or delivery state, the excursion, or the checkpoint findings -
+left the entire suite green. None of those were holes in the contract;
+each was masked by a correlated field that *was* compared, which is
+exactly what an integration test cannot distinguish. `_first_difference`
+is now tested directly, field by field, driven by the contract's own
+`DECISION_FIELDS` and `CRITERIA_FIELDS` lists, so a field added without a
+comparison fails the suite. `tests/direct/test_gate_units.py` holds it.
+
 **The verdict comparison is redundant, and that is deliberate.** The verdict
 is a pure function of fields that are themselves compared, so two nodes
 agreeing on all of them cannot differ on it. The mutation sweep reports the

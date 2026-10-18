@@ -283,6 +283,28 @@ def test_a_declared_origin_requirement_cannot_be_opted_out_of(harness):
     assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
 
 
+def test_a_declared_delivery_window_cannot_be_opted_out_of(harness):
+    """The strict direction on the delivery section. A mutation sweep
+    found this one missing: the origin half had its test and this half
+    did not, so removing the guard entirely left the suite green."""
+    from conftest import (BILL_OF_LADING, CARRIER, DELIVERY_CLAIM,
+                          DELIVERY_NOTE)
+    from test_verdicts import BOL_LOT, DELIVERY_LOT
+    harness.register("pol-d")
+    harness.publish("pol-d", DELIVERY_CLAIM)
+    harness.open_challenge("pol-d", 1, "chal-d")
+    harness.mock_records(DELIVERY_NOTE, BILL_OF_LADING)
+    harness.submit("chal-d", "sub-1", [
+        record("R1", DELIVERY_NOTE, "DELIVERY_CONFIRMATION", CARRIER),
+        record("R2", BILL_OF_LADING, "BILL_OF_LADING", CARRIER)])
+    harness.mock_panel(harness.panel(
+        identity=[("LOT", [("R1", "LOT-4471/B", DELIVERY_LOT),
+                           ("R2", "LOT-4471/B", BOL_LOT)])],
+        delivery={"state": "NOT_ASSESSED", "record_id": "",
+                  "stated_time": "", "quote": ""}))
+    assert harness.resolve("sub-1") == "EVIDENCE_UNAVAILABLE"
+
+
 def test_a_delivery_time_where_none_was_requested_is_ignored(harness,
                                                              cold_chain):
     """The same rule as origin, on the other optional section."""

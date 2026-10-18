@@ -313,3 +313,84 @@ def test_the_findings_must_be_an_object(staged):
     forged = copy.deepcopy(payload)
     forged["findings"] = []
     assert _gate(module, forged, context) is None
+
+
+# == the comparison between two runs =======================================
+#
+# `_first_difference` had no direct test, and a mutation sweep showed what
+# that cost: removing the comparison of the origin state, the compliance
+# state, the delivery state, the excursion, the four criteria or the
+# checkpoint findings left the whole suite green. None of those were real
+# holes in the contract - each was masked by a correlated field that *was*
+# compared, so an integration test could not tell which rule did the work.
+# The honest test is this one: perturb exactly one field and require the
+# comparison to name it.
+
+def _perturb(value):
+    """A different value of the same kind."""
+    if type(value) is bool:
+        return not value
+    if type(value) is int:
+        return value + 1
+    if type(value) is str:
+        return value + "-DIFFERENT"
+    raise AssertionError("no perturbation for %r" % type(value))
+
+
+def test_every_decision_field_is_compared(staged):
+    """Table-driven over the contract's own list, so a field added to
+    `DECISION_FIELDS` without a comparison cannot pass unnoticed."""
+    _harness, module, _context, payload, _texts = staged
+    for field in module.DECISION_FIELDS:
+        theirs = copy.deepcopy(payload)
+        theirs[field] = _perturb(theirs[field])
+        difference = module._first_difference(payload, theirs)
+        assert difference != "", "%s is not compared" % field
+        assert field in difference, \
+            "a difference in %s was reported as %r" % (field, difference)
+
+
+def test_every_criterion_is_compared(staged):
+    _harness, module, _context, payload, _texts = staged
+    for field in module.CRITERIA_FIELDS:
+        theirs = copy.deepcopy(payload)
+        theirs["criteria"][field] = not theirs["criteria"][field]
+        difference = module._first_difference(payload, theirs)
+        assert difference != "", "criteria.%s is not compared" % field
+        assert field in difference
+
+
+def test_two_identical_runs_report_no_difference(staged):
+    """Without this, a comparison that returned a field name for every
+    input would pass every test above."""
+    _harness, module, _context, payload, _texts = staged
+    assert module._first_difference(payload, copy.deepcopy(payload)) == ""
+
+
+def test_each_checkpoint_finding_and_instant_is_compared(harness, custody):
+    """A custody payload, because the cold-chain fixture has no
+    checkpoints and so cannot show this rule working at all."""
+    from conftest import CUSTODY_RECORDS
+    from test_verdicts import custody_answer
+    harness, _policy_id, challenge_id = custody
+    harness.submit(challenge_id, "sub-1", CUSTODY_RECORDS)
+    harness.mock_panel(custody_answer(harness))
+    assert harness.resolve("sub-1") == "CLAIM_SUPPORTED"
+    module = sys.modules[type(harness.contract).__module__]
+    payload = json.loads(harness.contract.get_receipt("sub-1", 1))
+    assert len(payload["findings"]["checkpoints"]) == 3
+
+    for index in range(3):
+        for field in ("ref", "finding", "stated_time"):
+            theirs = copy.deepcopy(payload)
+            theirs["findings"]["checkpoints"][index][field] = _perturb(
+                theirs["findings"]["checkpoints"][index][field])
+            difference = module._first_difference(payload, theirs)
+            assert difference != "", \
+                "checkpoints[%d].%s is not compared" % (index, field)
+
+    # And the freedom that is deliberate: which record was quoted for a
+    # checkpoint, and the span quoted, may differ between honest nodes.
+    theirs = copy.deepcopy(payload)
+    theirs["findings"]["checkpoints"][0]["quote"] = "a different span"
+    assert module._first_difference(payload, theirs) == ""
