@@ -576,6 +576,17 @@ def scenario_g(chain, pub):
     chain.write("retry_submission", [tagged("sub-cold-gone")], "retry sub-cold-gone")
     after = json.loads(chain.read("get_submission", [tagged("sub-cold-gone")]))
     expect("pending again after retry", after["status"], "PENDING")
+
+    # What is recorded is the state the chain is left in, not the state
+    # mid-run: this is the only scenario that changes its submission after
+    # reading it, and `scripts/verify.py` re-reads the contract later. The
+    # first round's outcome is not lost - it is what `first_round` holds,
+    # and the resolve transaction evidences it independently.
+    stored["first_round"] = {"verdict": stored["verdict"],
+                             "status": stored["status"],
+                             "panel_state": stored["panel_state"]}
+    stored["status"] = after["status"]
+    stored["rounds_used"] = after["rounds_used"]
     return stored
 
 

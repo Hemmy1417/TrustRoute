@@ -293,6 +293,19 @@ def main() -> int:
                    supported)
         check("freshness", outcome["freshness"], outcome["freshness"])
         say()
+        # One scenario retries, so the state on chain now is not the state
+        # its first round produced. The first round is evidenced by its own
+        # resolve transaction above rather than by what the contract still
+        # holds, and saying so is clearer than quietly checking the later
+        # state against the earlier claim.
+        first = stored_then.get("first_round")
+        if first:
+            say("This submission was retried after its first round, so what "
+                "the contract holds now is a fresh `PENDING` round. The "
+                "first round settled as `%s` (`%s`, panel %s); its resolve "
+                "transaction is listed above."
+                % (first["verdict"], first["status"], first["panel_state"]))
+            say()
 
     stats = json.loads(reader.view("get_stats"))
     say("## The contract's own counters")
